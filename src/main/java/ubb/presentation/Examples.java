@@ -254,6 +254,52 @@ public class Examples {
         );
     }
 
+    public static IStatement createSleepStatementExample()
+    {
+        //v=10;
+        //(fork(v=v-1;v=v-1;print(v)); sleep(10);print(v*10)
+        // will return above statement
+
+        return new CompoundStatement(
+                new VariableDeclarationStatement("v", new IntType()),
+                new CompoundStatement(
+                        new AssignStatement("v", new ValueExpression(new IntValue(10))),
+                        new CompoundStatement(
+                                new ForkStatement(
+                                        new CompoundStatement(
+                                                new AssignStatement("v",
+                                                    new ArithmeticExpression(
+                                                        '-',
+                                                        new VariableExpression("v"),
+                                                        new ValueExpression(new IntValue(1))
+                                                    )
+                                                ),
+                                                new CompoundStatement(
+                                                        new AssignStatement("v",
+                                                                new ArithmeticExpression(
+                                                                '-',
+                                                                new VariableExpression("v"),
+                                                                new ValueExpression(new IntValue(1))
+                                                            )
+                                                        ),
+                                                        new PrintStatement(new VariableExpression("v"))
+                                                )
+                                        )
+                                ),
+                                new CompoundStatement(
+                                        new SleepStatement(10),
+                                        new PrintStatement(
+                                                new ArithmeticExpression(
+                                                '*',
+                                                new VariableExpression("v"),
+                                                new ValueExpression(new IntValue(10))
+                                                )
+                                        )
+                                )
+                        )
+                )
+        );
+    }
 
     public static IStatement createForkExample()
     {
@@ -330,6 +376,7 @@ public class Examples {
         allStatements.add(createForkExample());
         allStatements.add(createExample10());
         allStatements.add(createTypeCheckerFailExample());
+        allStatements.add(createSleepStatementExample());
 
         return allStatements;
     }
