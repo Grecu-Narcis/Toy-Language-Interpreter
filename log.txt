@@ -1,10 +1,10 @@
 Id=1
 ExeStack:
-int a
-int b
-a=2+3*5
-b=a+1
-print(b)
+Ref(int) a
+new(a, 20)
+int v
+for(v = 0; v < 3; v = v+1) { Fork(print(v); v=v*ReadHeap(a))}
+print(ReadHeap(a))
 
 SymTable:
 
@@ -16,13 +16,13 @@ Heap Table:
 
 Id=1
 ExeStack:
-int b
-a=2+3*5
-b=a+1
-print(b)
+new(a, 20)
+int v
+for(v = 0; v < 3; v = v+1) { Fork(print(v); v=v*ReadHeap(a))}
+print(ReadHeap(a))
 
 SymTable:
-a = 0
+a = (0, int)
 
 Output:
 
@@ -32,13 +32,13 @@ Heap Table:
 
 Id=1
 ExeStack:
-int b
-a=2+3*5
-b=a+1
-print(b)
+new(a, 20)
+int v
+for(v = 0; v < 3; v = v+1) { Fork(print(v); v=v*ReadHeap(a))}
+print(ReadHeap(a))
 
 SymTable:
-a = 0
+a = (0, int)
 
 Output:
 
@@ -48,91 +48,622 @@ Heap Table:
 
 Id=1
 ExeStack:
-a=2+3*5
-b=a+1
-print(b)
+int v
+for(v = 0; v < 3; v = v+1) { Fork(print(v); v=v*ReadHeap(a))}
+print(ReadHeap(a))
 
 SymTable:
-a = 0
-b = 0
+a = (1, int)
 
 Output:
 
 File Table:
 
 Heap Table:
+1 -> 20
 
 Id=1
 ExeStack:
-a=2+3*5
-b=a+1
-print(b)
+int v
+for(v = 0; v < 3; v = v+1) { Fork(print(v); v=v*ReadHeap(a))}
+print(ReadHeap(a))
 
 SymTable:
-a = 0
-b = 0
+a = (1, int)
 
 Output:
 
 File Table:
 
 Heap Table:
+1 -> 20
 
 Id=1
 ExeStack:
-b=a+1
-print(b)
+for(v = 0; v < 3; v = v+1) { Fork(print(v); v=v*ReadHeap(a))}
+print(ReadHeap(a))
 
 SymTable:
-a = 17
-b = 0
+a = (1, int)
+v = 0
 
 Output:
 
 File Table:
 
 Heap Table:
+1 -> 20
 
 Id=1
 ExeStack:
-b=a+1
-print(b)
+for(v = 0; v < 3; v = v+1) { Fork(print(v); v=v*ReadHeap(a))}
+print(ReadHeap(a))
 
 SymTable:
-a = 17
-b = 0
+a = (1, int)
+v = 0
 
 Output:
 
 File Table:
 
 Heap Table:
+1 -> 20
 
 Id=1
 ExeStack:
-print(b)
+v=0
+while(v<3) {Fork(print(v); v=v*ReadHeap(a)); v=v+1}
+NOP
+print(ReadHeap(a))
 
 SymTable:
-a = 17
-b = 18
+a = (1, int)
+v = 0
 
 Output:
 
 File Table:
 
 Heap Table:
+1 -> 20
+
+Id=1
+ExeStack:
+v=0
+while(v<3) {Fork(print(v); v=v*ReadHeap(a)); v=v+1}
+NOP
+print(ReadHeap(a))
+
+SymTable:
+a = (1, int)
+v = 0
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 20
+
+Id=1
+ExeStack:
+while(v<3) {Fork(print(v); v=v*ReadHeap(a)); v=v+1}
+NOP
+print(ReadHeap(a))
+
+SymTable:
+a = (1, int)
+v = 0
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 20
+
+Id=1
+ExeStack:
+while(v<3) {Fork(print(v); v=v*ReadHeap(a)); v=v+1}
+NOP
+print(ReadHeap(a))
+
+SymTable:
+a = (1, int)
+v = 0
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 20
+
+Id=1
+ExeStack:
+Fork(print(v); v=v*ReadHeap(a))
+v=v+1
+while(v<3) {Fork(print(v); v=v*ReadHeap(a)); v=v+1}
+NOP
+print(ReadHeap(a))
+
+SymTable:
+a = (1, int)
+v = 0
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 20
+
+Id=1
+ExeStack:
+Fork(print(v); v=v*ReadHeap(a))
+v=v+1
+while(v<3) {Fork(print(v); v=v*ReadHeap(a)); v=v+1}
+NOP
+print(ReadHeap(a))
+
+SymTable:
+a = (1, int)
+v = 0
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 20
+
+Id=1
+ExeStack:
+v=v+1
+while(v<3) {Fork(print(v); v=v*ReadHeap(a)); v=v+1}
+NOP
+print(ReadHeap(a))
+
+SymTable:
+a = (1, int)
+v = 0
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 20
+
+Id=2
+ExeStack:
+print(v)
+v=v*ReadHeap(a)
+
+SymTable:
+a = (1, int)
+v = 0
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 20
+
+Id=1
+ExeStack:
+while(v<3) {Fork(print(v); v=v*ReadHeap(a)); v=v+1}
+NOP
+print(ReadHeap(a))
+
+SymTable:
+a = (1, int)
+v = 1
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 20
+
+Id=2
+ExeStack:
+print(v)
+v=v*ReadHeap(a)
+
+SymTable:
+a = (1, int)
+v = 0
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 20
+
+Id=1
+ExeStack:
+Fork(print(v); v=v*ReadHeap(a))
+v=v+1
+while(v<3) {Fork(print(v); v=v*ReadHeap(a)); v=v+1}
+NOP
+print(ReadHeap(a))
+
+SymTable:
+a = (1, int)
+v = 1
+
+Output:
+0
+
+File Table:
+
+Heap Table:
+1 -> 20
+
+Id=2
+ExeStack:
+v=v*ReadHeap(a)
+
+SymTable:
+a = (1, int)
+v = 0
+
+Output:
+0
+
+File Table:
+
+Heap Table:
+1 -> 20
+
+Id=1
+ExeStack:
+Fork(print(v); v=v*ReadHeap(a))
+v=v+1
+while(v<3) {Fork(print(v); v=v*ReadHeap(a)); v=v+1}
+NOP
+print(ReadHeap(a))
+
+SymTable:
+a = (1, int)
+v = 1
+
+Output:
+0
+
+File Table:
+
+Heap Table:
+1 -> 20
+
+Id=2
+ExeStack:
+
+SymTable:
+a = (1, int)
+v = 0
+
+Output:
+0
+
+File Table:
+
+Heap Table:
+1 -> 20
+
+Id=1
+ExeStack:
+v=v+1
+while(v<3) {Fork(print(v); v=v*ReadHeap(a)); v=v+1}
+NOP
+print(ReadHeap(a))
+
+SymTable:
+a = (1, int)
+v = 1
+
+Output:
+0
+
+File Table:
+
+Heap Table:
+1 -> 20
+
+Id=3
+ExeStack:
+print(v)
+v=v*ReadHeap(a)
+
+SymTable:
+a = (1, int)
+v = 1
+
+Output:
+0
+
+File Table:
+
+Heap Table:
+1 -> 20
+
+Id=1
+ExeStack:
+while(v<3) {Fork(print(v); v=v*ReadHeap(a)); v=v+1}
+NOP
+print(ReadHeap(a))
+
+SymTable:
+a = (1, int)
+v = 2
+
+Output:
+0
+
+File Table:
+
+Heap Table:
+1 -> 20
+
+Id=3
+ExeStack:
+print(v)
+v=v*ReadHeap(a)
+
+SymTable:
+a = (1, int)
+v = 1
+
+Output:
+0
+
+File Table:
+
+Heap Table:
+1 -> 20
+
+Id=1
+ExeStack:
+Fork(print(v); v=v*ReadHeap(a))
+v=v+1
+while(v<3) {Fork(print(v); v=v*ReadHeap(a)); v=v+1}
+NOP
+print(ReadHeap(a))
+
+SymTable:
+a = (1, int)
+v = 2
+
+Output:
+0
+1
+
+File Table:
+
+Heap Table:
+1 -> 20
+
+Id=3
+ExeStack:
+v=v*ReadHeap(a)
+
+SymTable:
+a = (1, int)
+v = 1
+
+Output:
+0
+1
+
+File Table:
+
+Heap Table:
+1 -> 20
+
+Id=1
+ExeStack:
+Fork(print(v); v=v*ReadHeap(a))
+v=v+1
+while(v<3) {Fork(print(v); v=v*ReadHeap(a)); v=v+1}
+NOP
+print(ReadHeap(a))
+
+SymTable:
+a = (1, int)
+v = 2
+
+Output:
+0
+1
+
+File Table:
+
+Heap Table:
+1 -> 20
+
+Id=3
+ExeStack:
+
+SymTable:
+a = (1, int)
+v = 20
+
+Output:
+0
+1
+
+File Table:
+
+Heap Table:
+1 -> 20
+
+Id=1
+ExeStack:
+v=v+1
+while(v<3) {Fork(print(v); v=v*ReadHeap(a)); v=v+1}
+NOP
+print(ReadHeap(a))
+
+SymTable:
+a = (1, int)
+v = 2
+
+Output:
+0
+1
+
+File Table:
+
+Heap Table:
+1 -> 20
+
+Id=4
+ExeStack:
+print(v)
+v=v*ReadHeap(a)
+
+SymTable:
+a = (1, int)
+v = 2
+
+Output:
+0
+1
+
+File Table:
+
+Heap Table:
+1 -> 20
+
+Id=1
+ExeStack:
+while(v<3) {Fork(print(v); v=v*ReadHeap(a)); v=v+1}
+NOP
+print(ReadHeap(a))
+
+SymTable:
+a = (1, int)
+v = 3
+
+Output:
+0
+1
+
+File Table:
+
+Heap Table:
+1 -> 20
+
+Id=4
+ExeStack:
+print(v)
+v=v*ReadHeap(a)
+
+SymTable:
+a = (1, int)
+v = 2
+
+Output:
+0
+1
+
+File Table:
+
+Heap Table:
+1 -> 20
+
+Id=1
+ExeStack:
+NOP
+print(ReadHeap(a))
+
+SymTable:
+a = (1, int)
+v = 3
+
+Output:
+0
+1
+2
+
+File Table:
+
+Heap Table:
+1 -> 20
+
+Id=4
+ExeStack:
+v=v*ReadHeap(a)
+
+SymTable:
+a = (1, int)
+v = 2
+
+Output:
+0
+1
+2
+
+File Table:
+
+Heap Table:
+1 -> 20
+
+Id=1
+ExeStack:
+print(ReadHeap(a))
+
+SymTable:
+a = (1, int)
+v = 3
+
+Output:
+0
+1
+2
+
+File Table:
+
+Heap Table:
+1 -> 20
+
+Id=4
+ExeStack:
+
+SymTable:
+a = (1, int)
+v = 40
+
+Output:
+0
+1
+2
+
+File Table:
+
+Heap Table:
+1 -> 20
 
 Id=1
 ExeStack:
 
 SymTable:
-a = 17
-b = 18
+a = (1, int)
+v = 3
 
 Output:
-18
+0
+1
+2
+20
 
 File Table:
 
 Heap Table:
+1 -> 20
 
