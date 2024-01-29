@@ -1,0 +1,138 @@
+Id=1
+ExeStack:
+int a
+int b
+a=2+3*5
+b=a+1
+print(b)
+
+SymTable:
+
+Output:
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+int b
+a=2+3*5
+b=a+1
+print(b)
+
+SymTable:
+a = 0
+
+Output:
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+int b
+a=2+3*5
+b=a+1
+print(b)
+
+SymTable:
+a = 0
+
+Output:
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+a=2+3*5
+b=a+1
+print(b)
+
+SymTable:
+a = 0
+b = 0
+
+Output:
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+a=2+3*5
+b=a+1
+print(b)
+
+SymTable:
+a = 0
+b = 0
+
+Output:
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+b=a+1
+print(b)
+
+SymTable:
+a = 17
+b = 0
+
+Output:
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+b=a+1
+print(b)
+
+SymTable:
+a = 17
+b = 0
+
+Output:
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+print(b)
+
+SymTable:
+a = 17
+b = 18
+
+Output:
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+
+SymTable:
+a = 17
+b = 18
+
+Output:
+18
+
+File Table:
+
+Heap Table:
+
