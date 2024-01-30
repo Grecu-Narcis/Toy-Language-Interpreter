@@ -1,19 +1,18 @@
 package ubb.models.expressions;
 
 import ubb.exceptions.InterpreterException;
-import ubb.models.types.Type;
-import ubb.models.values.IValue;
-import ubb.models.types.IntType;
-import ubb.models.values.IntValue;
 import ubb.models.adts.MyIDictionary;
 import ubb.models.adts.MyIHeap;
+import ubb.models.types.IntType;
+import ubb.models.types.Type;
+import ubb.models.values.IValue;
+import ubb.models.values.IntValue;
 
 public class ArithmeticExpression implements IExpression {
     private final IExpression firstExpression, secondExpression;
     private final char operation;
 
-    public ArithmeticExpression(char operation, IExpression firstExpression, IExpression secondExpression)
-    {
+    public ArithmeticExpression(char operation, IExpression firstExpression, IExpression secondExpression) {
         this.firstExpression = firstExpression;
         this.secondExpression = secondExpression;
         this.operation = operation;
@@ -39,11 +38,11 @@ public class ArithmeticExpression implements IExpression {
         // check if both operand are integers
         if (!firstValue.getType().equals(new IntType()))
             throw new InterpreterException(errorThreadIdentifier +
-                    "First operand is not integer!");
+                "First operand is not integer!");
 
         if (!secondValue.getType().equals(new IntType()))
             throw new InterpreterException(errorThreadIdentifier +
-                    "Second operand is not integer!");
+                "Second operand is not integer!");
 
         IntValue firstOperand = (IntValue) firstValue;
         IntValue secondOperand = (IntValue) secondValue;

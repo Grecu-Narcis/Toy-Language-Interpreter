@@ -1,13 +1,11 @@
 package ubb.exceptions;
 
 public class InterpreterException extends Exception {
-    public InterpreterException()
-    {
+    public InterpreterException() {
         super();
     }
 
-    public InterpreterException(String errorMessage)
-    {
+    public InterpreterException(String errorMessage) {
         super(errorMessage);
     }
 }
