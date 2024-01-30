@@ -305,6 +305,127 @@ public class Examples {
         );
     }
 
+    public static IStatement createLockTableExample() {
+        IStatement declarationStatement = new CompoundStatement(
+            new VariableDeclarationStatement("v1", new ReferenceType(new IntType())),
+            new CompoundStatement(
+                new VariableDeclarationStatement("v2", new ReferenceType(new IntType())),
+                new CompoundStatement(
+                    new VariableDeclarationStatement("x", new IntType()),
+                    new CompoundStatement(
+                        new AllocateStatement("v1", new ValueExpression(new IntValue(20))),
+                        new CompoundStatement(
+                            new AllocateStatement("v2", new ValueExpression(new IntValue(30))),
+                            new NewLockStatement("x")
+                        )
+                    )
+                )
+            )
+        );
+
+        IStatement firstFork = new ForkStatement(
+            new CompoundStatement(
+                new ForkStatement(
+                    new CompoundStatement(
+                        new LockStatement("x"),
+                        new CompoundStatement(
+                            new WriteHeapStatement(
+                                "v1",
+                                new ArithmeticExpression(
+                                    '-',
+                                    new ReadHeapExpression(new VariableExpression("v1")),
+                                    new ValueExpression(new IntValue(1))
+                                )
+                            ),
+                            new UnlockStatement("x")
+                        )
+                    )
+                ),
+                new CompoundStatement(
+                    new LockStatement("x"),
+                    new CompoundStatement(
+                        new WriteHeapStatement(
+                            "v1",
+                            new ArithmeticExpression(
+                                '+',
+                                new ReadHeapExpression(new VariableExpression("v1")),
+                                new ValueExpression(new IntValue(1))
+                            )
+                        ),
+                        new UnlockStatement("x")
+                    )
+                )
+            )
+        );
+
+        IStatement secondFork = new ForkStatement(
+            new CompoundStatement(
+                new ForkStatement(
+                    new WriteHeapStatement("v2",
+                        new ArithmeticExpression(
+                            '+',
+                            new ReadHeapExpression(new VariableExpression("v2")),
+                            new ValueExpression(new IntValue(1))
+                        )
+                    )
+                ),
+                new CompoundStatement(
+                    new WriteHeapStatement("v2",
+                        new ArithmeticExpression(
+                            '+',
+                            new ReadHeapExpression(new VariableExpression("v2")),
+                            new ValueExpression(new IntValue(1))
+                        )
+                    ),
+                    new UnlockStatement("x")
+                )
+            )
+        );
+
+        IStatement skipStatements = new CompoundStatement(
+            new NOPStatement(),
+            new CompoundStatement(
+                new NOPStatement(),
+                new CompoundStatement(
+                    new NOPStatement(),
+                    new CompoundStatement(
+                        new NOPStatement(),
+                        new CompoundStatement(
+                            new NOPStatement(),
+                            new CompoundStatement(
+                                new NOPStatement(),
+                                new CompoundStatement(
+                                    new NOPStatement(),
+                                    new CompoundStatement(
+                                        new NOPStatement(),
+                                        new NOPStatement()
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+
+        return new CompoundStatement(
+            declarationStatement,
+            new CompoundStatement(
+                firstFork,
+                new CompoundStatement(
+                    secondFork,
+                    new CompoundStatement(
+                        skipStatements,
+                        new CompoundStatement(
+                            new PrintStatement(new ReadHeapExpression(new VariableExpression("v1"))),
+                            new PrintStatement(new ReadHeapExpression(new VariableExpression("v2")))
+                        )
+                    )
+                )
+            )
+        );
+    }
+
 
     public static List<IStatement> getAllExamples() {
         ArrayList<IStatement> allStatements = new ArrayList<>();
@@ -322,6 +443,7 @@ public class Examples {
         allStatements.add(createForkExample());
         allStatements.add(createExample10());
         allStatements.add(createTypeCheckerFailExample());
+        allStatements.add(createLockTableExample());
 
         return allStatements;
     }

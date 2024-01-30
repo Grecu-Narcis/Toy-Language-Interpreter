@@ -11,10 +11,7 @@ import ubb.exceptions.InterpreterException;
 import ubb.infrastructure.IRepository;
 import ubb.infrastructure.ProgramsRepository;
 import ubb.models.ProgramState;
-import ubb.models.adts.MyHeap;
-import ubb.models.adts.MyIHeap;
-import ubb.models.adts.MyIList;
-import ubb.models.adts.MyList;
+import ubb.models.adts.*;
 import ubb.models.statements.IStatement;
 import ubb.models.values.IValue;
 
@@ -61,6 +58,15 @@ public class ProgramController {
     private TableColumn<Pair<String, IValue>, String> symbolValueColumn;
 
     @FXML
+    private TableView<Pair<Integer, Integer>> lockTableView;
+
+    @FXML
+    private TableColumn<Pair<Integer, Integer>, Integer> lockTableAddressColumn;
+
+    @FXML
+    private TableColumn<Pair<Integer, Integer>, Integer> lockTableValueColumn;
+
+    @FXML
     private Button oneStepButton;
 
     @FXML
@@ -70,6 +76,9 @@ public class ProgramController {
 
         symbolVariableColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().first));
         symbolValueColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().second.toString()));
+
+        lockTableAddressColumn.setCellValueFactory(pair -> new SimpleIntegerProperty(pair.getValue().first).asObject());
+        lockTableValueColumn.setCellValueFactory(pair -> new SimpleIntegerProperty(pair.getValue().second).asObject());
     }
 
     public void setProgramStatement(IStatement programStatement) {
@@ -132,6 +141,23 @@ public class ProgramController {
         this.populateProgramStatesIdentifiers();
         this.populateSymbolTableView();
         this.populateExecutionStack();
+        this.populateLockTable();
+    }
+
+    private void populateLockTable()
+    {
+        MyILockTable currentLockTable = new MyLockTable();
+
+        if (!interpreterController.getAllPrograms().isEmpty())
+            currentLockTable = interpreterController.getAllPrograms().getFirst().getLockTable();
+
+        List<Pair<Integer, Integer>> lockTablePairs = new ArrayList<>();
+
+        for (Map.Entry<Integer, Integer> entry : currentLockTable.getContent().entrySet())
+            lockTablePairs.add(new Pair<>(entry.getKey(), entry.getValue()));
+
+        this.lockTableView.setItems(FXCollections.observableArrayList(lockTablePairs));
+        this.lockTableView.refresh();
     }
 
     private void populateHeap() {
