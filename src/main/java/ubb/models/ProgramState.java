@@ -8,7 +8,9 @@ import ubb.models.statements.IStatement;
 import ubb.models.values.IValue;
 
 import java.io.BufferedReader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
 
 public class ProgramState {
     private MyIStack<IStatement> exeStack;
@@ -31,8 +33,7 @@ public class ProgramState {
     }
 
     public ProgramState(MyIStack<IStatement> exeStack, MyIDictionary<String, IValue> symbolTable,
-                        MyIList<IValue> outputList, MyIDictionary<String, BufferedReader> fileTable, MyIHeap heapTable)
-    {
+                        MyIList<IValue> outputList, MyIDictionary<String, BufferedReader> fileTable, MyIHeap heapTable) {
         this.exeStack = exeStack;
         this.symbolTable = symbolTable;
         this.outputList = outputList;
@@ -42,19 +43,16 @@ public class ProgramState {
         this.id = ProgramState.getAvailableId();
     }
 
-    public int getId()
-    {
+    public int getId() {
         return this.id;
     }
 
-    private synchronized static int getAvailableId()
-    {
+    private synchronized static int getAvailableId() {
         ProgramState.currentID += 1;
         return ProgramState.currentID;
     }
 
-    public Boolean isNotCompleted()
-    {
+    public Boolean isNotCompleted() {
         return !this.exeStack.isEmpty();
     }
 
@@ -62,50 +60,40 @@ public class ProgramState {
         try {
             IStatement currentStatement = exeStack.pop();
             return currentStatement.execute(this);
-        }
-
-        catch (StackException e)
-        {
+        } catch (StackException e) {
             throw new InterpreterException("Statements stack is empty!");
         }
     }
 
-    public MyIStack<IStatement> getStack()
-    {
+    public MyIStack<IStatement> getStack() {
         return this.exeStack;
     }
 
-    public void setExeStack(MyIStack<IStatement> newStack)
-    {
+    public void setExeStack(MyIStack<IStatement> newStack) {
         this.exeStack = newStack;
     }
 
-    public MyIDictionary<String, IValue> getSymbolTable()
-    {
+    public MyIDictionary<String, IValue> getSymbolTable() {
         return this.symbolTable;
     }
 
-    public void setSymbolTable(MyIDictionary<String, IValue> newSymbolTable)
-    {
+    public void setSymbolTable(MyIDictionary<String, IValue> newSymbolTable) {
         this.symbolTable = newSymbolTable;
     }
 
-    public MyIList<IValue> getOutputList()
-    {
+    public MyIList<IValue> getOutputList() {
         return this.outputList;
     }
 
-    public MyIDictionary<String, BufferedReader> getFileTable()
-    {
+    public MyIDictionary<String, BufferedReader> getFileTable() {
         return this.fileTable;
     }
-    public void setOutputList(MyList<IValue> newOutputList)
-    {
+
+    public void setOutputList(MyList<IValue> newOutputList) {
         this.outputList = newOutputList;
     }
 
-    public MyIHeap getHeapTable()
-    {
+    public MyIHeap getHeapTable() {
         return this.heapTable;
     }
 
@@ -119,16 +107,12 @@ public class ProgramState {
         for (IStatement currentStatement : this.exeStack.getStackAsList())
             statements.push(currentStatement);
 
-        while (!statements.isEmpty())
-        {
+        while (!statements.isEmpty()) {
             IStatement topStatement = statements.pop();
-            if (topStatement instanceof CompoundStatement currentStatement)
-            {
+            if (topStatement instanceof CompoundStatement currentStatement) {
                 statements.push(currentStatement.getSecondStatement());
                 statements.push(currentStatement.getFirstStatement());
-            }
-
-            else
+            } else
                 stackStatements.add(topStatement);
         }
 
@@ -138,10 +122,10 @@ public class ProgramState {
     @Override
     public String toString() {
         return "PrgState{" +
-                "exeStack=" + exeStack +
-                ", symbolTable=" + symbolTable +
-                ", outputList=" + outputList +
-                ", FileTable=" + fileTable +
-                '}';
+            "exeStack=" + exeStack +
+            ", symbolTable=" + symbolTable +
+            ", outputList=" + outputList +
+            ", FileTable=" + fileTable +
+            '}';
     }
 }

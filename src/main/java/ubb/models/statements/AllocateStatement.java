@@ -2,21 +2,20 @@ package ubb.models.statements;
 
 import ubb.exceptions.InterpreterException;
 import ubb.models.ProgramState;
-import ubb.models.expressions.IExpression;
-import ubb.models.types.Type;
-import ubb.models.values.IValue;
-import ubb.models.types.ReferenceType;
-import ubb.models.values.ReferenceValue;
 import ubb.models.adts.MyIDictionary;
 import ubb.models.adts.MyIHeap;
+import ubb.models.expressions.IExpression;
+import ubb.models.types.ReferenceType;
+import ubb.models.types.Type;
+import ubb.models.values.IValue;
+import ubb.models.values.ReferenceValue;
 
 public class AllocateStatement implements IStatement {
     // USAGE: new(variable, value) translates into -> new AllocateStatement(variable, value);
     private final String variableName;
     private final IExpression expressionToEvaluate;
 
-    public AllocateStatement(String variableName, IExpression expression)
-    {
+    public AllocateStatement(String variableName, IExpression expression) {
         this.variableName = variableName;
         this.expressionToEvaluate = expression;
     }
@@ -29,8 +28,8 @@ public class AllocateStatement implements IStatement {
      * @param currentState The current program state.
      * @return The updated program state after executing the allocate statement.
      * @throws InterpreterException If the variable is not defined, not of reference type,
-     *                                       or if the expression does not match the location type.
-     * @throws InterpreterException          If an error occurs during heap allocation.
+     *                              or if the expression does not match the location type.
+     * @throws InterpreterException If an error occurs during heap allocation.
      */
     @Override
     public ProgramState execute(ProgramState currentState) throws InterpreterException {

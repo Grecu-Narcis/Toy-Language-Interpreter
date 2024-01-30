@@ -1,10 +1,10 @@
 package ubb.infrastructure;
 
 import ubb.models.ProgramState;
-import ubb.models.statements.IStatement;
-import ubb.models.values.IValue;
 import ubb.models.adts.MyIDictionary;
 import ubb.models.adts.MyIHeap;
+import ubb.models.statements.IStatement;
+import ubb.models.values.IValue;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -22,15 +22,15 @@ public class ProgramsRepository implements IRepository {
         try {
             PrintWriter logFile = new PrintWriter(new BufferedWriter(new FileWriter(logFilePath)));
             logFile.close();
+        } catch (IOException ignored) {
         }
-        catch (IOException ignored) {}
     }
 
-    public ProgramsRepository(ProgramState program, String logFilePath)
-    {
+    public ProgramsRepository(ProgramState program, String logFilePath) {
         this.programs.add(program);
         this.logFilePath = logFilePath;
     }
+
     @Override
     public void addProgram(ProgramState programToAdd) {
         this.programs.add(programToAdd);
@@ -57,8 +57,7 @@ public class ProgramsRepository implements IRepository {
         logFile.println();
     }
 
-    private void logSymbolTable(PrintWriter logFile, ProgramState currentProgram)
-    {
+    private void logSymbolTable(PrintWriter logFile, ProgramState currentProgram) {
         logFile.println("SymTable:");
 
         MyIDictionary<String, IValue> symbolTable = currentProgram.getSymbolTable();
@@ -68,8 +67,7 @@ public class ProgramsRepository implements IRepository {
         logFile.println();
     }
 
-    private void logOutput(PrintWriter logFile, ProgramState currentProgram)
-    {
+    private void logOutput(PrintWriter logFile, ProgramState currentProgram) {
         logFile.println("Output:");
 
         List<IValue> outputList = currentProgram.getOutputList().getOutput();
@@ -79,8 +77,7 @@ public class ProgramsRepository implements IRepository {
         logFile.println();
     }
 
-    private void logFileTable(PrintWriter logFile, ProgramState currentProgram)
-    {
+    private void logFileTable(PrintWriter logFile, ProgramState currentProgram) {
         logFile.println("File Table:");
 
         MyIDictionary<String, BufferedReader> fileTable = currentProgram.getFileTable();
@@ -90,8 +87,7 @@ public class ProgramsRepository implements IRepository {
         logFile.println();
     }
 
-    private void logHeapTable(PrintWriter logFile, ProgramState currentProgram)
-    {
+    private void logHeapTable(PrintWriter logFile, ProgramState currentProgram) {
         logFile.println("Heap Table:");
 
         MyIHeap heapTable = currentProgram.getHeapTable();
@@ -123,8 +119,8 @@ public class ProgramsRepository implements IRepository {
             this.logHeapTable(logFile, currentProgram);
 
             logFile.close();
+        } catch (IOException ignored) {
         }
-        catch (IOException ignored) {}
     }
 
 

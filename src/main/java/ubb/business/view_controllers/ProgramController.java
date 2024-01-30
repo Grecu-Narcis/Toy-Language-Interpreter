@@ -11,7 +11,10 @@ import ubb.exceptions.InterpreterException;
 import ubb.infrastructure.IRepository;
 import ubb.infrastructure.ProgramsRepository;
 import ubb.models.ProgramState;
-import ubb.models.adts.*;
+import ubb.models.adts.MyHeap;
+import ubb.models.adts.MyIHeap;
+import ubb.models.adts.MyIList;
+import ubb.models.adts.MyList;
 import ubb.models.statements.IStatement;
 import ubb.models.values.IValue;
 
@@ -61,8 +64,7 @@ public class ProgramController {
     private Button oneStepButton;
 
     @FXML
-    private void initialize()
-    {
+    private void initialize() {
         heapAddressColumn.setCellValueFactory(pair -> new SimpleIntegerProperty(pair.getValue().first).asObject());
         heapValueColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().second.toString()));
 
@@ -70,8 +72,7 @@ public class ProgramController {
         symbolValueColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().second.toString()));
     }
 
-    public void setProgramStatement(IStatement programStatement)
-    {
+    public void setProgramStatement(IStatement programStatement) {
         this.programStatement = programStatement;
         this.numberOfProgramStatesAsTextView.setText(programStatement.toString());
 
@@ -84,24 +85,18 @@ public class ProgramController {
     }
 
     @FXML
-    private void handleOneStepButton()
-    {
-        if (this.interpreterController.getAllPrograms().isEmpty())
-        {
+    private void handleOneStepButton() {
+        if (this.interpreterController.getAllPrograms().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Nothing to execute!", ButtonType.OK);
             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
             alert.showAndWait();
             return;
         }
 
-        try
-        {
+        try {
             this.interpreterController.oneStepAll();
             populate();
-        }
-
-        catch(InterpreterException e)
-        {
+        } catch (InterpreterException e) {
             populate();
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
@@ -110,10 +105,8 @@ public class ProgramController {
     }
 
     @FXML
-    private void handleAllStepsButton()
-    {
-        if (this.interpreterController.getAllPrograms().isEmpty())
-        {
+    private void handleAllStepsButton() {
+        if (this.interpreterController.getAllPrograms().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Nothing to execute!", ButtonType.OK);
             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
             alert.showAndWait();
@@ -123,10 +116,7 @@ public class ProgramController {
         try {
             this.interpreterController.allSteps();
             populate();
-        }
-
-        catch (InterpreterException e)
-        {
+        } catch (InterpreterException e) {
             populate();
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
@@ -135,8 +125,7 @@ public class ProgramController {
     }
 
     @FXML
-    private void populate()
-    {
+    private void populate() {
         this.populateHeap();
         this.populateOutputList();
         this.populateFileTableList();
@@ -145,8 +134,7 @@ public class ProgramController {
         this.populateExecutionStack();
     }
 
-    private void populateHeap()
-    {
+    private void populateHeap() {
         MyIHeap currentHeap = new MyHeap();
 
         if (!interpreterController.getAllPrograms().isEmpty())
@@ -161,8 +149,7 @@ public class ProgramController {
         this.heapTableView.refresh();
     }
 
-    private void populateOutputList()
-    {
+    private void populateOutputList() {
         MyIList<IValue> outputList = new MyList<>();
 
         if (!interpreterController.getAllPrograms().isEmpty())
@@ -175,8 +162,7 @@ public class ProgramController {
         this.outputListView.refresh();
     }
 
-    private void populateFileTableList()
-    {
+    private void populateFileTableList() {
         List<String> files = new ArrayList<>();
 
         if (!interpreterController.getAllPrograms().isEmpty())
@@ -189,12 +175,11 @@ public class ProgramController {
         this.fileTableView.refresh();
     }
 
-    private void populateProgramStatesIdentifiers()
-    {
+    private void populateProgramStatesIdentifiers() {
         List<ProgramState> programStates = this.interpreterController.getAllPrograms();
         List<Integer> idList = programStates.stream()
-                .map(ProgramState::getId)
-                .collect(Collectors.toList());
+            .map(ProgramState::getId)
+            .collect(Collectors.toList());
 
         this.programStatesIdentifiersView.setItems(FXCollections.observableArrayList(idList));
         this.programStatesIdentifiersView.refresh();
@@ -205,8 +190,7 @@ public class ProgramController {
             this.numberOfProgramStatesAsTextView.setText("There is one program!");
     }
 
-    private ProgramState getCurrentProgram()
-    {
+    private ProgramState getCurrentProgram() {
         if (this.interpreterController.getAllPrograms().isEmpty())
             return null;
 
@@ -218,8 +202,7 @@ public class ProgramController {
         return this.interpreterController.getAllPrograms().get(selectedId);
     }
 
-    private void populateSymbolTableView()
-    {
+    private void populateSymbolTableView() {
         ProgramState currentProgram = this.getCurrentProgram();
         List<Pair<String, IValue>> symbolTableList = new ArrayList<>();
 
@@ -231,8 +214,7 @@ public class ProgramController {
         this.symbolTableView.refresh();
     }
 
-    private void populateExecutionStack()
-    {
+    private void populateExecutionStack() {
         ProgramState currentProgram = this.getCurrentProgram();
         List<String> exeStackList = new ArrayList<>();
 
