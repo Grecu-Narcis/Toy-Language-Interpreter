@@ -3,6 +3,7 @@ package ubb.models.statements;
 import ubb.exceptions.InterpreterException;
 import ubb.models.ProgramState;
 import ubb.models.adts.MyIDictionary;
+import ubb.models.types.IntType;
 import ubb.models.types.Type;
 import ubb.models.values.IValue;
 import ubb.models.values.IntValue;
@@ -35,6 +36,12 @@ public class AwaitStatement implements IStatement {
 
     @Override
     public MyIDictionary<String, Type> typeCheck(MyIDictionary<String, Type> typeTable) throws InterpreterException {
+        if (!typeTable.isDefined(variableId))
+            throw new InterpreterException("AwaitStatement: variable is not defined!");
+
+        if (!typeTable.get(variableId).equals(new IntType()))
+            throw new InterpreterException("AwaitStatement: variable is not of type int!");
+
         return typeTable;
     }
 

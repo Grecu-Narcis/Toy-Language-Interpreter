@@ -39,9 +39,16 @@ public class NewLatchStatement implements IStatement {
     public MyIDictionary<String, Type> typeCheck(MyIDictionary<String, Type> typeTable) throws InterpreterException {
         Type expressionType = countExpression.typeCheck(typeTable);
 
-        if (!expressionType.equals(new IntType())) {
+        if (!expressionType.equals(new IntType()))
             throw new InterpreterException("NewLatchStatement: expression is not of type int");
-        }
+
+        if (!typeTable.isDefined(variableId))
+            throw new InterpreterException("NewLatchStatement: variable is not defined");
+
+        Type variableType = typeTable.get(variableId);
+
+        if (!variableType.equals(new IntType()))
+            throw new InterpreterException("NewLatchStatement: variable is not of type int");
 
         return typeTable;
     }

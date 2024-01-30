@@ -333,34 +333,52 @@ public class Examples {
         );
 
         IStatement firstFork = new ForkStatement(
-            new WriteHeapStatement(
-                "v1",
-                new ArithmeticExpression(
-                    '*',
-                    new ReadHeapExpression(new VariableExpression("v1")),
-                    new ValueExpression(new IntValue(10))
+            new CompoundStatement(
+                new WriteHeapStatement(
+                    "v1",
+                    new ArithmeticExpression(
+                        '*',
+                        new ReadHeapExpression(new VariableExpression("v1")),
+                        new ValueExpression(new IntValue(10))
+                    )
+                ),
+                new CompoundStatement(
+                    new PrintStatement(new ReadHeapExpression(new VariableExpression("v1"))),
+                    new CountDownStatement("cnt")
                 )
             )
         );
 
         IStatement secondFork = new ForkStatement(
-            new WriteHeapStatement(
-                "v2",
-                new ArithmeticExpression(
-                    '*',
-                    new ReadHeapExpression(new VariableExpression("v2")),
-                    new ValueExpression(new IntValue(10))
+            new CompoundStatement(
+                new WriteHeapStatement(
+                    "v2",
+                    new ArithmeticExpression(
+                        '*',
+                        new ReadHeapExpression(new VariableExpression("v2")),
+                        new ValueExpression(new IntValue(10))
+                    )
+                ),
+                new CompoundStatement(
+                    new PrintStatement(new ReadHeapExpression(new VariableExpression("v2"))),
+                    new CountDownStatement("cnt")
                 )
             )
         );
 
         IStatement thirdFork = new ForkStatement(
-            new WriteHeapStatement(
-                "v3",
-                new ArithmeticExpression(
-                    '*',
-                    new ReadHeapExpression(new VariableExpression("v3")),
-                    new ValueExpression(new IntValue(10))
+            new CompoundStatement(
+                new WriteHeapStatement(
+                    "v3",
+                    new ArithmeticExpression(
+                        '*',
+                        new ReadHeapExpression(new VariableExpression("v3")),
+                        new ValueExpression(new IntValue(10))
+                    )
+                ),
+                new CompoundStatement(
+                    new PrintStatement(new ReadHeapExpression(new VariableExpression("v3"))),
+                    new CountDownStatement("cnt")
                 )
             )
         );
@@ -370,34 +388,16 @@ public class Examples {
             new CompoundStatement(
                 firstFork,
                 new CompoundStatement(
-                    new PrintStatement(new ReadHeapExpression(new VariableExpression("v1"))),
+                    secondFork,
                     new CompoundStatement(
-                        new CountDownStatement("cnt1"),
+                        thirdFork,
                         new CompoundStatement(
-                            secondFork,
+                            new AwaitStatement("cnt"),
                             new CompoundStatement(
-                                new PrintStatement(new ReadHeapExpression(new VariableExpression("v2"))),
+                                new PrintStatement(new ValueExpression(new IntValue(100))),
                                 new CompoundStatement(
                                     new CountDownStatement("cnt"),
-                                    new CompoundStatement(
-                                        thirdFork,
-                                        new CompoundStatement(
-                                            new PrintStatement(new ReadHeapExpression(new VariableExpression("v3"))),
-                                            new CompoundStatement(
-                                                new CountDownStatement("cnt"),
-                                                new CompoundStatement(
-                                                    new AwaitStatement("cnt"),
-                                                    new CompoundStatement(
-                                                        new PrintStatement(new ValueExpression(new IntValue(100))),
-                                                        new CompoundStatement(
-                                                            new CountDownStatement("cnt"),
-                                                            new PrintStatement(new ValueExpression(new IntValue(100)))
-                                                        )
-                                                    )
-                                                )
-                                            )
-                                        )
-                                    )
+                                    new PrintStatement(new ValueExpression(new IntValue(100)))
                                 )
                             )
                         )

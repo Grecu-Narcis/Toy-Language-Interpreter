@@ -3,6 +3,7 @@ package ubb.models.statements;
 import ubb.exceptions.InterpreterException;
 import ubb.models.ProgramState;
 import ubb.models.adts.MyIDictionary;
+import ubb.models.types.IntType;
 import ubb.models.types.Type;
 import ubb.models.values.IValue;
 import ubb.models.values.IntValue;
@@ -18,7 +19,11 @@ public class CountDownStatement implements IStatement {
     @Override
     public ProgramState execute(ProgramState currentState) throws InterpreterException {
         if (!currentState.getSymbolTable().isDefined(variableId))
-            throw new InterpreterException(String.format("Thread %d: CountDownStatement: variable %s is not defined",
+            throw new InterpreterException(String.format("Thread %d: CountDownStatement: variable %s is not defined!",
+                currentState.getId(), variableId));
+
+        if (!currentState.getSymbolTable().get(variableId).getType().equals(new IntType()))
+            throw new InterpreterException(String.format("Thread %d: CountDownStatement: variable %s is not of type int!",
                 currentState.getId(), variableId));
 
         IValue variableValue = currentState.getSymbolTable().get(variableId);
@@ -30,16 +35,21 @@ public class CountDownStatement implements IStatement {
         Integer counterValue = currentState.getLatchTable().getValueAtAddress(foundIndex);
 
         if (counterValue > 0)
-        {
             currentState.getLatchTable().update(foundIndex, counterValue - 1);
-            currentState.getOutputList().add(new StringValue("Thread: " + currentState.getId()));
-        }
+
+        currentState.getOutputList().add(new StringValue("Thread: " + currentState.getId()));
 
         return null;
     }
 
     @Override
     public MyIDictionary<String, Type> typeCheck(MyIDictionary<String, Type> typeTable) throws InterpreterException {
+        if (!typeTable.isDefined(variableId))
+            throw new InterpreterException("CountDownStatement: variable is not defined!");
+
+        if (!typeTable.get(variableId).equals(new IntType()))
+            throw new InterpreterException("CountDownStatement: variable is not of type int!");
+
         return typeTable;
     }
 
