@@ -1,6 +1,7 @@
 package ubb.business.view_controllers;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -11,10 +12,7 @@ import ubb.exceptions.InterpreterException;
 import ubb.infrastructure.IRepository;
 import ubb.infrastructure.ProgramsRepository;
 import ubb.models.ProgramState;
-import ubb.models.adts.MyHeap;
-import ubb.models.adts.MyIHeap;
-import ubb.models.adts.MyIList;
-import ubb.models.adts.MyList;
+import ubb.models.adts.*;
 import ubb.models.statements.IStatement;
 import ubb.models.values.IValue;
 
@@ -61,7 +59,19 @@ public class ProgramController {
     private TableColumn<Pair<String, IValue>, String> symbolValueColumn;
 
     @FXML
+    private TableView<Pair<Integer, Integer>> latchTableView;
+
+    @FXML
+    private TableColumn<Pair<Integer, Integer>, Integer> latchTableAddressColumn;
+
+    @FXML
+    private TableColumn<Pair<Integer, Integer>, Integer> latchTableValueColumn;
+
+    @FXML
     private Button oneStepButton;
+
+    @FXML
+    private Button allStepsButton;
 
     @FXML
     private void initialize() {
@@ -70,6 +80,9 @@ public class ProgramController {
 
         symbolVariableColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().first));
         symbolValueColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().second.toString()));
+
+        latchTableAddressColumn.setCellValueFactory(pair -> new SimpleIntegerProperty(pair.getValue().first).asObject());
+        latchTableValueColumn.setCellValueFactory(pair -> new SimpleIntegerProperty(pair.getValue().second).asObject());
     }
 
     public void setProgramStatement(IStatement programStatement) {
@@ -101,6 +114,8 @@ public class ProgramController {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
             alert.showAndWait();
+            this.oneStepButton.setDisable(true);
+            this.allStepsButton.setDisable(true);
         }
     }
 
@@ -121,6 +136,8 @@ public class ProgramController {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
             alert.showAndWait();
+            this.oneStepButton.setDisable(true);
+            this.allStepsButton.setDisable(true);
         }
     }
 
@@ -132,6 +149,23 @@ public class ProgramController {
         this.populateProgramStatesIdentifiers();
         this.populateSymbolTableView();
         this.populateExecutionStack();
+        this.populateLatchTable();
+    }
+
+    private void populateLatchTable()
+    {
+        MyILatchTable currentLatchTable = new MyLatchTable();
+
+        if (!interpreterController.getAllPrograms().isEmpty())
+            currentLatchTable = interpreterController.getAllPrograms().getFirst().getLatchTable();
+
+        List<Pair<Integer, Integer>> latchTablePairs = new ArrayList<>();
+
+        for (Map.Entry<Integer, Integer> entry : currentLatchTable.getContent().entrySet())
+            latchTablePairs.add(new Pair<>(entry.getKey(), entry.getValue()));
+
+        this.latchTableView.setItems(FXCollections.observableArrayList(latchTablePairs));
+        this.latchTableView.refresh();
     }
 
     private void populateHeap() {

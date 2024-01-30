@@ -27,12 +27,13 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <TableView fx:id="heapTableView" prefHeight="200.0" prefWidth="200.0">
                     <columns>
-                      <TableColumn fx:id="heapAddressColumn" prefWidth="75.0" text="Address" />
-                      <TableColumn fx:id="heapValueColumn" prefWidth="224.0" text="Value" />
+                      <TableColumn fx:id="heapAddressColumn" prefWidth="208.00003051757812" text="Address" />
+                      <TableColumn fx:id="heapValueColumn" prefWidth="190.4000244140625" text="Value" />
                     </columns>
                   </TableView>
                   <ListView fx:id="outputListView" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
@@ -40,11 +41,17 @@
                   <ListView fx:id="programStatesIdentifiersView" onMouseClicked="#populate" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <TableView fx:id="symbolTableView" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
                     <columns>
-                      <TableColumn fx:id="symbolVariableColumn" prefWidth="92.00006103515625" text="Variable name" />
-                      <TableColumn fx:id="symbolValueColumn" prefWidth="206.4000244140625" text="Value" />
+                      <TableColumn fx:id="symbolVariableColumn" prefWidth="195.20001220703125" text="Variable name" />
+                      <TableColumn fx:id="symbolValueColumn" prefWidth="204.0" text="Value" />
                     </columns>
                   </TableView>
                   <ListView fx:id="executionStackView" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TableView fx:id="latchTableView" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
+                    <columns>
+                      <TableColumn fx:id="latchTableAddressColumn" prefWidth="200.79998779296875" text="Address" />
+                      <TableColumn fx:id="latchTableValueColumn" prefWidth="200.0" text="Value" />
+                    </columns>
+                  </TableView>
                </children>
             </GridPane>
             <HBox alignment="CENTER" fillHeight="false" prefHeight="70.0" prefWidth="600.0">

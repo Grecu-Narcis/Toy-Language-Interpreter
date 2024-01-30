@@ -18,6 +18,7 @@ public class ProgramState {
     private MyIList<IValue> outputList;
     private final MyIDictionary<String, BufferedReader> fileTable;
     private final MyIHeap heapTable;
+    private final MyILatchTable latchTable;
     private final int id;
     private static int currentID = 0;
 
@@ -27,18 +28,21 @@ public class ProgramState {
         this.outputList = new MyList<>();
         this.fileTable = new MyDictionary<>();
         this.heapTable = new MyHeap();
+        this.latchTable = new MyLatchTable();
         this.exeStack.push(program);
 
         this.id = ProgramState.getAvailableId();
     }
 
     public ProgramState(MyIStack<IStatement> exeStack, MyIDictionary<String, IValue> symbolTable,
-                        MyIList<IValue> outputList, MyIDictionary<String, BufferedReader> fileTable, MyIHeap heapTable) {
+                        MyIList<IValue> outputList, MyIDictionary<String, BufferedReader> fileTable,
+                        MyIHeap heapTable, MyILatchTable latchTable) {
         this.exeStack = exeStack;
         this.symbolTable = symbolTable;
         this.outputList = outputList;
         this.fileTable = fileTable;
         this.heapTable = heapTable;
+        this.latchTable = latchTable;
 
         this.id = ProgramState.getAvailableId();
     }
@@ -95,6 +99,11 @@ public class ProgramState {
 
     public MyIHeap getHeapTable() {
         return this.heapTable;
+    }
+
+    public MyILatchTable getLatchTable()
+    {
+        return this.latchTable;
     }
 
     public List<IStatement> getStackStatements() {

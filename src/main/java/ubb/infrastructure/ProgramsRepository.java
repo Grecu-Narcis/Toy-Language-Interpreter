@@ -3,6 +3,7 @@ package ubb.infrastructure;
 import ubb.models.ProgramState;
 import ubb.models.adts.MyIDictionary;
 import ubb.models.adts.MyIHeap;
+import ubb.models.adts.MyILatchTable;
 import ubb.models.statements.IStatement;
 import ubb.models.values.IValue;
 
@@ -97,6 +98,16 @@ public class ProgramsRepository implements IRepository {
         logFile.println();
     }
 
+    private void logLatchTable(PrintWriter logFile, ProgramState currentProgram) {
+        logFile.println("Latch Table:");
+
+        MyILatchTable latchTable = currentProgram.getLatchTable();
+        for (Integer address : latchTable.getContent().keySet())
+            logFile.println(address + " -> " + latchTable.getValueAtAddress(address));
+
+        logFile.println();
+    }
+
     @Override
     public void logProgramState(ProgramState currentProgram) {
         try {
@@ -117,6 +128,9 @@ public class ProgramsRepository implements IRepository {
 
             // LOG Heap Table
             this.logHeapTable(logFile, currentProgram);
+
+            // LOG Latch Table
+            this.logLatchTable(logFile, currentProgram);
 
             logFile.close();
         } catch (IOException ignored) {

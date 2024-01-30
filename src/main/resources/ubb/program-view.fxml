@@ -27,6 +27,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <TableView fx:id="heapTableView" prefHeight="200.0" prefWidth="200.0">
@@ -45,6 +46,12 @@
                     </columns>
                   </TableView>
                   <ListView fx:id="executionStackView" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TableView fx:id="latchTableView" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
+                    <columns>
+                      <TableColumn fx:id="latchTableAddressColumn" prefWidth="200.79998779296875" text="Address" />
+                      <TableColumn fx:id="latchTableValueColumn" prefWidth="200.0" text="Value" />
+                    </columns>
+                  </TableView>
                </children>
             </GridPane>
             <HBox alignment="CENTER" fillHeight="false" prefHeight="70.0" prefWidth="600.0">

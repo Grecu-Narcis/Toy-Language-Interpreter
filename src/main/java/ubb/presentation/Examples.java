@@ -305,6 +305,108 @@ public class Examples {
         );
     }
 
+    public static IStatement createLatchTableExample()
+    {
+        IStatement declarationStatement = new CompoundStatement(
+            new VariableDeclarationStatement("v1", new ReferenceType(new IntType())),
+            new CompoundStatement(
+                new VariableDeclarationStatement("v2", new ReferenceType(new IntType())),
+                new CompoundStatement(
+                    new VariableDeclarationStatement("v3", new ReferenceType(new IntType())),
+                    new CompoundStatement(
+                        new VariableDeclarationStatement("cnt", new IntType()),
+                        new CompoundStatement(
+                            new AllocateStatement("v1", new ValueExpression(new IntValue(2))),
+                            new CompoundStatement(
+                                new AllocateStatement("v2", new ValueExpression(new IntValue(3))),
+                                new CompoundStatement(
+                                    new AllocateStatement("v3", new ValueExpression(new IntValue(4))),
+                                    new NewLatchStatement("cnt",
+                                        new ReadHeapExpression(new VariableExpression("v2"))
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+
+        IStatement firstFork = new ForkStatement(
+            new WriteHeapStatement(
+                "v1",
+                new ArithmeticExpression(
+                    '*',
+                    new ReadHeapExpression(new VariableExpression("v1")),
+                    new ValueExpression(new IntValue(10))
+                )
+            )
+        );
+
+        IStatement secondFork = new ForkStatement(
+            new WriteHeapStatement(
+                "v2",
+                new ArithmeticExpression(
+                    '*',
+                    new ReadHeapExpression(new VariableExpression("v2")),
+                    new ValueExpression(new IntValue(10))
+                )
+            )
+        );
+
+        IStatement thirdFork = new ForkStatement(
+            new WriteHeapStatement(
+                "v3",
+                new ArithmeticExpression(
+                    '*',
+                    new ReadHeapExpression(new VariableExpression("v3")),
+                    new ValueExpression(new IntValue(10))
+                )
+            )
+        );
+
+        return new CompoundStatement(
+            declarationStatement,
+            new CompoundStatement(
+                firstFork,
+                new CompoundStatement(
+                    new PrintStatement(new ReadHeapExpression(new VariableExpression("v1"))),
+                    new CompoundStatement(
+                        new CountDownStatement("cnt1"),
+                        new CompoundStatement(
+                            secondFork,
+                            new CompoundStatement(
+                                new PrintStatement(new ReadHeapExpression(new VariableExpression("v2"))),
+                                new CompoundStatement(
+                                    new CountDownStatement("cnt"),
+                                    new CompoundStatement(
+                                        thirdFork,
+                                        new CompoundStatement(
+                                            new PrintStatement(new ReadHeapExpression(new VariableExpression("v3"))),
+                                            new CompoundStatement(
+                                                new CountDownStatement("cnt"),
+                                                new CompoundStatement(
+                                                    new AwaitStatement("cnt"),
+                                                    new CompoundStatement(
+                                                        new PrintStatement(new ValueExpression(new IntValue(100))),
+                                                        new CompoundStatement(
+                                                            new CountDownStatement("cnt"),
+                                                            new PrintStatement(new ValueExpression(new IntValue(100)))
+                                                        )
+                                                    )
+                                                )
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
 
     public static List<IStatement> getAllExamples() {
         ArrayList<IStatement> allStatements = new ArrayList<>();
@@ -322,6 +424,7 @@ public class Examples {
         allStatements.add(createForkExample());
         allStatements.add(createExample10());
         allStatements.add(createTypeCheckerFailExample());
+        allStatements.add(createLatchTableExample());
 
         return allStatements;
     }
