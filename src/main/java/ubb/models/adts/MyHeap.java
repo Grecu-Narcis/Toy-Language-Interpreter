@@ -62,7 +62,7 @@ public class MyHeap implements MyIHeap {
     @Override
     public String toString() {
         return "MyHeap{" +
-                "heapTable=" + heapTable +
-                '}';
+            "heapTable=" + heapTable +
+            '}';
     }
 }

@@ -1,8 +1,6 @@
 package ubb.models.statements;
 
 import ubb.exceptions.InterpreterException;
-import ubb.models.*;
-import ubb.models.types.*;
 import ubb.models.ProgramState;
 import ubb.models.adts.MyIDictionary;
 import ubb.models.types.Type;
@@ -12,8 +10,7 @@ public class VariableDeclarationStatement implements IStatement {
     private final String variableId;
     private final Type variableType;
 
-    public VariableDeclarationStatement(String variableId, Type variableType)
-    {
+    public VariableDeclarationStatement(String variableId, Type variableType) {
         this.variableId = variableId;
         this.variableType = variableType;
     }
@@ -35,7 +32,7 @@ public class VariableDeclarationStatement implements IStatement {
         // Check if the variable is already defined
         if (symbolTable.isDefined(variableId))
             throw new InterpreterException(errorThreadIdentifier +
-                    "Variable already defined!");
+                "Variable already defined!");
 
         // Put the new variable in the symbol table and initialize it with the default value of the type
         symbolTable.put(variableId, variableType.defaultValue());

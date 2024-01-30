@@ -6,13 +6,11 @@ import ubb.models.values.ReferenceValue;
 public class ReferenceType implements Type {
     private final Type innerType;
 
-    public ReferenceType(Type innerType)
-    {
+    public ReferenceType(Type innerType) {
         this.innerType = innerType;
     }
 
-    public Type getInnerType()
-    {
+    public Type getInnerType() {
         return this.innerType;
     }
 

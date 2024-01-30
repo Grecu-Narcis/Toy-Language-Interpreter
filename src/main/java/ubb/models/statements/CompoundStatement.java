@@ -1,27 +1,24 @@
 package ubb.models.statements;
 
 import ubb.exceptions.InterpreterException;
+import ubb.models.ProgramState;
 import ubb.models.adts.MyIDictionary;
 import ubb.models.adts.MyIStack;
-import ubb.models.ProgramState;
 import ubb.models.types.Type;
 
 public class CompoundStatement implements IStatement {
     private final IStatement firstStatement, secondStatement;
 
-    public CompoundStatement(IStatement firstStatement, IStatement secondStatement)
-    {
+    public CompoundStatement(IStatement firstStatement, IStatement secondStatement) {
         this.firstStatement = firstStatement;
         this.secondStatement = secondStatement;
     }
 
-    public IStatement getFirstStatement()
-    {
+    public IStatement getFirstStatement() {
         return this.firstStatement;
     }
 
-    public IStatement getSecondStatement()
-    {
+    public IStatement getSecondStatement() {
         return this.secondStatement;
     }
 

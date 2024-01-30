@@ -10,14 +10,12 @@ import java.util.Stack;
 public class MyStack<T> implements MyIStack<T> {
     private final Stack<T> stack;
 
-    public MyStack()
-    {
+    public MyStack() {
         stack = new Stack<>();
     }
 
     @Override
-    public T pop() throws StackException
-    {
+    public T pop() throws StackException {
         if (stack.empty())
             throw new StackException("Stack is empty!");
 
@@ -30,8 +28,7 @@ public class MyStack<T> implements MyIStack<T> {
     }
 
     @Override
-    public void push(T itemToPush)
-    {
+    public void push(T itemToPush) {
         stack.push(itemToPush);
     }
 
@@ -52,7 +49,7 @@ public class MyStack<T> implements MyIStack<T> {
     @Override
     public String toString() {
         return "MyStack{" +
-                "stack=" + this.reverse() +
-                '}';
+            "stack=" + this.reverse() +
+            '}';
     }
 }

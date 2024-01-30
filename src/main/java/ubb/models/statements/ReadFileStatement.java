@@ -2,10 +2,9 @@ package ubb.models.statements;
 
 import ubb.exceptions.InterpreterException;
 import ubb.models.ProgramState;
-import ubb.models.expressions.IExpression;
-import ubb.models.types.*;
 import ubb.models.adts.MyIDictionary;
 import ubb.models.adts.MyIHeap;
+import ubb.models.expressions.IExpression;
 import ubb.models.types.IntType;
 import ubb.models.types.StringType;
 import ubb.models.types.Type;
@@ -20,8 +19,7 @@ public class ReadFileStatement implements IStatement {
     private final IExpression fileNameExpression;
     private final String variableId;
 
-    public ReadFileStatement(IExpression fileNameExpression, String variableId)
-    {
+    public ReadFileStatement(IExpression fileNameExpression, String variableId) {
         this.fileNameExpression = fileNameExpression;
         this.variableId = variableId;
     }
@@ -34,8 +32,8 @@ public class ReadFileStatement implements IStatement {
      * @param currentState The current program state.
      * @return The updated program state after executing the read file statement.
      * @throws InterpreterException If the variable is not defined or does not evaluate to IntType,
-     *                                       or if the fileNameExpression does not evaluate to a StringType.
-     * @throws InterpreterException          If the file is not opened or if an error occurs during file reading.
+     *                              or if the fileNameExpression does not evaluate to a StringType.
+     * @throws InterpreterException If the file is not opened or if an error occurs during file reading.
      */
     @Override
     public ProgramState execute(ProgramState currentState) throws InterpreterException {
@@ -48,19 +46,19 @@ public class ReadFileStatement implements IStatement {
         // Check if the variable to update is defined in the symbol table and evaluates to IntType
         if (!symbolTable.isDefined(variableId))
             throw new InterpreterException(errorThreadIdentifier +
-                    String.format("Variable %s is not defined!", variableId));
+                String.format("Variable %s is not defined!", variableId));
 
         IValue variableValue = symbolTable.get(variableId);
 
         if (!variableValue.getType().equals(new IntType()))
             throw new InterpreterException(errorThreadIdentifier +
-                    String.format("Variable %s does not evaluate to IntType", variableId));
+                String.format("Variable %s does not evaluate to IntType", variableId));
 
         IValue fileNameValue = fileNameExpression.evaluate(symbolTable, heapTable, currentState.getId());
 
         if (!fileNameValue.getType().equals(new StringType()))
             throw new InterpreterException(errorThreadIdentifier +
-                    String.format("File %s is not opened!", fileNameValue));
+                String.format("File %s is not opened!", fileNameValue));
 
         StringValue fileName = (StringValue) fileNameValue;
         BufferedReader openedFile = fileTable.get(fileName.getValue());
@@ -68,27 +66,22 @@ public class ReadFileStatement implements IStatement {
         // Check if the file is open for read
         if (openedFile == null)
             throw new InterpreterException(errorThreadIdentifier +
-                    String.format("File %s is not opened!", fileName));
+                String.format("File %s is not opened!", fileName));
 
         try {
             String newValue = openedFile.readLine().strip();
             int valueToAssign;
 
-            if (newValue.isEmpty())
-            {
+            if (newValue.isEmpty()) {
                 valueToAssign = 0;
-            }
-            else {
+            } else {
                 valueToAssign = Integer.parseInt(newValue);
             }
 
             symbolTable.update(variableId, new IntValue(valueToAssign));
-        }
-
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             throw new InterpreterException(errorThreadIdentifier +
-                    "Failed to read from file " + fileName.getValue());
+                "Failed to read from file " + fileName.getValue());
         }
 
         return null;
@@ -100,7 +93,7 @@ public class ReadFileStatement implements IStatement {
             throw new InterpreterException("File name is not of type string!");
 
         if (!typeTable.get(variableId).equals(new IntType()))
-            throw  new InterpreterException("Error: Read file requires an int variable as argument!");
+            throw new InterpreterException("Error: Read file requires an int variable as argument!");
 
         return typeTable;
     }

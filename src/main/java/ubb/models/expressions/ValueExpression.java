@@ -1,16 +1,15 @@
 package ubb.models.expressions;
 
 import ubb.exceptions.InterpreterException;
-import ubb.models.types.Type;
-import ubb.models.values.IValue;
 import ubb.models.adts.MyIDictionary;
 import ubb.models.adts.MyIHeap;
+import ubb.models.types.Type;
+import ubb.models.values.IValue;
 
 public class ValueExpression implements IExpression {
     private final IValue value;
 
-    public ValueExpression(IValue value)
-    {
+    public ValueExpression(IValue value) {
         this.value = value;
     }
 

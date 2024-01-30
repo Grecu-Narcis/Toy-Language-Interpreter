@@ -11,9 +11,9 @@ import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import ubb.exceptions.InterpreterException;
 import ubb.models.adts.MyDictionary;
-import ubb.presentation.gui.Main;
 import ubb.models.statements.IStatement;
 import ubb.presentation.Examples;
+import ubb.presentation.gui.Main;
 
 import java.io.IOException;
 
@@ -25,22 +25,20 @@ public class SelectProgramController {
     private Button selectButton;
 
     @FXML
-    public void initialize()
-    {
+    public void initialize() {
         ObservableList<IStatement> allPrograms = FXCollections.observableArrayList(Examples.getAllExamples());
         programsList.setItems(allPrograms);
         programsList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         programsList.setOnMouseClicked(
-                event -> {
-                    if (event.getClickCount() == 2)
-                        selectButtonHandler();
-                }
+            event -> {
+                if (event.getClickCount() == 2)
+                    selectButtonHandler();
+            }
         );
     }
 
-    private void openProgramWindow(IStatement selectedProgram)
-    {
+    private void openProgramWindow(IStatement selectedProgram) {
         try {
             FXMLLoader programLoader = new FXMLLoader(Main.class.getResource("/ubb/program-view.fxml"));
             Parent root;
@@ -56,9 +54,7 @@ public class SelectProgramController {
             programStage.setTitle("Program window!");
             programStage.setScene(new Scene(root));
             programStage.show();
-        }
-        catch (IOException | InterpreterException e)
-        {
+        } catch (IOException | InterpreterException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
             alert.showAndWait();
