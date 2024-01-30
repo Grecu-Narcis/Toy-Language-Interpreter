@@ -312,6 +312,62 @@ public class Examples {
         );
     }
 
+    public static IStatement createSwitchExample()
+    {
+        IStatement variablesInitializationStatement =
+                new CompoundStatement(
+                    new VariableDeclarationStatement("a", new IntType()),
+                    new CompoundStatement(
+                        new AssignStatement("a", new ValueExpression(new IntValue(1))),
+                        new CompoundStatement(
+                            new VariableDeclarationStatement("b", new IntType()),
+                            new CompoundStatement(
+                                new AssignStatement("b", new ValueExpression(new IntValue(2))),
+                                new CompoundStatement(
+                                        new VariableDeclarationStatement("c", new IntType()),
+                                        new AssignStatement("c", new ValueExpression(new IntValue(5)))
+                                )
+                            )
+                        )
+                    )
+                );
+
+        IStatement firstCaseStatement = new CompoundStatement(
+                new PrintStatement(new VariableExpression("a")),
+                new PrintStatement(new VariableExpression("b"))
+        );
+
+        IStatement secondCaseStatement = new CompoundStatement(
+                new PrintStatement(new ValueExpression(new IntValue(100))),
+                new PrintStatement(new ValueExpression(new IntValue(200)))
+        );
+
+        IStatement defaultStatement = new PrintStatement(new ValueExpression(new IntValue(300)));
+
+        return new CompoundStatement(
+                variablesInitializationStatement,
+                new CompoundStatement(
+                        new SwitchStatement(
+                                new ArithmeticExpression(
+                                        '*',
+                                        new VariableExpression("a"),
+                                        new ValueExpression(new IntValue(10))
+                                ),
+                                new ArithmeticExpression(
+                                        '*',
+                                        new VariableExpression("b"),
+                                        new VariableExpression("c")
+                                ),
+                                new ValueExpression(new IntValue(10)),
+                                firstCaseStatement,
+                                secondCaseStatement,
+                                defaultStatement
+                        ),
+                        new PrintStatement(new ValueExpression(new IntValue(300)))
+                )
+        );
+    }
+
 
     public static List<IStatement> getAllExamples()
     {
@@ -330,6 +386,7 @@ public class Examples {
         allStatements.add(createForkExample());
         allStatements.add(createExample10());
         allStatements.add(createTypeCheckerFailExample());
+        allStatements.add(createSwitchExample());
 
         return allStatements;
     }
