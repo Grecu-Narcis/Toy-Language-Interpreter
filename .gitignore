@@ -1,9 +1,6 @@
 # Compiled class file
 *.class
 
-# log file of the executed program
-log.txt
-
 # Log file
 *.log
 

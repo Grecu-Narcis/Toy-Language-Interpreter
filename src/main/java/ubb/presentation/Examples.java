@@ -312,6 +312,51 @@ public class Examples {
         );
     }
 
+    public static IStatement createRepeatUntilExample()
+    {
+        IStatement innerStatement = new CompoundStatement(
+                new ForkStatement(
+                        new CompoundStatement(
+                            new PrintStatement(new VariableExpression("v")),
+                            new AssignStatement("v",
+                                    new ArithmeticExpression('-',
+                                            new VariableExpression("v"),
+                                            new ValueExpression(new IntValue(1))))
+                        )
+                ),
+                new AssignStatement("v",
+                        new ArithmeticExpression('+',
+                                new VariableExpression("v"),
+                                new ValueExpression(new IntValue(1))
+                        )
+                )
+        );
+
+        return new CompoundStatement(
+                new VariableDeclarationStatement("v", new IntType()),
+                new CompoundStatement(
+                        new AssignStatement("v", new ValueExpression(new IntValue(0))),
+                        new CompoundStatement(
+                            new RepeatUntilStatement(
+                                    innerStatement,
+                                    new RelationalExpression(
+                                            new VariableExpression("v"),
+                                            new ValueExpression(new IntValue(3)),
+                                            "=="
+                                    )
+                            ),
+                            new PrintStatement(
+                                    new ArithmeticExpression(
+                                            '*',
+                                            new VariableExpression("v"),
+                                            new ValueExpression(new IntValue(10))
+                                    )
+                            )
+                        )
+                )
+        );
+    }
+
 
     public static List<IStatement> getAllExamples()
     {
@@ -330,6 +375,7 @@ public class Examples {
         allStatements.add(createForkExample());
         allStatements.add(createExample10());
         allStatements.add(createTypeCheckerFailExample());
+        allStatements.add(createRepeatUntilExample());
 
         return allStatements;
     }

@@ -1,10 +1,9 @@
 Id=1
 ExeStack:
-int a
-int b
-a=2+3*5
-b=a+1
-print(b)
+int v
+v=0
+repeat {Fork(print(v); v=v-1); v=v+1} until (v==3)
+print(v*10)
 
 SymTable:
 
@@ -16,13 +15,12 @@ Heap Table:
 
 Id=1
 ExeStack:
-int b
-a=2+3*5
-b=a+1
-print(b)
+v=0
+repeat {Fork(print(v); v=v-1); v=v+1} until (v==3)
+print(v*10)
 
 SymTable:
-a = 0
+v = 0
 
 Output:
 
@@ -32,13 +30,12 @@ Heap Table:
 
 Id=1
 ExeStack:
-int b
-a=2+3*5
-b=a+1
-print(b)
+v=0
+repeat {Fork(print(v); v=v-1); v=v+1} until (v==3)
+print(v*10)
 
 SymTable:
-a = 0
+v = 0
 
 Output:
 
@@ -48,13 +45,11 @@ Heap Table:
 
 Id=1
 ExeStack:
-a=2+3*5
-b=a+1
-print(b)
+repeat {Fork(print(v); v=v-1); v=v+1} until (v==3)
+print(v*10)
 
 SymTable:
-a = 0
-b = 0
+v = 0
 
 Output:
 
@@ -64,13 +59,11 @@ Heap Table:
 
 Id=1
 ExeStack:
-a=2+3*5
-b=a+1
-print(b)
+repeat {Fork(print(v); v=v-1); v=v+1} until (v==3)
+print(v*10)
 
 SymTable:
-a = 0
-b = 0
+v = 0
 
 Output:
 
@@ -80,12 +73,13 @@ Heap Table:
 
 Id=1
 ExeStack:
-b=a+1
-print(b)
+Fork(print(v); v=v-1)
+v=v+1
+while(!(v==3)) {Fork(print(v); v=v-1); v=v+1}
+print(v*10)
 
 SymTable:
-a = 17
-b = 0
+v = 0
 
 Output:
 
@@ -95,12 +89,13 @@ Heap Table:
 
 Id=1
 ExeStack:
-b=a+1
-print(b)
+Fork(print(v); v=v-1)
+v=v+1
+while(!(v==3)) {Fork(print(v); v=v-1); v=v+1}
+print(v*10)
 
 SymTable:
-a = 17
-b = 0
+v = 0
 
 Output:
 
@@ -110,11 +105,13 @@ Heap Table:
 
 Id=1
 ExeStack:
-print(b)
+Fork(print(v); v=v-1)
+v=v+1
+while(!(v==3)) {Fork(print(v); v=v-1); v=v+1}
+print(v*10)
 
 SymTable:
-a = 17
-b = 18
+v = 0
 
 Output:
 
@@ -124,13 +121,372 @@ Heap Table:
 
 Id=1
 ExeStack:
+v=v+1
+while(!(v==3)) {Fork(print(v); v=v-1); v=v+1}
+print(v*10)
 
 SymTable:
-a = 17
-b = 18
+v = 0
 
 Output:
-18
+
+File Table:
+
+Heap Table:
+
+Id=2
+ExeStack:
+print(v)
+v=v-1
+
+SymTable:
+v = 0
+
+Output:
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+while(!(v==3)) {Fork(print(v); v=v-1); v=v+1}
+print(v*10)
+
+SymTable:
+v = 1
+
+Output:
+
+File Table:
+
+Heap Table:
+
+Id=2
+ExeStack:
+print(v)
+v=v-1
+
+SymTable:
+v = 0
+
+Output:
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+Fork(print(v); v=v-1)
+v=v+1
+while(!(v==3)) {Fork(print(v); v=v-1); v=v+1}
+print(v*10)
+
+SymTable:
+v = 1
+
+Output:
+0
+
+File Table:
+
+Heap Table:
+
+Id=2
+ExeStack:
+v=v-1
+
+SymTable:
+v = 0
+
+Output:
+0
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+Fork(print(v); v=v-1)
+v=v+1
+while(!(v==3)) {Fork(print(v); v=v-1); v=v+1}
+print(v*10)
+
+SymTable:
+v = 1
+
+Output:
+0
+
+File Table:
+
+Heap Table:
+
+Id=2
+ExeStack:
+
+SymTable:
+v = -1
+
+Output:
+0
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+v=v+1
+while(!(v==3)) {Fork(print(v); v=v-1); v=v+1}
+print(v*10)
+
+SymTable:
+v = 1
+
+Output:
+0
+
+File Table:
+
+Heap Table:
+
+Id=3
+ExeStack:
+print(v)
+v=v-1
+
+SymTable:
+v = 1
+
+Output:
+0
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+while(!(v==3)) {Fork(print(v); v=v-1); v=v+1}
+print(v*10)
+
+SymTable:
+v = 2
+
+Output:
+0
+
+File Table:
+
+Heap Table:
+
+Id=3
+ExeStack:
+print(v)
+v=v-1
+
+SymTable:
+v = 1
+
+Output:
+0
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+Fork(print(v); v=v-1)
+v=v+1
+while(!(v==3)) {Fork(print(v); v=v-1); v=v+1}
+print(v*10)
+
+SymTable:
+v = 2
+
+Output:
+0
+1
+
+File Table:
+
+Heap Table:
+
+Id=3
+ExeStack:
+v=v-1
+
+SymTable:
+v = 1
+
+Output:
+0
+1
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+Fork(print(v); v=v-1)
+v=v+1
+while(!(v==3)) {Fork(print(v); v=v-1); v=v+1}
+print(v*10)
+
+SymTable:
+v = 2
+
+Output:
+0
+1
+
+File Table:
+
+Heap Table:
+
+Id=3
+ExeStack:
+
+SymTable:
+v = 0
+
+Output:
+0
+1
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+v=v+1
+while(!(v==3)) {Fork(print(v); v=v-1); v=v+1}
+print(v*10)
+
+SymTable:
+v = 2
+
+Output:
+0
+1
+
+File Table:
+
+Heap Table:
+
+Id=4
+ExeStack:
+print(v)
+v=v-1
+
+SymTable:
+v = 2
+
+Output:
+0
+1
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+while(!(v==3)) {Fork(print(v); v=v-1); v=v+1}
+print(v*10)
+
+SymTable:
+v = 3
+
+Output:
+0
+1
+
+File Table:
+
+Heap Table:
+
+Id=4
+ExeStack:
+print(v)
+v=v-1
+
+SymTable:
+v = 2
+
+Output:
+0
+1
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+print(v*10)
+
+SymTable:
+v = 3
+
+Output:
+0
+1
+2
+
+File Table:
+
+Heap Table:
+
+Id=4
+ExeStack:
+v=v-1
+
+SymTable:
+v = 2
+
+Output:
+0
+1
+2
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+
+SymTable:
+v = 3
+
+Output:
+0
+1
+2
+30
+
+File Table:
+
+Heap Table:
+
+Id=4
+ExeStack:
+
+SymTable:
+v = 1
+
+Output:
+0
+1
+2
+30
 
 File Table:
 
