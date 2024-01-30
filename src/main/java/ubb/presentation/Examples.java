@@ -305,6 +305,64 @@ public class Examples {
         );
     }
 
+    public static IStatement createConditionalAssignmentExample() {
+        IStatement variablesDeclarationStatement = new CompoundStatement(
+            new VariableDeclarationStatement("a", new ReferenceType(new IntType())),
+            new CompoundStatement(
+                new VariableDeclarationStatement("b", new ReferenceType(new IntType())),
+                new CompoundStatement(
+                    new VariableDeclarationStatement("v", new IntType()),
+                    new CompoundStatement(
+                        new AllocateStatement("a", new ValueExpression(new IntValue(0))),
+                        new CompoundStatement(
+                            new AllocateStatement("b", new ValueExpression(new IntValue(0))),
+                            new CompoundStatement(
+                                new WriteHeapStatement("a", new ValueExpression(new IntValue(1))),
+                                new WriteHeapStatement("b", new ValueExpression(new IntValue(2)))
+                            )
+                        )
+                    )
+                )
+            )
+        );
+
+        return new CompoundStatement(
+            variablesDeclarationStatement,
+            new CompoundStatement(
+                new ConditionalAssignmentStatement(
+                    "v",
+                    new RelationalExpression(
+                        new ReadHeapExpression(new VariableExpression("a")),
+                        new ReadHeapExpression(new VariableExpression("b")),
+                        "<"
+                    ),
+                    new ValueExpression(new IntValue(100)),
+                    new ValueExpression(new IntValue(200))
+                ),
+                new CompoundStatement(
+                    new PrintStatement(new VariableExpression("v")),
+                    new CompoundStatement(
+                        new ConditionalAssignmentStatement(
+                            "v",
+                            new RelationalExpression(
+                                new ArithmeticExpression(
+                                    '-',
+                                    new ReadHeapExpression(new VariableExpression("b")),
+                                    new ValueExpression(new IntValue(2))
+                                ),
+                                new ReadHeapExpression(new VariableExpression("a")),
+                                ">"
+                            ),
+                            new ValueExpression(new IntValue(100)),
+                            new ValueExpression(new IntValue(200))
+                        ),
+                        new PrintStatement(new VariableExpression("v"))
+                    )
+                )
+            )
+        );
+    }
+
 
     public static List<IStatement> getAllExamples() {
         ArrayList<IStatement> allStatements = new ArrayList<>();
@@ -322,6 +380,7 @@ public class Examples {
         allStatements.add(createForkExample());
         allStatements.add(createExample10());
         allStatements.add(createTypeCheckerFailExample());
+        allStatements.add(createConditionalAssignmentExample());
 
         return allStatements;
     }
