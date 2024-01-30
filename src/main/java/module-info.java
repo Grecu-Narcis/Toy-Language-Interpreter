@@ -14,6 +14,7 @@ module ubb.ToyLanguage {
     exports ubb.models;
     exports ubb.exceptions;
     exports ubb.models.types;
+    exports ubb.models.values;
 
     exports ubb.business;
     opens ubb.business to javafx.fxml;
