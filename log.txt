@@ -1,10 +1,15 @@
 Id=1
 ExeStack:
-int a
-int b
-a=2+3*5
-b=a+1
-print(b)
+procedure sum([a, b]) {int v; v=a+b; print(v)}
+procedure product([a, b]) {int v; v=a*b; print(v)}
+int v
+int w
+v=2
+w=5
+call sum([v*10, w])
+print(v)
+Fork(call product([v, w]))
+Fork(call sum([v, w]))
 
 SymTable:
 
@@ -16,13 +21,17 @@ Heap Table:
 
 Id=1
 ExeStack:
-int b
-a=2+3*5
-b=a+1
-print(b)
+procedure product([a, b]) {int v; v=a*b; print(v)}
+int v
+int w
+v=2
+w=5
+call sum([v*10, w])
+print(v)
+Fork(call product([v, w]))
+Fork(call sum([v, w]))
 
 SymTable:
-a = 0
 
 Output:
 
@@ -32,13 +41,17 @@ Heap Table:
 
 Id=1
 ExeStack:
-int b
-a=2+3*5
-b=a+1
-print(b)
+procedure product([a, b]) {int v; v=a*b; print(v)}
+int v
+int w
+v=2
+w=5
+call sum([v*10, w])
+print(v)
+Fork(call product([v, w]))
+Fork(call sum([v, w]))
 
 SymTable:
-a = 0
 
 Output:
 
@@ -48,13 +61,16 @@ Heap Table:
 
 Id=1
 ExeStack:
-a=2+3*5
-b=a+1
-print(b)
+int v
+int w
+v=2
+w=5
+call sum([v*10, w])
+print(v)
+Fork(call product([v, w]))
+Fork(call sum([v, w]))
 
 SymTable:
-a = 0
-b = 0
 
 Output:
 
@@ -64,13 +80,16 @@ Heap Table:
 
 Id=1
 ExeStack:
-a=2+3*5
-b=a+1
-print(b)
+int v
+int w
+v=2
+w=5
+call sum([v*10, w])
+print(v)
+Fork(call product([v, w]))
+Fork(call sum([v, w]))
 
 SymTable:
-a = 0
-b = 0
 
 Output:
 
@@ -80,12 +99,16 @@ Heap Table:
 
 Id=1
 ExeStack:
-b=a+1
-print(b)
+int v
+int w
+v=2
+w=5
+call sum([v*10, w])
+print(v)
+Fork(call product([v, w]))
+Fork(call sum([v, w]))
 
 SymTable:
-a = 17
-b = 0
 
 Output:
 
@@ -95,12 +118,16 @@ Heap Table:
 
 Id=1
 ExeStack:
-b=a+1
-print(b)
+int w
+v=2
+w=5
+call sum([v*10, w])
+print(v)
+Fork(call product([v, w]))
+Fork(call sum([v, w]))
 
 SymTable:
-a = 17
-b = 0
+v = 0
 
 Output:
 
@@ -110,11 +137,16 @@ Heap Table:
 
 Id=1
 ExeStack:
-print(b)
+int w
+v=2
+w=5
+call sum([v*10, w])
+print(v)
+Fork(call product([v, w]))
+Fork(call sum([v, w]))
 
 SymTable:
-a = 17
-b = 18
+v = 0
 
 Output:
 
@@ -124,13 +156,598 @@ Heap Table:
 
 Id=1
 ExeStack:
+v=2
+w=5
+call sum([v*10, w])
+print(v)
+Fork(call product([v, w]))
+Fork(call sum([v, w]))
 
 SymTable:
-a = 17
-b = 18
+v = 0
+w = 0
 
 Output:
-18
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+v=2
+w=5
+call sum([v*10, w])
+print(v)
+Fork(call product([v, w]))
+Fork(call sum([v, w]))
+
+SymTable:
+v = 0
+w = 0
+
+Output:
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+w=5
+call sum([v*10, w])
+print(v)
+Fork(call product([v, w]))
+Fork(call sum([v, w]))
+
+SymTable:
+v = 2
+w = 0
+
+Output:
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+call sum([v*10, w])
+print(v)
+Fork(call product([v, w]))
+Fork(call sum([v, w]))
+
+SymTable:
+v = 2
+w = 5
+
+Output:
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+call sum([v*10, w])
+print(v)
+Fork(call product([v, w]))
+Fork(call sum([v, w]))
+
+SymTable:
+v = 2
+w = 5
+
+Output:
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+int v
+v=a+b
+print(v)
+return
+print(v)
+Fork(call product([v, w]))
+Fork(call sum([v, w]))
+
+SymTable:
+a = 20
+b = 5
+
+Output:
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+int v
+v=a+b
+print(v)
+return
+print(v)
+Fork(call product([v, w]))
+Fork(call sum([v, w]))
+
+SymTable:
+a = 20
+b = 5
+
+Output:
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+v=a+b
+print(v)
+return
+print(v)
+Fork(call product([v, w]))
+Fork(call sum([v, w]))
+
+SymTable:
+a = 20
+b = 5
+v = 0
+
+Output:
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+v=a+b
+print(v)
+return
+print(v)
+Fork(call product([v, w]))
+Fork(call sum([v, w]))
+
+SymTable:
+a = 20
+b = 5
+v = 0
+
+Output:
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+print(v)
+return
+print(v)
+Fork(call product([v, w]))
+Fork(call sum([v, w]))
+
+SymTable:
+a = 20
+b = 5
+v = 25
+
+Output:
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+return
+print(v)
+Fork(call product([v, w]))
+Fork(call sum([v, w]))
+
+SymTable:
+a = 20
+b = 5
+v = 25
+
+Output:
+25
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+print(v)
+Fork(call product([v, w]))
+Fork(call sum([v, w]))
+
+SymTable:
+v = 2
+w = 5
+
+Output:
+25
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+print(v)
+Fork(call product([v, w]))
+Fork(call sum([v, w]))
+
+SymTable:
+v = 2
+w = 5
+
+Output:
+25
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+Fork(call product([v, w]))
+Fork(call sum([v, w]))
+
+SymTable:
+v = 2
+w = 5
+
+Output:
+25
+2
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+Fork(call product([v, w]))
+Fork(call sum([v, w]))
+
+SymTable:
+v = 2
+w = 5
+
+Output:
+25
+2
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+Fork(call sum([v, w]))
+
+SymTable:
+v = 2
+w = 5
+
+Output:
+25
+2
+
+File Table:
+
+Heap Table:
+
+Id=2
+ExeStack:
+call product([v, w])
+
+SymTable:
+v = 2
+w = 5
+
+Output:
+25
+2
+
+File Table:
+
+Heap Table:
+
+Id=1
+ExeStack:
+
+SymTable:
+v = 2
+w = 5
+
+Output:
+25
+2
+
+File Table:
+
+Heap Table:
+
+Id=2
+ExeStack:
+int v
+v=a*b
+print(v)
+return
+
+SymTable:
+a = 2
+b = 5
+
+Output:
+25
+2
+
+File Table:
+
+Heap Table:
+
+Id=3
+ExeStack:
+call sum([v, w])
+
+SymTable:
+v = 2
+w = 5
+
+Output:
+25
+2
+
+File Table:
+
+Heap Table:
+
+Id=2
+ExeStack:
+int v
+v=a*b
+print(v)
+return
+
+SymTable:
+a = 2
+b = 5
+
+Output:
+25
+2
+
+File Table:
+
+Heap Table:
+
+Id=3
+ExeStack:
+int v
+v=a+b
+print(v)
+return
+
+SymTable:
+a = 2
+b = 5
+
+Output:
+25
+2
+
+File Table:
+
+Heap Table:
+
+Id=2
+ExeStack:
+v=a*b
+print(v)
+return
+
+SymTable:
+a = 2
+b = 5
+v = 0
+
+Output:
+25
+2
+
+File Table:
+
+Heap Table:
+
+Id=3
+ExeStack:
+int v
+v=a+b
+print(v)
+return
+
+SymTable:
+a = 2
+b = 5
+
+Output:
+25
+2
+
+File Table:
+
+Heap Table:
+
+Id=2
+ExeStack:
+v=a*b
+print(v)
+return
+
+SymTable:
+a = 2
+b = 5
+v = 0
+
+Output:
+25
+2
+
+File Table:
+
+Heap Table:
+
+Id=3
+ExeStack:
+v=a+b
+print(v)
+return
+
+SymTable:
+a = 2
+b = 5
+v = 0
+
+Output:
+25
+2
+
+File Table:
+
+Heap Table:
+
+Id=2
+ExeStack:
+print(v)
+return
+
+SymTable:
+a = 2
+b = 5
+v = 10
+
+Output:
+25
+2
+
+File Table:
+
+Heap Table:
+
+Id=3
+ExeStack:
+v=a+b
+print(v)
+return
+
+SymTable:
+a = 2
+b = 5
+v = 0
+
+Output:
+25
+2
+
+File Table:
+
+Heap Table:
+
+Id=2
+ExeStack:
+return
+
+SymTable:
+a = 2
+b = 5
+v = 10
+
+Output:
+25
+2
+10
+
+File Table:
+
+Heap Table:
+
+Id=3
+ExeStack:
+print(v)
+return
+
+SymTable:
+a = 2
+b = 5
+v = 7
+
+Output:
+25
+2
+10
+
+File Table:
+
+Heap Table:
+
+Id=2
+ExeStack:
+
+SymTable:
+v = 2
+w = 5
+
+Output:
+25
+2
+10
+7
+
+File Table:
+
+Heap Table:
+
+Id=3
+ExeStack:
+return
+
+SymTable:
+a = 2
+b = 5
+v = 7
+
+Output:
+25
+2
+10
+7
+
+File Table:
+
+Heap Table:
+
+Id=3
+ExeStack:
+
+SymTable:
+v = 2
+w = 5
+
+Output:
+25
+2
+10
+7
 
 File Table:
 

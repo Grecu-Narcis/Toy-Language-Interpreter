@@ -1,6 +1,7 @@
 package ubb.business.view_controllers;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -11,10 +12,7 @@ import ubb.exceptions.InterpreterException;
 import ubb.infrastructure.IRepository;
 import ubb.infrastructure.ProgramsRepository;
 import ubb.models.ProgramState;
-import ubb.models.adts.MyHeap;
-import ubb.models.adts.MyIHeap;
-import ubb.models.adts.MyIList;
-import ubb.models.adts.MyList;
+import ubb.models.adts.*;
 import ubb.models.statements.IStatement;
 import ubb.models.values.IValue;
 
@@ -61,6 +59,15 @@ public class ProgramController {
     private TableColumn<Pair<String, IValue>, String> symbolValueColumn;
 
     @FXML
+    private TableView<Pair<String, String>> procedureTableView;
+
+    @FXML
+    private TableColumn<Pair<String, String>, String> procedureNameColumn;
+
+    @FXML
+    private TableColumn<Pair<String, String>, String> parametersBodyColumn;
+
+    @FXML
     private Button oneStepButton;
 
     @FXML
@@ -70,6 +77,9 @@ public class ProgramController {
 
         symbolVariableColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().first));
         symbolValueColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().second.toString()));
+
+        procedureNameColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().first));
+        parametersBodyColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().second));
     }
 
     public void setProgramStatement(IStatement programStatement) {
@@ -132,6 +142,23 @@ public class ProgramController {
         this.populateProgramStatesIdentifiers();
         this.populateSymbolTableView();
         this.populateExecutionStack();
+        this.populateProcedureTable();
+    }
+
+    private void populateProcedureTable()
+    {
+        MyIProcedureTable currentProcedureTable = new MyProcedureTable();
+
+        if (!interpreterController.getAllPrograms().isEmpty())
+            currentProcedureTable = interpreterController.getAllPrograms().getFirst().getProcedureTable();
+
+        List<Pair<String, String>> procedureTableList = new ArrayList<>();
+
+        for (Map.Entry<String, Pair<List<String>, IStatement>> entry : currentProcedureTable.getContent().entrySet())
+            procedureTableList.add(new Pair<>(entry.getKey(), entry.getValue().toString()));
+
+        this.procedureTableView.setItems(FXCollections.observableArrayList(procedureTableList));
+        this.procedureTableView.refresh();
     }
 
     private void populateHeap() {

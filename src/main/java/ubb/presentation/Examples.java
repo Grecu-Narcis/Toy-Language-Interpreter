@@ -10,7 +10,9 @@ import ubb.models.values.BoolValue;
 import ubb.models.values.IntValue;
 import ubb.models.values.StringValue;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Examples {
@@ -305,6 +307,111 @@ public class Examples {
         );
     }
 
+    public static IStatement createProcedureExample()
+    {
+        List<String> params = new ArrayList<>();
+        params.add("a");
+        params.add("b");
+
+        IStatement createProcedureSum = new CreateProcedureStatement(
+            "sum",
+            params,
+            new CompoundStatement(
+                new VariableDeclarationStatement("v", new IntType()),
+                new CompoundStatement(
+                    new AssignStatement(
+                        "v",
+                        new ArithmeticExpression(
+                            '+',
+                            new VariableExpression("a"),
+                            new VariableExpression("b")
+                        )
+                    ),
+                    new PrintStatement(new VariableExpression("v"))
+                )
+            )
+        );
+
+        IStatement createProcedureProduct = new CreateProcedureStatement(
+            "product",
+            params,
+            new CompoundStatement(
+                new VariableDeclarationStatement("v", new IntType()),
+                new CompoundStatement(
+                    new AssignStatement(
+                        "v",
+                        new ArithmeticExpression(
+                            '*',
+                            new VariableExpression("a"),
+                            new VariableExpression("b")
+                        )
+                    ),
+                    new PrintStatement(new VariableExpression("v"))
+                )
+            )
+        );
+
+        IStatement declarationStatement = new CompoundStatement(
+            new VariableDeclarationStatement("v", new IntType()),
+                new CompoundStatement(
+                    new VariableDeclarationStatement("w", new IntType()),
+                    new CompoundStatement(
+                        new AssignStatement("v", new ValueExpression(new IntValue(2))),
+                        new AssignStatement("w", new ValueExpression(new IntValue(5)))
+                    )
+            )
+        );
+
+        IStatement firstFork = new ForkStatement(
+            new CallFunctionStatement(
+                "product",
+                List.of(
+                    new VariableExpression("v"),
+                    new VariableExpression("w")
+                )
+            )
+        );
+
+        IStatement secondFork = new ForkStatement(
+            new CallFunctionStatement(
+                "sum",
+                List.of(
+                    new VariableExpression("v"),
+                    new VariableExpression("w")
+                )
+            )
+        );
+
+        return new CompoundStatement(
+            createProcedureSum,
+            new CompoundStatement(
+                createProcedureProduct,
+                new CompoundStatement(
+                    declarationStatement,
+                    new CompoundStatement(
+                        new CallFunctionStatement(
+                            "sum",
+                            List.of(
+                                new ArithmeticExpression(
+                                    '*',
+                                    new VariableExpression("v"),
+                                    new ValueExpression(new IntValue(10))
+                                ),
+                                new VariableExpression("w")
+                            )
+                        ),
+                        new CompoundStatement(
+                            new PrintStatement(new VariableExpression("v")),
+                            new CompoundStatement(
+                                firstFork,
+                                secondFork
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
 
     public static List<IStatement> getAllExamples() {
         ArrayList<IStatement> allStatements = new ArrayList<>();
@@ -322,6 +429,7 @@ public class Examples {
         allStatements.add(createForkExample());
         allStatements.add(createExample10());
         allStatements.add(createTypeCheckerFailExample());
+        allStatements.add(createProcedureExample());
 
         return allStatements;
     }
