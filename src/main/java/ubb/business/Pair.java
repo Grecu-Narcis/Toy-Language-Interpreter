@@ -1,8 +1,8 @@
-package ubb.business.view_controllers;
+package ubb.business;
 
-class Pair<T1, T2> {
-    T1 first;
-    T2 second;
+public class Pair<T1, T2> {
+    public T1 first;
+    public T2 second;
 
     public Pair(T1 first, T2 second) {
         this.first = first;
