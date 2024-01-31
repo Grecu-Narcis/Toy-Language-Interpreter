@@ -1,20 +1,20 @@
 package ubb.business.view_controllers;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.Region;
 import ubb.business.InterpreterController;
+import ubb.business.Pair;
 import ubb.exceptions.InterpreterException;
 import ubb.infrastructure.IRepository;
 import ubb.infrastructure.ProgramsRepository;
 import ubb.models.ProgramState;
-import ubb.models.adts.MyHeap;
-import ubb.models.adts.MyIHeap;
-import ubb.models.adts.MyIList;
-import ubb.models.adts.MyList;
+import ubb.models.adts.*;
 import ubb.models.statements.IStatement;
 import ubb.models.values.IValue;
 
@@ -61,6 +61,18 @@ public class ProgramController {
     private TableColumn<Pair<String, IValue>, String> symbolValueColumn;
 
     @FXML
+    private TableView<ObservableList<Object>> barrierTableView;
+
+    @FXML
+    private TableColumn<ObservableList<Object>, Integer> barrierIndexColumn;
+
+    @FXML
+    private TableColumn<ObservableList<Object>, Integer> barrierValueColumn;
+
+    @FXML
+    private TableColumn<ObservableList<Object>, List<Integer>> barrierListColumn;
+
+    @FXML
     private Button oneStepButton;
 
     @FXML
@@ -70,6 +82,10 @@ public class ProgramController {
 
         symbolVariableColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().first));
         symbolValueColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().second.toString()));
+
+        barrierIndexColumn.setCellValueFactory(data -> new SimpleIntegerProperty((Integer) data.getValue().get(0)).asObject());
+        barrierValueColumn.setCellValueFactory(data -> new SimpleIntegerProperty((Integer) data.getValue().get(1)).asObject());
+        barrierListColumn.setCellValueFactory(data -> new SimpleListProperty(FXCollections.observableArrayList((List<Integer>) data.getValue().get(2))));
     }
 
     public void setProgramStatement(IStatement programStatement) {
@@ -132,6 +148,27 @@ public class ProgramController {
         this.populateProgramStatesIdentifiers();
         this.populateSymbolTableView();
         this.populateExecutionStack();
+        this.populateBarrierTable();
+    }
+
+    private void populateBarrierTable() {
+        MyIBarrierTable currentBarrierTable = new MyBarrierTable();
+
+        if (!interpreterController.getAllPrograms().isEmpty())
+            currentBarrierTable = interpreterController.getAllPrograms().getFirst().getBarrierTable();
+
+        List<ObservableList<Object>> barrierTableList = new ArrayList<>();
+
+        for (Map.Entry<Integer, Pair<Integer, List<Integer>>> entry : currentBarrierTable.getContent().entrySet()) {
+            ObservableList<Object> row = FXCollections.observableArrayList();
+            row.add(entry.getKey());
+            row.add(entry.getValue().first);
+            row.add(entry.getValue().second);
+            barrierTableList.add(row);
+        }
+
+        this.barrierTableView.setItems(FXCollections.observableArrayList(barrierTableList));
+        this.barrierTableView.refresh();
     }
 
     private void populateHeap() {

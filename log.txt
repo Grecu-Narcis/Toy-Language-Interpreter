@@ -1,10 +1,16 @@
 Id=1
 ExeStack:
-int a
-int b
-a=2+3*5
-b=a+1
-print(b)
+Ref(int) v1
+Ref(int) v2
+Ref(int) v3
+new(v1, 2)
+new(v2, 3)
+new(v3, 4)
+newBarrier(cnt, ReadHeap(v2))
+Fork(await(cnt); WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)))
+Fork(await(cnt); WriteHeap(v2, ReadHeap(v2)*10); WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)))
+await(cnt)
+print(ReadHeap(v3))
 
 SymTable:
 
@@ -16,13 +22,19 @@ Heap Table:
 
 Id=1
 ExeStack:
-int b
-a=2+3*5
-b=a+1
-print(b)
+Ref(int) v1
+Ref(int) v2
+Ref(int) v3
+new(v1, 2)
+new(v2, 3)
+new(v3, 4)
+newBarrier(cnt, ReadHeap(v2))
+Fork(await(cnt); WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)))
+Fork(await(cnt); WriteHeap(v2, ReadHeap(v2)*10); WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)))
+await(cnt)
+print(ReadHeap(v3))
 
 SymTable:
-a = 0
 
 Output:
 
@@ -32,13 +44,19 @@ Heap Table:
 
 Id=1
 ExeStack:
-int b
-a=2+3*5
-b=a+1
-print(b)
+Ref(int) v2
+Ref(int) v3
+new(v1, 2)
+new(v2, 3)
+new(v3, 4)
+newBarrier(cnt, ReadHeap(v2))
+Fork(await(cnt); WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)))
+Fork(await(cnt); WriteHeap(v2, ReadHeap(v2)*10); WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)))
+await(cnt)
+print(ReadHeap(v3))
 
 SymTable:
-a = 0
+v1 = (0, int)
 
 Output:
 
@@ -48,13 +66,19 @@ Heap Table:
 
 Id=1
 ExeStack:
-a=2+3*5
-b=a+1
-print(b)
+Ref(int) v2
+Ref(int) v3
+new(v1, 2)
+new(v2, 3)
+new(v3, 4)
+newBarrier(cnt, ReadHeap(v2))
+Fork(await(cnt); WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)))
+Fork(await(cnt); WriteHeap(v2, ReadHeap(v2)*10); WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)))
+await(cnt)
+print(ReadHeap(v3))
 
 SymTable:
-a = 0
-b = 0
+v1 = (0, int)
 
 Output:
 
@@ -64,13 +88,19 @@ Heap Table:
 
 Id=1
 ExeStack:
-a=2+3*5
-b=a+1
-print(b)
+Ref(int) v3
+new(v1, 2)
+new(v2, 3)
+new(v3, 4)
+newBarrier(cnt, ReadHeap(v2))
+Fork(await(cnt); WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)))
+Fork(await(cnt); WriteHeap(v2, ReadHeap(v2)*10); WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)))
+await(cnt)
+print(ReadHeap(v3))
 
 SymTable:
-a = 0
-b = 0
+v1 = (0, int)
+v2 = (0, int)
 
 Output:
 
@@ -80,12 +110,19 @@ Heap Table:
 
 Id=1
 ExeStack:
-b=a+1
-print(b)
+Ref(int) v3
+new(v1, 2)
+new(v2, 3)
+new(v3, 4)
+newBarrier(cnt, ReadHeap(v2))
+Fork(await(cnt); WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)))
+Fork(await(cnt); WriteHeap(v2, ReadHeap(v2)*10); WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)))
+await(cnt)
+print(ReadHeap(v3))
 
 SymTable:
-a = 17
-b = 0
+v1 = (0, int)
+v2 = (0, int)
 
 Output:
 
@@ -95,12 +132,19 @@ Heap Table:
 
 Id=1
 ExeStack:
-b=a+1
-print(b)
+new(v1, 2)
+new(v2, 3)
+new(v3, 4)
+newBarrier(cnt, ReadHeap(v2))
+Fork(await(cnt); WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)))
+Fork(await(cnt); WriteHeap(v2, ReadHeap(v2)*10); WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)))
+await(cnt)
+print(ReadHeap(v3))
 
 SymTable:
-a = 17
-b = 0
+v1 = (0, int)
+v2 = (0, int)
+v3 = (0, int)
 
 Output:
 
@@ -110,11 +154,19 @@ Heap Table:
 
 Id=1
 ExeStack:
-print(b)
+new(v1, 2)
+new(v2, 3)
+new(v3, 4)
+newBarrier(cnt, ReadHeap(v2))
+Fork(await(cnt); WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)))
+Fork(await(cnt); WriteHeap(v2, ReadHeap(v2)*10); WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)))
+await(cnt)
+print(ReadHeap(v3))
 
 SymTable:
-a = 17
-b = 18
+v1 = (0, int)
+v2 = (0, int)
+v3 = (0, int)
 
 Output:
 
@@ -124,15 +176,654 @@ Heap Table:
 
 Id=1
 ExeStack:
+new(v2, 3)
+new(v3, 4)
+newBarrier(cnt, ReadHeap(v2))
+Fork(await(cnt); WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)))
+Fork(await(cnt); WriteHeap(v2, ReadHeap(v2)*10); WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)))
+await(cnt)
+print(ReadHeap(v3))
 
 SymTable:
-a = 17
-b = 18
+v1 = (1, int)
+v2 = (0, int)
+v3 = (0, int)
 
 Output:
-18
 
 File Table:
 
 Heap Table:
+1 -> 2
+
+Id=1
+ExeStack:
+new(v2, 3)
+new(v3, 4)
+newBarrier(cnt, ReadHeap(v2))
+Fork(await(cnt); WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)))
+Fork(await(cnt); WriteHeap(v2, ReadHeap(v2)*10); WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)))
+await(cnt)
+print(ReadHeap(v3))
+
+SymTable:
+v1 = (1, int)
+v2 = (0, int)
+v3 = (0, int)
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 2
+
+Id=1
+ExeStack:
+new(v3, 4)
+newBarrier(cnt, ReadHeap(v2))
+Fork(await(cnt); WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)))
+Fork(await(cnt); WriteHeap(v2, ReadHeap(v2)*10); WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)))
+await(cnt)
+print(ReadHeap(v3))
+
+SymTable:
+v1 = (1, int)
+v2 = (2, int)
+v3 = (0, int)
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 2
+2 -> 3
+
+Id=1
+ExeStack:
+new(v3, 4)
+newBarrier(cnt, ReadHeap(v2))
+Fork(await(cnt); WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)))
+Fork(await(cnt); WriteHeap(v2, ReadHeap(v2)*10); WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)))
+await(cnt)
+print(ReadHeap(v3))
+
+SymTable:
+v1 = (1, int)
+v2 = (2, int)
+v3 = (0, int)
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 2
+2 -> 3
+
+Id=1
+ExeStack:
+newBarrier(cnt, ReadHeap(v2))
+Fork(await(cnt); WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)))
+Fork(await(cnt); WriteHeap(v2, ReadHeap(v2)*10); WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)))
+await(cnt)
+print(ReadHeap(v3))
+
+SymTable:
+v1 = (1, int)
+v2 = (2, int)
+v3 = (3, int)
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 2
+2 -> 3
+3 -> 4
+
+Id=1
+ExeStack:
+Fork(await(cnt); WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)))
+Fork(await(cnt); WriteHeap(v2, ReadHeap(v2)*10); WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)))
+await(cnt)
+print(ReadHeap(v3))
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+v2 = (2, int)
+v3 = (3, int)
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 2
+2 -> 3
+3 -> 4
+
+Id=1
+ExeStack:
+Fork(await(cnt); WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)))
+Fork(await(cnt); WriteHeap(v2, ReadHeap(v2)*10); WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)))
+await(cnt)
+print(ReadHeap(v3))
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+v2 = (2, int)
+v3 = (3, int)
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 2
+2 -> 3
+3 -> 4
+
+Id=1
+ExeStack:
+Fork(await(cnt); WriteHeap(v2, ReadHeap(v2)*10); WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)))
+await(cnt)
+print(ReadHeap(v3))
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+v2 = (2, int)
+v3 = (3, int)
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 2
+2 -> 3
+3 -> 4
+
+Id=2
+ExeStack:
+await(cnt)
+WriteHeap(v1, ReadHeap(v1)*10)
+print(ReadHeap(v1))
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+v2 = (2, int)
+v3 = (3, int)
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 2
+2 -> 3
+3 -> 4
+
+Id=1
+ExeStack:
+Fork(await(cnt); WriteHeap(v2, ReadHeap(v2)*10); WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)))
+await(cnt)
+print(ReadHeap(v3))
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+v2 = (2, int)
+v3 = (3, int)
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 2
+2 -> 3
+3 -> 4
+
+Id=2
+ExeStack:
+await(cnt)
+WriteHeap(v1, ReadHeap(v1)*10)
+print(ReadHeap(v1))
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+v2 = (2, int)
+v3 = (3, int)
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 2
+2 -> 3
+3 -> 4
+
+Id=1
+ExeStack:
+await(cnt)
+print(ReadHeap(v3))
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+v2 = (2, int)
+v3 = (3, int)
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 2
+2 -> 3
+3 -> 4
+
+Id=2
+ExeStack:
+await(cnt)
+WriteHeap(v1, ReadHeap(v1)*10)
+print(ReadHeap(v1))
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+v2 = (2, int)
+v3 = (3, int)
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 2
+2 -> 3
+3 -> 4
+
+Id=3
+ExeStack:
+await(cnt)
+WriteHeap(v2, ReadHeap(v2)*10)
+WriteHeap(v2, ReadHeap(v2)*10)
+print(ReadHeap(v2))
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+v2 = (2, int)
+v3 = (3, int)
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 2
+2 -> 3
+3 -> 4
+
+Id=1
+ExeStack:
+await(cnt)
+print(ReadHeap(v3))
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+v2 = (2, int)
+v3 = (3, int)
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 2
+2 -> 3
+3 -> 4
+
+Id=2
+ExeStack:
+await(cnt)
+WriteHeap(v1, ReadHeap(v1)*10)
+print(ReadHeap(v1))
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+v2 = (2, int)
+v3 = (3, int)
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 2
+2 -> 3
+3 -> 4
+
+Id=3
+ExeStack:
+await(cnt)
+WriteHeap(v2, ReadHeap(v2)*10)
+WriteHeap(v2, ReadHeap(v2)*10)
+print(ReadHeap(v2))
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+v2 = (2, int)
+v3 = (3, int)
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 2
+2 -> 3
+3 -> 4
+
+Id=1
+ExeStack:
+await(cnt)
+print(ReadHeap(v3))
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+v2 = (2, int)
+v3 = (3, int)
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 2
+2 -> 3
+3 -> 4
+
+Id=2
+ExeStack:
+WriteHeap(v1, ReadHeap(v1)*10)
+print(ReadHeap(v1))
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+v2 = (2, int)
+v3 = (3, int)
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 2
+2 -> 3
+3 -> 4
+
+Id=3
+ExeStack:
+await(cnt)
+WriteHeap(v2, ReadHeap(v2)*10)
+WriteHeap(v2, ReadHeap(v2)*10)
+print(ReadHeap(v2))
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+v2 = (2, int)
+v3 = (3, int)
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 2
+2 -> 3
+3 -> 4
+
+Id=1
+ExeStack:
+print(ReadHeap(v3))
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+v2 = (2, int)
+v3 = (3, int)
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 2
+2 -> 3
+3 -> 4
+
+Id=2
+ExeStack:
+WriteHeap(v1, ReadHeap(v1)*10)
+print(ReadHeap(v1))
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+v2 = (2, int)
+v3 = (3, int)
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 2
+2 -> 3
+3 -> 4
+
+Id=3
+ExeStack:
+WriteHeap(v2, ReadHeap(v2)*10)
+WriteHeap(v2, ReadHeap(v2)*10)
+print(ReadHeap(v2))
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+v2 = (2, int)
+v3 = (3, int)
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 2
+2 -> 3
+3 -> 4
+
+Id=1
+ExeStack:
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+v2 = (2, int)
+v3 = (3, int)
+
+Output:
+4
+
+File Table:
+
+Heap Table:
+1 -> 20
+2 -> 3
+3 -> 4
+
+Id=2
+ExeStack:
+print(ReadHeap(v1))
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+v2 = (2, int)
+v3 = (3, int)
+
+Output:
+4
+
+File Table:
+
+Heap Table:
+1 -> 20
+2 -> 3
+3 -> 4
+
+Id=3
+ExeStack:
+WriteHeap(v2, ReadHeap(v2)*10)
+WriteHeap(v2, ReadHeap(v2)*10)
+print(ReadHeap(v2))
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+v2 = (2, int)
+v3 = (3, int)
+
+Output:
+4
+
+File Table:
+
+Heap Table:
+1 -> 20
+2 -> 3
+3 -> 4
+
+Id=2
+ExeStack:
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+v2 = (2, int)
+v3 = (3, int)
+
+Output:
+4
+20
+
+File Table:
+
+Heap Table:
+1 -> 20
+2 -> 30
+3 -> 4
+
+Id=3
+ExeStack:
+WriteHeap(v2, ReadHeap(v2)*10)
+print(ReadHeap(v2))
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+v2 = (2, int)
+v3 = (3, int)
+
+Output:
+4
+20
+
+File Table:
+
+Heap Table:
+1 -> 20
+2 -> 30
+3 -> 4
+
+Id=3
+ExeStack:
+WriteHeap(v2, ReadHeap(v2)*10)
+print(ReadHeap(v2))
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+v2 = (2, int)
+v3 = (3, int)
+
+Output:
+4
+20
+
+File Table:
+
+Heap Table:
+1 -> 20
+2 -> 30
+3 -> 4
+
+Id=3
+ExeStack:
+print(ReadHeap(v2))
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+v2 = (2, int)
+v3 = (3, int)
+
+Output:
+4
+20
+
+File Table:
+
+Heap Table:
+1 -> 20
+2 -> 300
+3 -> 4
+
+Id=3
+ExeStack:
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+v2 = (2, int)
+v3 = (3, int)
+
+Output:
+4
+20
+300
+
+File Table:
+
+Heap Table:
+1 -> 20
+2 -> 300
+3 -> 4
 

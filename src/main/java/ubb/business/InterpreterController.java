@@ -3,7 +3,6 @@ package ubb.business;
 import ubb.exceptions.InterpreterException;
 import ubb.infrastructure.IRepository;
 import ubb.models.ProgramState;
-import ubb.models.adts.Pair;
 import ubb.models.values.IValue;
 import ubb.models.values.ReferenceValue;
 
@@ -87,24 +86,25 @@ public class InterpreterController {
      * @param callList List of Callables representing the execution of one statement in each program state.
      * @return List of Pair objects containing the updated program state or any thrown InterpreterException.
      */
-    private List<Pair> executeOneStepForEachProgram(List<Callable<ProgramState>> callList) {
-        List<Pair> newProgramsList = null;
+
+    private List<Pair<ProgramState, InterpreterException>> executeOneStepForEachProgram(List<Callable<ProgramState>> callList) {
+        List<Pair<ProgramState, InterpreterException>> newProgramsList = null;
 
         try {
             newProgramsList = threadsExecutor.invokeAll(callList).stream()
                 .map(future -> {
                     try {
-                        return new Pair(future.get(), null);
+                        return new Pair<ProgramState, InterpreterException>(future.get(), null);
                     } catch (InterruptedException | ExecutionException e) {
                         if (e.getCause() instanceof InterpreterException)
-                            return new Pair(null, (InterpreterException) e.getCause());
+                            return new Pair<ProgramState, InterpreterException>(null, (InterpreterException) e.getCause());
 
                         System.out.println(e.getMessage());
                         System.exit(1);
                         return null;
                     }
                 })
-                .filter(pair -> pair.program != null || pair.thrownException != null)
+                .filter(pair -> pair.first != null || pair.second != null)
                 .collect(Collectors.toList());
         } catch (InterruptedException e) {
             System.exit(1);
@@ -123,13 +123,13 @@ public class InterpreterController {
     public void oneStepForAllPrograms(List<ProgramState> allPrograms) throws InterpreterException {
         List<Callable<ProgramState>> callList = this.createListOfCallables(allPrograms);
 
-        List<Pair> newProgramsList = this.executeOneStepForEachProgram(callList);
+        List<Pair<ProgramState, InterpreterException>> newProgramsList = this.executeOneStepForEachProgram(callList);
 
-        for (Pair error : newProgramsList)
-            if (error.thrownException != null)
-                throw error.thrownException;
+        for (Pair<ProgramState, InterpreterException> error : newProgramsList)
+            if (error.second != null)
+                throw error.second;
 
-        allPrograms.addAll(newProgramsList.stream().map(pair -> pair.program).collect(Collectors.toList()));
+        allPrograms.addAll(newProgramsList.stream().map(pair -> pair.first).collect(Collectors.toList()));
         programsRepository.setProgramsList(allPrograms);
 
         allPrograms.forEach(this.programsRepository::logProgramState);

@@ -305,6 +305,86 @@ public class Examples {
         );
     }
 
+    public static IStatement createBarrierExample() {
+        IStatement declarationStatement = new CompoundStatement(
+            new VariableDeclarationStatement("v1", new ReferenceType(new IntType())),
+            new CompoundStatement(
+                new VariableDeclarationStatement("v2", new ReferenceType(new IntType())),
+                new CompoundStatement(
+                    new VariableDeclarationStatement("v3", new ReferenceType(new IntType())),
+                    new CompoundStatement(
+                        new AllocateStatement("v1", new ValueExpression(new IntValue(2))),
+                        new CompoundStatement(
+                            new AllocateStatement("v2", new ValueExpression(new IntValue(3))),
+                            new CompoundStatement(
+                                new AllocateStatement("v3", new ValueExpression(new IntValue(4))),
+                                new NewBarrierStatement("cnt", new ReadHeapExpression(new VariableExpression("v2")))
+                            )
+                        )
+                    )
+                )
+            )
+        );
+
+        IStatement firstFork = new ForkStatement(
+            new CompoundStatement(
+                new AwaitStatement("cnt"),
+                new CompoundStatement(
+                    new WriteHeapStatement(
+                        "v1",
+                        new ArithmeticExpression(
+                            '*',
+                            new ReadHeapExpression(new VariableExpression("v1")),
+                            new ValueExpression(new IntValue(10))
+                        )
+                    ),
+                    new PrintStatement(new ReadHeapExpression(new VariableExpression("v1")))
+                )
+            )
+        );
+
+        IStatement secondFork = new ForkStatement(
+            new CompoundStatement(
+                new AwaitStatement("cnt"),
+                new CompoundStatement(
+                    new WriteHeapStatement(
+                        "v2",
+                        new ArithmeticExpression(
+                            '*',
+                            new ReadHeapExpression(new VariableExpression("v2")),
+                            new ValueExpression(new IntValue(10))
+                        )
+                    ),
+                    new CompoundStatement(
+                        new WriteHeapStatement(
+                            "v2",
+                            new ArithmeticExpression(
+                                '*',
+                                new ReadHeapExpression(new VariableExpression("v2")),
+                                new ValueExpression(new IntValue(10))
+                            )
+                        ),
+                        new PrintStatement(new ReadHeapExpression(new VariableExpression("v2")))
+                    )
+                )
+            )
+        );
+
+        return new CompoundStatement(
+            declarationStatement,
+            new CompoundStatement(
+                firstFork,
+                new CompoundStatement(
+                    secondFork,
+                    new CompoundStatement(
+                        new AwaitStatement("cnt"),
+                        new PrintStatement(new ReadHeapExpression(new VariableExpression("v3")))
+                    )
+                )
+            )
+        );
+    }
+
 
     public static List<IStatement> getAllExamples() {
         ArrayList<IStatement> allStatements = new ArrayList<>();
@@ -322,6 +402,7 @@ public class Examples {
         allStatements.add(createForkExample());
         allStatements.add(createExample10());
         allStatements.add(createTypeCheckerFailExample());
+        allStatements.add(createBarrierExample());
 
         return allStatements;
     }
