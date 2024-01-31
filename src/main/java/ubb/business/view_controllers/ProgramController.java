@@ -70,7 +70,7 @@ public class ProgramController {
     private TableColumn<ObservableList<Object>, Integer> barrierValueColumn;
 
     @FXML
-    private TableColumn<ObservableList<Object>, List<Integer>> barrierListColumn;
+    private TableColumn<ObservableList<Object>, String> barrierListColumn;
 
     @FXML
     private Button oneStepButton;
@@ -85,7 +85,7 @@ public class ProgramController {
 
         barrierIndexColumn.setCellValueFactory(data -> new SimpleIntegerProperty((Integer) data.getValue().get(0)).asObject());
         barrierValueColumn.setCellValueFactory(data -> new SimpleIntegerProperty((Integer) data.getValue().get(1)).asObject());
-        barrierListColumn.setCellValueFactory(data -> new SimpleListProperty(FXCollections.observableArrayList((List<Integer>) data.getValue().get(2))));
+        barrierListColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().get(2).toString()));
     }
 
     public void setProgramStatement(IStatement programStatement) {
