@@ -27,6 +27,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <TableView fx:id="heapTableView" prefHeight="200.0" prefWidth="200.0">
@@ -45,6 +46,13 @@
                     </columns>
                   </TableView>
                   <ListView fx:id="executionStackView" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TableView fx:id="semaphoreTableView" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
+                    <columns>
+                      <TableColumn fx:id="semaphoreIndexColumn" prefWidth="75.0" text="Index" />
+                      <TableColumn fx:id="semaphoreValueColumn" prefWidth="75.0" text="Value" />
+                        <TableColumn fx:id="semaphoreListColumn" prefWidth="248.79998779296875" text="Threads List" />
+                    </columns>
+                  </TableView>
                </children>
             </GridPane>
             <HBox alignment="CENTER" fillHeight="false" prefHeight="70.0" prefWidth="600.0">

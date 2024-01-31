@@ -3,6 +3,7 @@ package ubb.business.view_controllers;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.Region;
@@ -12,10 +13,7 @@ import ubb.exceptions.InterpreterException;
 import ubb.infrastructure.IRepository;
 import ubb.infrastructure.ProgramsRepository;
 import ubb.models.ProgramState;
-import ubb.models.adts.MyHeap;
-import ubb.models.adts.MyIHeap;
-import ubb.models.adts.MyIList;
-import ubb.models.adts.MyList;
+import ubb.models.adts.*;
 import ubb.models.statements.IStatement;
 import ubb.models.values.IValue;
 
@@ -62,6 +60,18 @@ public class ProgramController {
     private TableColumn<Pair<String, IValue>, String> symbolValueColumn;
 
     @FXML
+    private TableView<ObservableList<Object>> semaphoreTableView;
+
+    @FXML
+    private TableColumn<ObservableList<Object>, Integer> semaphoreIndexColumn;
+
+    @FXML
+    private TableColumn<ObservableList<Object>, Integer> semaphoreValueColumn;
+
+    @FXML
+    private TableColumn<ObservableList<Object>, String> semaphoreListColumn;
+
+    @FXML
     private Button oneStepButton;
 
     @FXML
@@ -71,6 +81,10 @@ public class ProgramController {
 
         symbolVariableColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().first));
         symbolValueColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().second.toString()));
+
+        semaphoreIndexColumn.setCellValueFactory(data -> new SimpleIntegerProperty((Integer)data.getValue().get(0)).asObject());
+        semaphoreValueColumn.setCellValueFactory(data -> new SimpleIntegerProperty((Integer)data.getValue().get(1)).asObject());
+        semaphoreListColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().get(2).toString()));
     }
 
     public void setProgramStatement(IStatement programStatement) {
@@ -133,6 +147,29 @@ public class ProgramController {
         this.populateProgramStatesIdentifiers();
         this.populateSymbolTableView();
         this.populateExecutionStack();
+        this.populateSemaphoreTable();
+    }
+
+    private void populateSemaphoreTable()
+    {
+        MyISemaphore currentSemaphore = new MySemaphore();
+
+        if (!interpreterController.getAllPrograms().isEmpty())
+            currentSemaphore = interpreterController.getAllPrograms().getFirst().getSemaphoreTable();
+
+        List<ObservableList<Object>> semaphoreTableList = new ArrayList<>();
+
+        for (Map.Entry<Integer, Pair<Integer, List<Integer>>> entry : currentSemaphore.getContent().entrySet())
+        {
+            ObservableList<Object> row = FXCollections.observableArrayList();
+            row.add(entry.getKey());
+            row.add(entry.getValue().first);
+            row.add(entry.getValue().second.toString());
+            semaphoreTableList.add(row);
+        }
+
+        this.semaphoreTableView.setItems(FXCollections.observableArrayList(semaphoreTableList));
+        this.semaphoreTableView.refresh();
     }
 
     private void populateHeap() {

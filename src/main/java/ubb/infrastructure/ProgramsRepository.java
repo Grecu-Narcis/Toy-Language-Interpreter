@@ -1,8 +1,10 @@
 package ubb.infrastructure;
 
+import ubb.business.Pair;
 import ubb.models.ProgramState;
 import ubb.models.adts.MyIDictionary;
 import ubb.models.adts.MyIHeap;
+import ubb.models.adts.MyISemaphore;
 import ubb.models.statements.IStatement;
 import ubb.models.values.IValue;
 
@@ -97,6 +99,16 @@ public class ProgramsRepository implements IRepository {
         logFile.println();
     }
 
+    private void logSemaphoreTable(PrintWriter logFile, ProgramState currentProgram) {
+        logFile.println("Semaphore Table:");
+
+        MyISemaphore semaphoreTable = currentProgram.getSemaphoreTable();
+        for (Integer address : semaphoreTable.getContent().keySet())
+            logFile.println(address + " -> " + semaphoreTable.getSemaphoreWithKey(address));
+
+        logFile.println();
+    }
+
     @Override
     public void logProgramState(ProgramState currentProgram) {
         try {
@@ -117,6 +129,9 @@ public class ProgramsRepository implements IRepository {
 
             // LOG Heap Table
             this.logHeapTable(logFile, currentProgram);
+
+            // LOG Semaphore Table
+            this.logSemaphoreTable(logFile, currentProgram);
 
             logFile.close();
         } catch (IOException ignored) {

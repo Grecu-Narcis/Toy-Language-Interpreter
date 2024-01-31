@@ -18,6 +18,7 @@ public class ProgramState {
     private MyIList<IValue> outputList;
     private final MyIDictionary<String, BufferedReader> fileTable;
     private final MyIHeap heapTable;
+    private final MyISemaphore semaphoreTable;
     private final int id;
     private static int currentID = 0;
 
@@ -27,18 +28,21 @@ public class ProgramState {
         this.outputList = new MyList<>();
         this.fileTable = new MyDictionary<>();
         this.heapTable = new MyHeap();
+        this.semaphoreTable = new MySemaphore();
         this.exeStack.push(program);
 
         this.id = ProgramState.getAvailableId();
     }
 
     public ProgramState(MyIStack<IStatement> exeStack, MyIDictionary<String, IValue> symbolTable,
-                        MyIList<IValue> outputList, MyIDictionary<String, BufferedReader> fileTable, MyIHeap heapTable) {
+                        MyIList<IValue> outputList, MyIDictionary<String, BufferedReader> fileTable,
+                        MyIHeap heapTable, MyISemaphore semaphoreTable) {
         this.exeStack = exeStack;
         this.symbolTable = symbolTable;
         this.outputList = outputList;
         this.fileTable = fileTable;
         this.heapTable = heapTable;
+        this.semaphoreTable = semaphoreTable;
 
         this.id = ProgramState.getAvailableId();
     }
@@ -63,6 +67,10 @@ public class ProgramState {
         } catch (StackException e) {
             throw new InterpreterException("Statements stack is empty!");
         }
+    }
+
+    public MyISemaphore getSemaphoreTable() {
+        return this.semaphoreTable;
     }
 
     public MyIStack<IStatement> getStack() {
