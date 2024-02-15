@@ -422,6 +422,94 @@ public class Examples {
                         )
                 )
         );
+    public static IStatement createSemaphoreExample() {
+        IStatement declarationStatement = new CompoundStatement(
+            new VariableDeclarationStatement("v1", new ReferenceType(new IntType())),
+            new CompoundStatement(
+                new VariableDeclarationStatement("cnt", new IntType()),
+                new CompoundStatement(
+                    new AllocateStatement("v1", new ValueExpression(new IntValue(1))),
+                    new CreateSemaphoreStatement(
+                        "cnt",
+                        new ReadHeapExpression(new VariableExpression("v1"))
+                    )
+                )
+            )
+        );
+
+        IStatement firstFork = new ForkStatement(
+            new CompoundStatement(
+                new AcquireStatement("cnt"),
+                new CompoundStatement(
+                    new WriteHeapStatement(
+                        "v1",
+                        new ArithmeticExpression(
+                            '*',
+                            new ReadHeapExpression(new VariableExpression("v1")),
+                            new ValueExpression(new IntValue(10))
+                        )
+                    ),
+                    new CompoundStatement(
+                        new PrintStatement(new ReadHeapExpression(new VariableExpression("v1"))),
+                        new ReleaseStatement("cnt")
+                    )
+                )
+            )
+        );
+
+        IStatement secondFork = new ForkStatement(
+            new CompoundStatement(
+                new AcquireStatement("cnt"),
+                new CompoundStatement(
+                    new WriteHeapStatement(
+                        "v1",
+                        new ArithmeticExpression(
+                            '*',
+                            new ReadHeapExpression(new VariableExpression("v1")),
+                            new ValueExpression(new IntValue(10))
+                        )
+                    ),
+                    new CompoundStatement(
+                        new WriteHeapStatement(
+                            "v1",
+                            new ArithmeticExpression(
+                                '*',
+                                new ReadHeapExpression(new VariableExpression("v1")),
+                                new ValueExpression(new IntValue(2))
+                            )
+                        ),
+                        new CompoundStatement(
+                            new PrintStatement(new ReadHeapExpression(new VariableExpression("v1"))),
+                            new ReleaseStatement("cnt")
+                        )
+                    )
+                )
+            )
+        );
+
+        return new CompoundStatement(
+            declarationStatement,
+            new CompoundStatement(
+                firstFork,
+                new CompoundStatement(
+                    secondFork,
+                    new CompoundStatement(
+                        new AcquireStatement("cnt"),
+                        new CompoundStatement(
+                            new PrintStatement(
+                                new ArithmeticExpression(
+                                    '-',
+                                    new ReadHeapExpression(new VariableExpression("v1")),
+                                    new ValueExpression(new IntValue(1))
+                                )
+                            ),
+                            new ReleaseStatement("cnt")
+                        )
+                    )
+                )
+            )
+        );
+    }
 
         return new CompoundStatement(
             new VariableDeclarationStatement("a", new ReferenceType(new IntType())),
@@ -679,6 +767,7 @@ public class Examples {
         allStatements.add(createSwitchExample());
         allStatements.add(createRepeatUntilExample());
         allStatements.add(createProcedureExample());
+        allStatements.add(createSemaphoreExample());
 
         return allStatements;
     }
