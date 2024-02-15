@@ -1,18 +1,17 @@
 package ubb.models.statements;
 
 import ubb.exceptions.InterpreterException;
+import ubb.models.ProgramState;
 import ubb.models.adts.MyIDictionary;
+import ubb.models.adts.MyIList;
+import ubb.models.expressions.IExpression;
 import ubb.models.types.Type;
 import ubb.models.values.IValue;
-import ubb.models.adts.MyIList;
-import ubb.models.ProgramState;
-import ubb.models.expressions.IExpression;
 
 public class PrintStatement implements IStatement {
     private final IExpression expression;
 
-    public PrintStatement(IExpression expression)
-    {
+    public PrintStatement(IExpression expression) {
         this.expression = expression;
     }
 
@@ -28,9 +27,9 @@ public class PrintStatement implements IStatement {
         MyIList<IValue> outputList = currentState.getOutputList();
 
         outputList.add(expression.evaluate(
-                currentState.getSymbolTable(),
-                currentState.getHeapTable(),
-                currentState.getId())
+            currentState.getSymbolTable(),
+            currentState.getHeapTable(),
+            currentState.getId())
         );
 
         return null;

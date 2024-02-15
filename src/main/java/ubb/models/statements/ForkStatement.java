@@ -10,8 +10,7 @@ import ubb.models.types.Type;
 public class ForkStatement implements IStatement {
     private final IStatement innerStatement;
 
-    public ForkStatement(IStatement innerStatement)
-    {
+    public ForkStatement(IStatement innerStatement) {
         this.innerStatement = innerStatement;
     }
 
@@ -21,7 +20,7 @@ public class ForkStatement implements IStatement {
         newThreadStack.push(innerStatement);
 
         return new ProgramState(newThreadStack, currentState.getSymbolTable().copy(), currentState.getOutputList(),
-                currentState.getFileTable(), currentState.getHeapTable());
+            currentState.getFileTable(), currentState.getHeapTable());
     }
 
     @Override

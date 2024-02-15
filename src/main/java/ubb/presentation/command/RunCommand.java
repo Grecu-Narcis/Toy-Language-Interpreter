@@ -11,8 +11,7 @@ import ubb.models.statements.IStatement;
 public class RunCommand extends Command {
     private final IStatement programStatement;
 
-    public RunCommand(String key, IStatement programStatement)
-    {
+    public RunCommand(String key, IStatement programStatement) {
         super(key, programStatement.toString());
         this.programStatement = programStatement;
     }
@@ -21,9 +20,7 @@ public class RunCommand extends Command {
     public void execute() {
         try {
             programStatement.typeCheck(new MyDictionary<>());
-        }
-        catch (InterpreterException e)
-        {
+        } catch (InterpreterException e) {
             System.out.println(e.getMessage());
             return;
         }
@@ -35,9 +32,7 @@ public class RunCommand extends Command {
 
         try {
             interpreterController.allSteps();
-        }
-        catch (InterpreterException e)
-        {
+        } catch (InterpreterException e) {
             System.out.println(e.getMessage());
         }
     }

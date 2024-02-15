@@ -6,19 +6,17 @@ import ubb.models.types.Type;
 public class StringValue implements IValue {
     private final String value;
 
-    public StringValue(String value)
-    {
+    public StringValue(String value) {
         this.value = value;
     }
 
-    public String getValue()
-    {
+    public String getValue() {
         return this.value;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (! (obj instanceof StringValue))
+        if (!(obj instanceof StringValue))
             return false;
 
         StringValue objValue = (StringValue) obj;
