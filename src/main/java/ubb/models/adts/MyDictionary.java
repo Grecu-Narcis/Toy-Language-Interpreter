@@ -7,8 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MyDictionary<TKey, TValue> implements MyIDictionary<TKey, TValue> {
     private final Map<TKey, TValue> dictionary;
 
-    public MyDictionary()
-    {
+    public MyDictionary() {
         dictionary = new ConcurrentHashMap<>();
     }
 
@@ -65,7 +64,7 @@ public class MyDictionary<TKey, TValue> implements MyIDictionary<TKey, TValue> {
     @Override
     public String toString() {
         return "MyDictionary{" +
-                "dictionary=" + dictionary +
-                '}';
+            "dictionary=" + dictionary +
+            '}';
     }
 }

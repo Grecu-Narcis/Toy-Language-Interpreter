@@ -10,18 +10,15 @@ import java.util.Scanner;
 public class TextMenu {
     private final MyIDictionary<String, Command> commands;
 
-    public TextMenu()
-    {
+    public TextMenu() {
         commands = new MyDictionary<>();
     }
 
-    public void addCommand(Command commandToAdd)
-    {
+    public void addCommand(Command commandToAdd) {
         commands.put(commandToAdd.getKey(), commandToAdd);
     }
 
-    private void printMenu()
-    {
+    private void printMenu() {
         ArrayList<String> sortedKeys = new ArrayList<>(commands.getKeySet());
 
         sortedKeys.sort((firstKey, secondKey) -> {
@@ -35,12 +32,10 @@ public class TextMenu {
             System.out.println(commandKey + " -> " + commands.get(commandKey).getDescription());
     }
 
-    public void show()
-    {
+    public void show() {
         Scanner consoleReader = new Scanner(System.in);
 
-        while (true)
-        {
+        while (true) {
             this.printMenu();
 
             System.out.print("Choose an option: ");
@@ -48,8 +43,7 @@ public class TextMenu {
 
             Command command = commands.get(option);
 
-            if (command == null)
-            {
+            if (command == null) {
                 System.out.println("Invalid option!");
                 continue;
             }

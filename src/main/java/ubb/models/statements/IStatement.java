@@ -7,5 +7,6 @@ import ubb.models.types.Type;
 
 public interface IStatement {
     ProgramState execute(ProgramState currentState) throws InterpreterException;
+
     MyIDictionary<String, Type> typeCheck(MyIDictionary<String, Type> typeTable) throws InterpreterException;
 }

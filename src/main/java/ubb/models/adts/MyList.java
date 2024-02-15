@@ -10,8 +10,7 @@ import java.util.List;
 public class MyList<T> implements MyIList<T> {
     private final List<T> itemsList;
 
-    public MyList()
-    {
+    public MyList() {
         itemsList = new ArrayList<>();
     }
 
@@ -69,7 +68,7 @@ public class MyList<T> implements MyIList<T> {
     @Override
     public String toString() {
         return "MyList{" +
-                "itemsList=" + itemsList +
-                '}';
+            "itemsList=" + itemsList +
+            '}';
     }
 }

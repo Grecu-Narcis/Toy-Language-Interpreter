@@ -1,22 +1,20 @@
 package ubb.models.statements;
 
 import ubb.exceptions.InterpreterException;
-import ubb.models.*;
 import ubb.models.ProgramState;
 import ubb.models.adts.MyIDictionary;
+import ubb.models.adts.MyIStack;
 import ubb.models.expressions.IExpression;
 import ubb.models.types.BoolType;
 import ubb.models.types.Type;
 import ubb.models.values.BoolValue;
 import ubb.models.values.IValue;
-import ubb.models.adts.MyIStack;
 
 public class IfStatement implements IStatement {
     private final IExpression expressionToEvaluate;
     private final IStatement firstStatement, secondStatement;
 
-    public IfStatement(IExpression expressionToEvaluate, IStatement firstStatement, IStatement secondStatement)
-    {
+    public IfStatement(IExpression expressionToEvaluate, IStatement firstStatement, IStatement secondStatement) {
         this.expressionToEvaluate = expressionToEvaluate;
         this.firstStatement = firstStatement;
         this.secondStatement = secondStatement;
@@ -37,16 +35,16 @@ public class IfStatement implements IStatement {
 
         // Evaluate the expressionToEvaluate to obtain the condition value
         IValue conditionToEvaluate = expressionToEvaluate.evaluate(
-                currentState.getSymbolTable(),
-                currentState.getHeapTable(),
-                currentState.getId());
+            currentState.getSymbolTable(),
+            currentState.getHeapTable(),
+            currentState.getId());
 
         String errorThreadIdentifier = "Thread: " + currentState.getId() + " - ";
 
         // Check if the expressionToEvaluate evaluates to a boolean
         if (!conditionToEvaluate.getType().equals(new BoolType()))
             throw new InterpreterException(errorThreadIdentifier +
-                    "Conditional expression is not boolean!");
+                "Conditional expression is not boolean!");
 
         BoolValue conditionValue = (BoolValue) conditionToEvaluate;
 
@@ -75,6 +73,6 @@ public class IfStatement implements IStatement {
     @Override
     public String toString() {
         return "if " + expressionToEvaluate + " then " + firstStatement
-                + " else " + secondStatement;
+            + " else " + secondStatement;
     }
 }
