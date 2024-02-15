@@ -34,9 +34,9 @@ public class AcquireStatement implements IStatement {
 
         Pair<Integer, List<Integer>> semaphore = currentState.getSemaphoreTable().getSemaphoreWithKey(foundIndex);
 
-        if (semaphore.first > semaphore.second.size() &&
-            !semaphore.second.contains(currentState.getId()))
-            semaphore.second.add(currentState.getId());
+        if (semaphore.getFirst() > semaphore.getSecond().size() &&
+            !semaphore.getSecond().contains(currentState.getId()))
+            semaphore.getSecond().add(currentState.getId());
 
         else
             currentState.getStack().push(this);

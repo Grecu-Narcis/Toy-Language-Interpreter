@@ -34,8 +34,8 @@ public class ReleaseStatement implements IStatement {
 
         Integer idToRemove = currentState.getId();
 
-        if (foundSemaphore.second.contains(currentState.getId()))
-            foundSemaphore.second.remove(idToRemove);
+        if (foundSemaphore.getSecond().contains(currentState.getId()))
+            foundSemaphore.getSecond().remove(idToRemove);
 
         return null;
     }
