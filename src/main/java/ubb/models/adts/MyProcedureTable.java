@@ -1,7 +1,7 @@
 package ubb.models.adts;
 
 import ubb.models.statements.IStatement;
-import ubb.business.view_controllers.Pair;
+import ubb.business.Pair;
 
 import java.util.HashMap;
 import java.util.List;

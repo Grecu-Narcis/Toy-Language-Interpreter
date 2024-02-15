@@ -1,6 +1,6 @@
 package ubb.models.statements;
 
-import ubb.business.view_controllers.Pair;
+import ubb.business.Pair;
 import ubb.exceptions.InterpreterException;
 import ubb.models.ProgramState;
 import ubb.models.adts.MyDictionary;

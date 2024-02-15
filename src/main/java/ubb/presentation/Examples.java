@@ -422,6 +422,32 @@ public class Examples {
                         )
                 )
         );
+
+        return new CompoundStatement(
+            new VariableDeclarationStatement("a", new ReferenceType(new IntType())),
+            new CompoundStatement(
+                new AllocateStatement("a", new ValueExpression(new IntValue(20))),
+                new CompoundStatement(
+                    new VariableDeclarationStatement("v", new IntType()),
+                    new CompoundStatement(
+                        new ForStatement(
+                            "v",
+                            new ValueExpression(new IntValue(0)),
+                            new ValueExpression(new IntValue(3)),
+                            new ArithmeticExpression(
+                                '+',
+                                new VariableExpression("v"),
+                                new ValueExpression(new IntValue(1))
+                            ),
+                            innerStatement
+                        ),
+                        new PrintStatement(new ReadHeapExpression(new VariableExpression("a")))
+                    )
+                )
+            )
+        );
+    }
+
     public static IStatement createProcedureExample()
     {
         List<String> params = new ArrayList<>();
@@ -528,30 +554,6 @@ public class Examples {
         );
     }
 
-        return new CompoundStatement(
-                new VariableDeclarationStatement("a", new ReferenceType(new IntType())),
-                new CompoundStatement(
-                        new AllocateStatement("a", new ValueExpression(new IntValue(20))),
-                        new CompoundStatement(
-                                new VariableDeclarationStatement("v", new IntType()),
-                                new CompoundStatement(
-                                        new ForStatement(
-                                                "v",
-                                                new ValueExpression(new IntValue(0)),
-                                                new ValueExpression(new IntValue(3)),
-                                                new ArithmeticExpression(
-                                                        '+',
-                                                        new VariableExpression("v"),
-                                                        new ValueExpression(new IntValue(1))
-                                                ),
-                                                innerStatement
-                                        ),
-                                        new PrintStatement(new ReadHeapExpression(new VariableExpression("a")))
-                                )
-                        )
-                )
-        );
-    }
     public static IStatement createSwitchExample()
     {
         IStatement variablesInitializationStatement =
