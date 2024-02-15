@@ -104,7 +104,7 @@ public class InterpreterController {
                         return null;
                     }
                 })
-                .filter(pair -> pair.first != null || pair.second != null)
+                .filter(pair -> pair.getFirst() != null || pair.getSecond() != null)
                 .collect(Collectors.toList());
         } catch (InterruptedException e) {
             System.exit(1);
@@ -126,7 +126,7 @@ public class InterpreterController {
         List<Pair<ProgramState, InterpreterException>> newProgramsList = this.executeOneStepForEachProgram(callList);
 
         for (Pair<ProgramState, InterpreterException> error : newProgramsList)
-            if (error.second != null)
+            if (error.getSecond() != null)
                 throw error.second;
 
         allPrograms.addAll(newProgramsList.stream().map(pair -> pair.first).collect(Collectors.toList()));

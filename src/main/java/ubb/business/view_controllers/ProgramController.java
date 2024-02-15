@@ -60,6 +60,15 @@ public class ProgramController {
     private TableColumn<Pair<String, IValue>, String> symbolValueColumn;
 
     @FXML
+    private TableView<Pair<String, String>> procedureTableView;
+
+    @FXML
+    private TableColumn<Pair<String, String>, String> procedureNameColumn;
+
+    @FXML
+    private TableColumn<Pair<String, String>, String> parametersBodyColumn;
+
+    @FXML
     private TableView<ObservableList<Object>> semaphoreTableView;
 
     @FXML
@@ -76,15 +85,14 @@ public class ProgramController {
 
     @FXML
     private void initialize() {
-        heapAddressColumn.setCellValueFactory(pair -> new SimpleIntegerProperty(pair.getValue().first).asObject());
-        heapValueColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().second.toString()));
+        heapAddressColumn.setCellValueFactory(pair -> new SimpleIntegerProperty(pair.getValue().getFirst()).asObject());
+        heapValueColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().getSecond().toString()));
 
-        symbolVariableColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().first));
-        symbolValueColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().second.toString()));
+        symbolVariableColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().getFirst()));
+        symbolValueColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().getSecond().toString()));
 
-        semaphoreIndexColumn.setCellValueFactory(data -> new SimpleIntegerProperty((Integer)data.getValue().get(0)).asObject());
-        semaphoreValueColumn.setCellValueFactory(data -> new SimpleIntegerProperty((Integer)data.getValue().get(1)).asObject());
-        semaphoreListColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().get(2).toString()));
+        procedureNameColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().getFirst()));
+        parametersBodyColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().getSecond()));
     }
 
     public void setProgramStatement(IStatement programStatement) {
@@ -147,6 +155,23 @@ public class ProgramController {
         this.populateProgramStatesIdentifiers();
         this.populateSymbolTableView();
         this.populateExecutionStack();
+        this.populateProcedureTable();
+    }
+
+    private void populateProcedureTable()
+    {
+        MyIProcedureTable currentProcedureTable = new MyProcedureTable();
+
+        if (!interpreterController.getAllPrograms().isEmpty())
+            currentProcedureTable = interpreterController.getAllPrograms().getFirst().getProcedureTable();
+
+        List<Pair<String, String>> procedureTableList = new ArrayList<>();
+
+        for (Map.Entry<String, Pair<List<String>, IStatement>> entry : currentProcedureTable.getContent().entrySet())
+            procedureTableList.add(new Pair<>(entry.getKey(), entry.getValue().toString()));
+
+        this.procedureTableView.setItems(FXCollections.observableArrayList(procedureTableList));
+        this.procedureTableView.refresh();
         this.populateSemaphoreTable();
     }
 

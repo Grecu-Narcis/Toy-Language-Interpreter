@@ -14,34 +14,38 @@ import java.util.Stack;
 
 public class ProgramState {
     private MyIStack<IStatement> exeStack;
-    private MyIDictionary<String, IValue> symbolTable;
+    private MyIStack<MyIDictionary<String, IValue>> symbolTable;
     private MyIList<IValue> outputList;
     private final MyIDictionary<String, BufferedReader> fileTable;
     private final MyIHeap heapTable;
+    private final MyIProcedureTable procedureTable;
     private final MyISemaphore semaphoreTable;
     private final int id;
     private static int currentID = 0;
 
     public ProgramState(IStatement program) {
         this.exeStack = new MyStack<>();
-        this.symbolTable = new MyDictionary<>();
+        this.symbolTable = new MyStack<>();
+        this.symbolTable.push(new MyDictionary<>());
         this.outputList = new MyList<>();
         this.fileTable = new MyDictionary<>();
         this.heapTable = new MyHeap();
+        this.procedureTable = new MyProcedureTable();
         this.semaphoreTable = new MySemaphore();
         this.exeStack.push(program);
 
         this.id = ProgramState.getAvailableId();
     }
 
-    public ProgramState(MyIStack<IStatement> exeStack, MyIDictionary<String, IValue> symbolTable,
+    public ProgramState(MyIStack<IStatement> exeStack, MyIStack<MyIDictionary<String, IValue>> symbolTable,
                         MyIList<IValue> outputList, MyIDictionary<String, BufferedReader> fileTable,
-                        MyIHeap heapTable, MyISemaphore semaphoreTable) {
+                        MyIHeap heapTable, MyIProcedureTable procedureTable, MyISemaphore semaphoreTable) {
         this.exeStack = exeStack;
         this.symbolTable = symbolTable;
         this.outputList = outputList;
         this.fileTable = fileTable;
         this.heapTable = heapTable;
+        this.procedureTable = procedureTable;
         this.semaphoreTable = semaphoreTable;
 
         this.id = ProgramState.getAvailableId();
@@ -69,6 +73,10 @@ public class ProgramState {
         }
     }
 
+    public MyIProcedureTable getProcedureTable() {
+        return this.procedureTable;
+    }
+
     public MyISemaphore getSemaphoreTable() {
         return this.semaphoreTable;
     }
@@ -82,10 +90,26 @@ public class ProgramState {
     }
 
     public MyIDictionary<String, IValue> getSymbolTable() {
+        return this.symbolTable.peek();
+    }
+
+    public MyIStack<MyIDictionary<String, IValue>> getSymbolTableStack() {
         return this.symbolTable;
     }
 
-    public void setSymbolTable(MyIDictionary<String, IValue> newSymbolTable) {
+    public void addSymbolTable(MyIDictionary<String, IValue> newSymbolTable) {
+        this.symbolTable.push(newSymbolTable);
+    }
+
+    public void popSymbolTable() throws InterpreterException {
+        try {
+            this.symbolTable.pop();
+        } catch (StackException e) {
+            throw new InterpreterException("Symbol table stack is empty!");
+        }
+    }
+
+    public void setSymbolTable(MyIStack<MyIDictionary<String, IValue>> newSymbolTable) {
         this.symbolTable = newSymbolTable;
     }
 

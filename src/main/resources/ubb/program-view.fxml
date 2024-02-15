@@ -46,11 +46,10 @@
                     </columns>
                   </TableView>
                   <ListView fx:id="executionStackView" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <TableView fx:id="semaphoreTableView" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
+                  <TableView fx:id="procedureTableView" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
                     <columns>
-                      <TableColumn fx:id="semaphoreIndexColumn" prefWidth="75.0" text="Index" />
-                      <TableColumn fx:id="semaphoreValueColumn" prefWidth="75.0" text="Value" />
-                        <TableColumn fx:id="semaphoreListColumn" prefWidth="248.79998779296875" text="Threads List" />
+                      <TableColumn fx:id="procedureNameColumn" prefWidth="115.20001220703125" text="Function name" />
+                      <TableColumn fx:id="parametersBodyColumn" prefWidth="284.79998779296875" text="Parameters and body" />
                     </columns>
                   </TableView>
                </children>
