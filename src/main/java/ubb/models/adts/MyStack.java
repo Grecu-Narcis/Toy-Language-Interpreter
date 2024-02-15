@@ -47,6 +47,21 @@ public class MyStack<T> implements MyIStack<T> {
     }
 
     @Override
+    public T peek() {
+        return stack.peek();
+    }
+
+    @Override
+    public MyIStack<T> copy() {
+        MyIStack<T> stackCopy = new MyStack<>();
+
+        for (T item : this.getStackAsList())
+            stackCopy.push(item);
+
+        return stackCopy;
+    }
+
+    @Override
     public String toString() {
         return "MyStack{" +
             "stack=" + this.reverse() +

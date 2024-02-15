@@ -1,20 +1,14 @@
 Id=1
 ExeStack:
 Ref(int) v1
-Ref(int) v2
-Ref(int) v3
 int cnt
-new(v1, 2)
-new(v2, 3)
-new(v3, 4)
-newLatch(cnt, ReadHeap(v2))
-Fork(WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)); countDown(cnt))
-Fork(WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)); countDown(cnt))
-Fork(WriteHeap(v3, ReadHeap(v3)*10); print(ReadHeap(v3)); countDown(cnt))
-await(cnt)
-print(100)
-countDown(cnt)
-print(100)
+new(v1, 1)
+createSemaphore(cnt, ReadHeap(v1))
+Fork(acquire(cnt); WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)); release(cnt))
+Fork(acquire(cnt); WriteHeap(v1, ReadHeap(v1)*10); WriteHeap(v1, ReadHeap(v1)*2); print(ReadHeap(v1)); release(cnt))
+acquire(cnt)
+print(ReadHeap(v1)-1)
+release(cnt)
 
 SymTable:
 
@@ -24,25 +18,19 @@ File Table:
 
 Heap Table:
 
-Latch Table:
+Semaphore Table:
 
 Id=1
 ExeStack:
 Ref(int) v1
-Ref(int) v2
-Ref(int) v3
 int cnt
-new(v1, 2)
-new(v2, 3)
-new(v3, 4)
-newLatch(cnt, ReadHeap(v2))
-Fork(WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)); countDown(cnt))
-Fork(WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)); countDown(cnt))
-Fork(WriteHeap(v3, ReadHeap(v3)*10); print(ReadHeap(v3)); countDown(cnt))
-await(cnt)
-print(100)
-countDown(cnt)
-print(100)
+new(v1, 1)
+createSemaphore(cnt, ReadHeap(v1))
+Fork(acquire(cnt); WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)); release(cnt))
+Fork(acquire(cnt); WriteHeap(v1, ReadHeap(v1)*10); WriteHeap(v1, ReadHeap(v1)*2); print(ReadHeap(v1)); release(cnt))
+acquire(cnt)
+print(ReadHeap(v1)-1)
+release(cnt)
 
 SymTable:
 
@@ -52,24 +40,18 @@ File Table:
 
 Heap Table:
 
-Latch Table:
+Semaphore Table:
 
 Id=1
 ExeStack:
-Ref(int) v2
-Ref(int) v3
 int cnt
-new(v1, 2)
-new(v2, 3)
-new(v3, 4)
-newLatch(cnt, ReadHeap(v2))
-Fork(WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)); countDown(cnt))
-Fork(WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)); countDown(cnt))
-Fork(WriteHeap(v3, ReadHeap(v3)*10); print(ReadHeap(v3)); countDown(cnt))
-await(cnt)
-print(100)
-countDown(cnt)
-print(100)
+new(v1, 1)
+createSemaphore(cnt, ReadHeap(v1))
+Fork(acquire(cnt); WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)); release(cnt))
+Fork(acquire(cnt); WriteHeap(v1, ReadHeap(v1)*10); WriteHeap(v1, ReadHeap(v1)*2); print(ReadHeap(v1)); release(cnt))
+acquire(cnt)
+print(ReadHeap(v1)-1)
+release(cnt)
 
 SymTable:
 v1 = (0, int)
@@ -80,24 +62,18 @@ File Table:
 
 Heap Table:
 
-Latch Table:
+Semaphore Table:
 
 Id=1
 ExeStack:
-Ref(int) v2
-Ref(int) v3
 int cnt
-new(v1, 2)
-new(v2, 3)
-new(v3, 4)
-newLatch(cnt, ReadHeap(v2))
-Fork(WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)); countDown(cnt))
-Fork(WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)); countDown(cnt))
-Fork(WriteHeap(v3, ReadHeap(v3)*10); print(ReadHeap(v3)); countDown(cnt))
-await(cnt)
-print(100)
-countDown(cnt)
-print(100)
+new(v1, 1)
+createSemaphore(cnt, ReadHeap(v1))
+Fork(acquire(cnt); WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)); release(cnt))
+Fork(acquire(cnt); WriteHeap(v1, ReadHeap(v1)*10); WriteHeap(v1, ReadHeap(v1)*2); print(ReadHeap(v1)); release(cnt))
+acquire(cnt)
+print(ReadHeap(v1)-1)
+release(cnt)
 
 SymTable:
 v1 = (0, int)
@@ -108,139 +84,21 @@ File Table:
 
 Heap Table:
 
-Latch Table:
+Semaphore Table:
 
 Id=1
 ExeStack:
-Ref(int) v3
-int cnt
-new(v1, 2)
-new(v2, 3)
-new(v3, 4)
-newLatch(cnt, ReadHeap(v2))
-Fork(WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)); countDown(cnt))
-Fork(WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)); countDown(cnt))
-Fork(WriteHeap(v3, ReadHeap(v3)*10); print(ReadHeap(v3)); countDown(cnt))
-await(cnt)
-print(100)
-countDown(cnt)
-print(100)
-
-SymTable:
-v1 = (0, int)
-v2 = (0, int)
-
-Output:
-
-File Table:
-
-Heap Table:
-
-Latch Table:
-
-Id=1
-ExeStack:
-Ref(int) v3
-int cnt
-new(v1, 2)
-new(v2, 3)
-new(v3, 4)
-newLatch(cnt, ReadHeap(v2))
-Fork(WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)); countDown(cnt))
-Fork(WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)); countDown(cnt))
-Fork(WriteHeap(v3, ReadHeap(v3)*10); print(ReadHeap(v3)); countDown(cnt))
-await(cnt)
-print(100)
-countDown(cnt)
-print(100)
-
-SymTable:
-v1 = (0, int)
-v2 = (0, int)
-
-Output:
-
-File Table:
-
-Heap Table:
-
-Latch Table:
-
-Id=1
-ExeStack:
-int cnt
-new(v1, 2)
-new(v2, 3)
-new(v3, 4)
-newLatch(cnt, ReadHeap(v2))
-Fork(WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)); countDown(cnt))
-Fork(WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)); countDown(cnt))
-Fork(WriteHeap(v3, ReadHeap(v3)*10); print(ReadHeap(v3)); countDown(cnt))
-await(cnt)
-print(100)
-countDown(cnt)
-print(100)
-
-SymTable:
-v1 = (0, int)
-v2 = (0, int)
-v3 = (0, int)
-
-Output:
-
-File Table:
-
-Heap Table:
-
-Latch Table:
-
-Id=1
-ExeStack:
-int cnt
-new(v1, 2)
-new(v2, 3)
-new(v3, 4)
-newLatch(cnt, ReadHeap(v2))
-Fork(WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)); countDown(cnt))
-Fork(WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)); countDown(cnt))
-Fork(WriteHeap(v3, ReadHeap(v3)*10); print(ReadHeap(v3)); countDown(cnt))
-await(cnt)
-print(100)
-countDown(cnt)
-print(100)
-
-SymTable:
-v1 = (0, int)
-v2 = (0, int)
-v3 = (0, int)
-
-Output:
-
-File Table:
-
-Heap Table:
-
-Latch Table:
-
-Id=1
-ExeStack:
-new(v1, 2)
-new(v2, 3)
-new(v3, 4)
-newLatch(cnt, ReadHeap(v2))
-Fork(WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)); countDown(cnt))
-Fork(WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)); countDown(cnt))
-Fork(WriteHeap(v3, ReadHeap(v3)*10); print(ReadHeap(v3)); countDown(cnt))
-await(cnt)
-print(100)
-countDown(cnt)
-print(100)
+new(v1, 1)
+createSemaphore(cnt, ReadHeap(v1))
+Fork(acquire(cnt); WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)); release(cnt))
+Fork(acquire(cnt); WriteHeap(v1, ReadHeap(v1)*10); WriteHeap(v1, ReadHeap(v1)*2); print(ReadHeap(v1)); release(cnt))
+acquire(cnt)
+print(ReadHeap(v1)-1)
+release(cnt)
 
 SymTable:
 cnt = 0
 v1 = (0, int)
-v2 = (0, int)
-v3 = (0, int)
 
 Output:
 
@@ -248,27 +106,21 @@ File Table:
 
 Heap Table:
 
-Latch Table:
+Semaphore Table:
 
 Id=1
 ExeStack:
-new(v1, 2)
-new(v2, 3)
-new(v3, 4)
-newLatch(cnt, ReadHeap(v2))
-Fork(WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)); countDown(cnt))
-Fork(WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)); countDown(cnt))
-Fork(WriteHeap(v3, ReadHeap(v3)*10); print(ReadHeap(v3)); countDown(cnt))
-await(cnt)
-print(100)
-countDown(cnt)
-print(100)
+new(v1, 1)
+createSemaphore(cnt, ReadHeap(v1))
+Fork(acquire(cnt); WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)); release(cnt))
+Fork(acquire(cnt); WriteHeap(v1, ReadHeap(v1)*10); WriteHeap(v1, ReadHeap(v1)*2); print(ReadHeap(v1)); release(cnt))
+acquire(cnt)
+print(ReadHeap(v1)-1)
+release(cnt)
 
 SymTable:
 cnt = 0
 v1 = (0, int)
-v2 = (0, int)
-v3 = (0, int)
 
 Output:
 
@@ -276,576 +128,487 @@ File Table:
 
 Heap Table:
 
-Latch Table:
+Semaphore Table:
 
 Id=1
 ExeStack:
-new(v2, 3)
-new(v3, 4)
-newLatch(cnt, ReadHeap(v2))
-Fork(WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)); countDown(cnt))
-Fork(WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)); countDown(cnt))
-Fork(WriteHeap(v3, ReadHeap(v3)*10); print(ReadHeap(v3)); countDown(cnt))
-await(cnt)
-print(100)
-countDown(cnt)
-print(100)
+createSemaphore(cnt, ReadHeap(v1))
+Fork(acquire(cnt); WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)); release(cnt))
+Fork(acquire(cnt); WriteHeap(v1, ReadHeap(v1)*10); WriteHeap(v1, ReadHeap(v1)*2); print(ReadHeap(v1)); release(cnt))
+acquire(cnt)
+print(ReadHeap(v1)-1)
+release(cnt)
 
 SymTable:
 cnt = 0
 v1 = (1, int)
-v2 = (0, int)
-v3 = (0, int)
 
 Output:
 
 File Table:
 
 Heap Table:
-1 -> 2
+1 -> 1
 
-Latch Table:
-
-Id=1
-ExeStack:
-new(v2, 3)
-new(v3, 4)
-newLatch(cnt, ReadHeap(v2))
-Fork(WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)); countDown(cnt))
-Fork(WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)); countDown(cnt))
-Fork(WriteHeap(v3, ReadHeap(v3)*10); print(ReadHeap(v3)); countDown(cnt))
-await(cnt)
-print(100)
-countDown(cnt)
-print(100)
-
-SymTable:
-cnt = 0
-v1 = (1, int)
-v2 = (0, int)
-v3 = (0, int)
-
-Output:
-
-File Table:
-
-Heap Table:
-1 -> 2
-
-Latch Table:
+Semaphore Table:
 
 Id=1
 ExeStack:
-new(v3, 4)
-newLatch(cnt, ReadHeap(v2))
-Fork(WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)); countDown(cnt))
-Fork(WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)); countDown(cnt))
-Fork(WriteHeap(v3, ReadHeap(v3)*10); print(ReadHeap(v3)); countDown(cnt))
-await(cnt)
-print(100)
-countDown(cnt)
-print(100)
-
-SymTable:
-cnt = 0
-v1 = (1, int)
-v2 = (2, int)
-v3 = (0, int)
-
-Output:
-
-File Table:
-
-Heap Table:
-1 -> 2
-2 -> 3
-
-Latch Table:
-
-Id=1
-ExeStack:
-new(v3, 4)
-newLatch(cnt, ReadHeap(v2))
-Fork(WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)); countDown(cnt))
-Fork(WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)); countDown(cnt))
-Fork(WriteHeap(v3, ReadHeap(v3)*10); print(ReadHeap(v3)); countDown(cnt))
-await(cnt)
-print(100)
-countDown(cnt)
-print(100)
-
-SymTable:
-cnt = 0
-v1 = (1, int)
-v2 = (2, int)
-v3 = (0, int)
-
-Output:
-
-File Table:
-
-Heap Table:
-1 -> 2
-2 -> 3
-
-Latch Table:
-
-Id=1
-ExeStack:
-newLatch(cnt, ReadHeap(v2))
-Fork(WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)); countDown(cnt))
-Fork(WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)); countDown(cnt))
-Fork(WriteHeap(v3, ReadHeap(v3)*10); print(ReadHeap(v3)); countDown(cnt))
-await(cnt)
-print(100)
-countDown(cnt)
-print(100)
-
-SymTable:
-cnt = 0
-v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
-
-Output:
-
-File Table:
-
-Heap Table:
-1 -> 2
-2 -> 3
-3 -> 4
-
-Latch Table:
-
-Id=1
-ExeStack:
-Fork(WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)); countDown(cnt))
-Fork(WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)); countDown(cnt))
-Fork(WriteHeap(v3, ReadHeap(v3)*10); print(ReadHeap(v3)); countDown(cnt))
-await(cnt)
-print(100)
-countDown(cnt)
-print(100)
+Fork(acquire(cnt); WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)); release(cnt))
+Fork(acquire(cnt); WriteHeap(v1, ReadHeap(v1)*10); WriteHeap(v1, ReadHeap(v1)*2); print(ReadHeap(v1)); release(cnt))
+acquire(cnt)
+print(ReadHeap(v1)-1)
+release(cnt)
 
 SymTable:
 cnt = 1
 v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
 
 Output:
 
 File Table:
 
 Heap Table:
-1 -> 2
-2 -> 3
-3 -> 4
+1 -> 1
 
-Latch Table:
-1 -> 3
+Semaphore Table:
+1 -> (1, [])
 
 Id=1
 ExeStack:
-Fork(WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)); countDown(cnt))
-Fork(WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)); countDown(cnt))
-Fork(WriteHeap(v3, ReadHeap(v3)*10); print(ReadHeap(v3)); countDown(cnt))
-await(cnt)
-print(100)
-countDown(cnt)
-print(100)
+Fork(acquire(cnt); WriteHeap(v1, ReadHeap(v1)*10); print(ReadHeap(v1)); release(cnt))
+Fork(acquire(cnt); WriteHeap(v1, ReadHeap(v1)*10); WriteHeap(v1, ReadHeap(v1)*2); print(ReadHeap(v1)); release(cnt))
+acquire(cnt)
+print(ReadHeap(v1)-1)
+release(cnt)
 
 SymTable:
 cnt = 1
 v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
 
 Output:
 
 File Table:
 
 Heap Table:
-1 -> 2
-2 -> 3
-3 -> 4
+1 -> 1
 
-Latch Table:
-1 -> 3
+Semaphore Table:
+1 -> (1, [])
 
 Id=1
 ExeStack:
-Fork(WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)); countDown(cnt))
-Fork(WriteHeap(v3, ReadHeap(v3)*10); print(ReadHeap(v3)); countDown(cnt))
-await(cnt)
-print(100)
-countDown(cnt)
-print(100)
+Fork(acquire(cnt); WriteHeap(v1, ReadHeap(v1)*10); WriteHeap(v1, ReadHeap(v1)*2); print(ReadHeap(v1)); release(cnt))
+acquire(cnt)
+print(ReadHeap(v1)-1)
+release(cnt)
 
 SymTable:
 cnt = 1
 v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
 
 Output:
 
 File Table:
 
 Heap Table:
-1 -> 2
-2 -> 3
-3 -> 4
+1 -> 1
 
-Latch Table:
-1 -> 3
+Semaphore Table:
+1 -> (1, [])
+
+Id=2
+ExeStack:
+acquire(cnt)
+WriteHeap(v1, ReadHeap(v1)*10)
+print(ReadHeap(v1))
+release(cnt)
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 1
+
+Semaphore Table:
+1 -> (1, [])
+
+Id=1
+ExeStack:
+Fork(acquire(cnt); WriteHeap(v1, ReadHeap(v1)*10); WriteHeap(v1, ReadHeap(v1)*2); print(ReadHeap(v1)); release(cnt))
+acquire(cnt)
+print(ReadHeap(v1)-1)
+release(cnt)
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 1
+
+Semaphore Table:
+1 -> (1, [])
+
+Id=2
+ExeStack:
+acquire(cnt)
+WriteHeap(v1, ReadHeap(v1)*10)
+print(ReadHeap(v1))
+release(cnt)
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 1
+
+Semaphore Table:
+1 -> (1, [])
+
+Id=1
+ExeStack:
+acquire(cnt)
+print(ReadHeap(v1)-1)
+release(cnt)
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 1
+
+Semaphore Table:
+1 -> (1, [2])
 
 Id=2
 ExeStack:
 WriteHeap(v1, ReadHeap(v1)*10)
 print(ReadHeap(v1))
-countDown(cnt)
+release(cnt)
 
 SymTable:
 cnt = 1
 v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
 
 Output:
 
 File Table:
 
 Heap Table:
-1 -> 2
-2 -> 3
-3 -> 4
+1 -> 1
 
-Latch Table:
-1 -> 3
+Semaphore Table:
+1 -> (1, [2])
+
+Id=3
+ExeStack:
+acquire(cnt)
+WriteHeap(v1, ReadHeap(v1)*10)
+WriteHeap(v1, ReadHeap(v1)*2)
+print(ReadHeap(v1))
+release(cnt)
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 1
+
+Semaphore Table:
+1 -> (1, [2])
 
 Id=1
 ExeStack:
-Fork(WriteHeap(v2, ReadHeap(v2)*10); print(ReadHeap(v2)); countDown(cnt))
-Fork(WriteHeap(v3, ReadHeap(v3)*10); print(ReadHeap(v3)); countDown(cnt))
-await(cnt)
-print(100)
-countDown(cnt)
-print(100)
+acquire(cnt)
+print(ReadHeap(v1)-1)
+release(cnt)
 
 SymTable:
 cnt = 1
 v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
 
 Output:
 
 File Table:
 
 Heap Table:
-1 -> 2
-2 -> 3
-3 -> 4
+1 -> 1
 
-Latch Table:
-1 -> 3
+Semaphore Table:
+1 -> (1, [2])
 
 Id=2
 ExeStack:
 WriteHeap(v1, ReadHeap(v1)*10)
 print(ReadHeap(v1))
-countDown(cnt)
+release(cnt)
 
 SymTable:
 cnt = 1
 v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
 
 Output:
 
 File Table:
 
 Heap Table:
-1 -> 2
-2 -> 3
-3 -> 4
+1 -> 1
 
-Latch Table:
-1 -> 3
+Semaphore Table:
+1 -> (1, [2])
+
+Id=3
+ExeStack:
+acquire(cnt)
+WriteHeap(v1, ReadHeap(v1)*10)
+WriteHeap(v1, ReadHeap(v1)*2)
+print(ReadHeap(v1))
+release(cnt)
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+
+Output:
+
+File Table:
+
+Heap Table:
+1 -> 1
+
+Semaphore Table:
+1 -> (1, [2])
 
 Id=1
 ExeStack:
-Fork(WriteHeap(v3, ReadHeap(v3)*10); print(ReadHeap(v3)); countDown(cnt))
-await(cnt)
-print(100)
-countDown(cnt)
-print(100)
+acquire(cnt)
+print(ReadHeap(v1)-1)
+release(cnt)
 
 SymTable:
 cnt = 1
 v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
 
 Output:
 
 File Table:
 
 Heap Table:
-1 -> 20
-2 -> 3
-3 -> 4
+1 -> 10
 
-Latch Table:
-1 -> 3
+Semaphore Table:
+1 -> (1, [2])
 
 Id=2
 ExeStack:
 print(ReadHeap(v1))
-countDown(cnt)
+release(cnt)
 
 SymTable:
 cnt = 1
 v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
 
 Output:
 
 File Table:
 
 Heap Table:
-1 -> 20
-2 -> 3
-3 -> 4
+1 -> 10
 
-Latch Table:
-1 -> 3
+Semaphore Table:
+1 -> (1, [2])
 
 Id=3
 ExeStack:
-WriteHeap(v2, ReadHeap(v2)*10)
-print(ReadHeap(v2))
-countDown(cnt)
+acquire(cnt)
+WriteHeap(v1, ReadHeap(v1)*10)
+WriteHeap(v1, ReadHeap(v1)*2)
+print(ReadHeap(v1))
+release(cnt)
 
 SymTable:
 cnt = 1
 v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
 
 Output:
 
 File Table:
 
 Heap Table:
-1 -> 20
-2 -> 3
-3 -> 4
+1 -> 10
 
-Latch Table:
-1 -> 3
+Semaphore Table:
+1 -> (1, [2])
 
 Id=1
 ExeStack:
-Fork(WriteHeap(v3, ReadHeap(v3)*10); print(ReadHeap(v3)); countDown(cnt))
-await(cnt)
-print(100)
-countDown(cnt)
-print(100)
+acquire(cnt)
+print(ReadHeap(v1)-1)
+release(cnt)
 
 SymTable:
 cnt = 1
 v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
 
 Output:
 
 File Table:
 
 Heap Table:
-1 -> 20
-2 -> 3
-3 -> 4
+1 -> 10
 
-Latch Table:
-1 -> 3
+Semaphore Table:
+1 -> (1, [2])
 
 Id=2
 ExeStack:
 print(ReadHeap(v1))
-countDown(cnt)
+release(cnt)
 
 SymTable:
 cnt = 1
 v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
 
 Output:
 
 File Table:
 
 Heap Table:
-1 -> 20
-2 -> 3
-3 -> 4
+1 -> 10
 
-Latch Table:
-1 -> 3
+Semaphore Table:
+1 -> (1, [2])
 
 Id=3
 ExeStack:
-WriteHeap(v2, ReadHeap(v2)*10)
-print(ReadHeap(v2))
-countDown(cnt)
+acquire(cnt)
+WriteHeap(v1, ReadHeap(v1)*10)
+WriteHeap(v1, ReadHeap(v1)*2)
+print(ReadHeap(v1))
+release(cnt)
 
 SymTable:
 cnt = 1
 v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
 
 Output:
 
 File Table:
 
 Heap Table:
-1 -> 20
-2 -> 3
-3 -> 4
+1 -> 10
 
-Latch Table:
-1 -> 3
+Semaphore Table:
+1 -> (1, [2])
 
 Id=1
 ExeStack:
-await(cnt)
-print(100)
-countDown(cnt)
-print(100)
+acquire(cnt)
+print(ReadHeap(v1)-1)
+release(cnt)
 
 SymTable:
 cnt = 1
 v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
 
 Output:
-20
+10
 
 File Table:
 
 Heap Table:
-1 -> 20
-2 -> 30
-3 -> 4
+1 -> 10
 
-Latch Table:
-1 -> 3
+Semaphore Table:
+1 -> (1, [2])
 
 Id=2
 ExeStack:
-countDown(cnt)
+release(cnt)
 
 SymTable:
 cnt = 1
 v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
 
 Output:
-20
+10
 
 File Table:
 
 Heap Table:
-1 -> 20
-2 -> 30
-3 -> 4
+1 -> 10
 
-Latch Table:
-1 -> 3
+Semaphore Table:
+1 -> (1, [2])
 
 Id=3
 ExeStack:
-print(ReadHeap(v2))
-countDown(cnt)
+acquire(cnt)
+WriteHeap(v1, ReadHeap(v1)*10)
+WriteHeap(v1, ReadHeap(v1)*2)
+print(ReadHeap(v1))
+release(cnt)
 
 SymTable:
 cnt = 1
 v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
 
 Output:
-20
+10
 
 File Table:
 
 Heap Table:
-1 -> 20
-2 -> 30
-3 -> 4
+1 -> 10
 
-Latch Table:
-1 -> 3
-
-Id=4
-ExeStack:
-WriteHeap(v3, ReadHeap(v3)*10)
-print(ReadHeap(v3))
-countDown(cnt)
-
-SymTable:
-cnt = 1
-v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
-
-Output:
-20
-
-File Table:
-
-Heap Table:
-1 -> 20
-2 -> 30
-3 -> 4
-
-Latch Table:
-1 -> 3
+Semaphore Table:
+1 -> (1, [2])
 
 Id=1
 ExeStack:
-await(cnt)
-print(100)
-countDown(cnt)
-print(100)
+acquire(cnt)
+print(ReadHeap(v1)-1)
+release(cnt)
 
 SymTable:
 cnt = 1
 v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
 
 Output:
-20
-Thread: 2
+10
 
 File Table:
 
 Heap Table:
-1 -> 20
-2 -> 30
-3 -> 4
+1 -> 10
 
-Latch Table:
-1 -> 2
+Semaphore Table:
+1 -> (1, [])
 
 Id=2
 ExeStack:
@@ -853,181 +616,342 @@ ExeStack:
 SymTable:
 cnt = 1
 v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
 
 Output:
-20
-Thread: 2
+10
 
 File Table:
 
 Heap Table:
-1 -> 20
-2 -> 30
-3 -> 4
+1 -> 10
 
-Latch Table:
-1 -> 2
+Semaphore Table:
+1 -> (1, [])
 
 Id=3
 ExeStack:
-print(ReadHeap(v2))
-countDown(cnt)
+acquire(cnt)
+WriteHeap(v1, ReadHeap(v1)*10)
+WriteHeap(v1, ReadHeap(v1)*2)
+print(ReadHeap(v1))
+release(cnt)
 
 SymTable:
 cnt = 1
 v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
 
 Output:
-20
-Thread: 2
+10
 
 File Table:
 
 Heap Table:
-1 -> 20
-2 -> 30
-3 -> 4
+1 -> 10
 
-Latch Table:
-1 -> 2
-
-Id=4
-ExeStack:
-WriteHeap(v3, ReadHeap(v3)*10)
-print(ReadHeap(v3))
-countDown(cnt)
-
-SymTable:
-cnt = 1
-v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
-
-Output:
-20
-Thread: 2
-
-File Table:
-
-Heap Table:
-1 -> 20
-2 -> 30
-3 -> 4
-
-Latch Table:
-1 -> 2
+Semaphore Table:
+1 -> (1, [])
 
 Id=1
 ExeStack:
-await(cnt)
-print(100)
-countDown(cnt)
-print(100)
+print(ReadHeap(v1)-1)
+release(cnt)
 
 SymTable:
 cnt = 1
 v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
 
 Output:
-20
-Thread: 2
-30
+10
 
 File Table:
 
 Heap Table:
-1 -> 20
-2 -> 30
-3 -> 40
+1 -> 10
 
-Latch Table:
-1 -> 2
+Semaphore Table:
+1 -> (1, [1])
 
 Id=3
 ExeStack:
-countDown(cnt)
+acquire(cnt)
+WriteHeap(v1, ReadHeap(v1)*10)
+WriteHeap(v1, ReadHeap(v1)*2)
+print(ReadHeap(v1))
+release(cnt)
 
 SymTable:
 cnt = 1
 v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
 
 Output:
-20
-Thread: 2
-30
+10
 
 File Table:
 
 Heap Table:
-1 -> 20
-2 -> 30
-3 -> 40
+1 -> 10
 
-Latch Table:
-1 -> 2
-
-Id=4
-ExeStack:
-print(ReadHeap(v3))
-countDown(cnt)
-
-SymTable:
-cnt = 1
-v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
-
-Output:
-20
-Thread: 2
-30
-
-File Table:
-
-Heap Table:
-1 -> 20
-2 -> 30
-3 -> 40
-
-Latch Table:
-1 -> 2
+Semaphore Table:
+1 -> (1, [1])
 
 Id=1
 ExeStack:
-await(cnt)
-print(100)
-countDown(cnt)
-print(100)
+print(ReadHeap(v1)-1)
+release(cnt)
 
 SymTable:
 cnt = 1
 v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
 
 Output:
-20
-Thread: 2
-30
-Thread: 3
+10
 
 File Table:
 
 Heap Table:
-1 -> 20
-2 -> 30
-3 -> 40
+1 -> 10
 
-Latch Table:
-1 -> 1
+Semaphore Table:
+1 -> (1, [1])
+
+Id=3
+ExeStack:
+acquire(cnt)
+WriteHeap(v1, ReadHeap(v1)*10)
+WriteHeap(v1, ReadHeap(v1)*2)
+print(ReadHeap(v1))
+release(cnt)
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+
+Output:
+10
+
+File Table:
+
+Heap Table:
+1 -> 10
+
+Semaphore Table:
+1 -> (1, [1])
+
+Id=1
+ExeStack:
+release(cnt)
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+
+Output:
+10
+9
+
+File Table:
+
+Heap Table:
+1 -> 10
+
+Semaphore Table:
+1 -> (1, [1])
+
+Id=3
+ExeStack:
+acquire(cnt)
+WriteHeap(v1, ReadHeap(v1)*10)
+WriteHeap(v1, ReadHeap(v1)*2)
+print(ReadHeap(v1))
+release(cnt)
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+
+Output:
+10
+9
+
+File Table:
+
+Heap Table:
+1 -> 10
+
+Semaphore Table:
+1 -> (1, [1])
+
+Id=1
+ExeStack:
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+
+Output:
+10
+9
+
+File Table:
+
+Heap Table:
+1 -> 10
+
+Semaphore Table:
+1 -> (1, [3])
+
+Id=3
+ExeStack:
+WriteHeap(v1, ReadHeap(v1)*10)
+WriteHeap(v1, ReadHeap(v1)*2)
+print(ReadHeap(v1))
+release(cnt)
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+
+Output:
+10
+9
+
+File Table:
+
+Heap Table:
+1 -> 10
+
+Semaphore Table:
+1 -> (1, [3])
+
+Id=3
+ExeStack:
+WriteHeap(v1, ReadHeap(v1)*10)
+WriteHeap(v1, ReadHeap(v1)*2)
+print(ReadHeap(v1))
+release(cnt)
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+
+Output:
+10
+9
+
+File Table:
+
+Heap Table:
+1 -> 10
+
+Semaphore Table:
+1 -> (1, [3])
+
+Id=3
+ExeStack:
+WriteHeap(v1, ReadHeap(v1)*2)
+print(ReadHeap(v1))
+release(cnt)
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+
+Output:
+10
+9
+
+File Table:
+
+Heap Table:
+1 -> 100
+
+Semaphore Table:
+1 -> (1, [3])
+
+Id=3
+ExeStack:
+WriteHeap(v1, ReadHeap(v1)*2)
+print(ReadHeap(v1))
+release(cnt)
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+
+Output:
+10
+9
+
+File Table:
+
+Heap Table:
+1 -> 100
+
+Semaphore Table:
+1 -> (1, [3])
+
+Id=3
+ExeStack:
+print(ReadHeap(v1))
+release(cnt)
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+
+Output:
+10
+9
+
+File Table:
+
+Heap Table:
+1 -> 200
+
+Semaphore Table:
+1 -> (1, [3])
+
+Id=3
+ExeStack:
+print(ReadHeap(v1))
+release(cnt)
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+
+Output:
+10
+9
+
+File Table:
+
+Heap Table:
+1 -> 200
+
+Semaphore Table:
+1 -> (1, [3])
+
+Id=3
+ExeStack:
+release(cnt)
+
+SymTable:
+cnt = 1
+v1 = (1, int)
+
+Output:
+10
+9
+200
+
+File Table:
+
+Heap Table:
+1 -> 200
+
+Semaphore Table:
+1 -> (1, [3])
 
 Id=3
 ExeStack:
@@ -1035,344 +959,17 @@ ExeStack:
 SymTable:
 cnt = 1
 v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
 
 Output:
-20
-Thread: 2
-30
-Thread: 3
+10
+9
+200
 
 File Table:
 
 Heap Table:
-1 -> 20
-2 -> 30
-3 -> 40
+1 -> 200
 
-Latch Table:
-1 -> 1
-
-Id=4
-ExeStack:
-print(ReadHeap(v3))
-countDown(cnt)
-
-SymTable:
-cnt = 1
-v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
-
-Output:
-20
-Thread: 2
-30
-Thread: 3
-
-File Table:
-
-Heap Table:
-1 -> 20
-2 -> 30
-3 -> 40
-
-Latch Table:
-1 -> 1
-
-Id=1
-ExeStack:
-await(cnt)
-print(100)
-countDown(cnt)
-print(100)
-
-SymTable:
-cnt = 1
-v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
-
-Output:
-20
-Thread: 2
-30
-Thread: 3
-40
-
-File Table:
-
-Heap Table:
-1 -> 20
-2 -> 30
-3 -> 40
-
-Latch Table:
-1 -> 1
-
-Id=4
-ExeStack:
-countDown(cnt)
-
-SymTable:
-cnt = 1
-v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
-
-Output:
-20
-Thread: 2
-30
-Thread: 3
-40
-
-File Table:
-
-Heap Table:
-1 -> 20
-2 -> 30
-3 -> 40
-
-Latch Table:
-1 -> 1
-
-Id=1
-ExeStack:
-await(cnt)
-print(100)
-countDown(cnt)
-print(100)
-
-SymTable:
-cnt = 1
-v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
-
-Output:
-20
-Thread: 2
-30
-Thread: 3
-40
-Thread: 4
-
-File Table:
-
-Heap Table:
-1 -> 20
-2 -> 30
-3 -> 40
-
-Latch Table:
-1 -> 0
-
-Id=4
-ExeStack:
-
-SymTable:
-cnt = 1
-v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
-
-Output:
-20
-Thread: 2
-30
-Thread: 3
-40
-Thread: 4
-
-File Table:
-
-Heap Table:
-1 -> 20
-2 -> 30
-3 -> 40
-
-Latch Table:
-1 -> 0
-
-Id=1
-ExeStack:
-print(100)
-countDown(cnt)
-print(100)
-
-SymTable:
-cnt = 1
-v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
-
-Output:
-20
-Thread: 2
-30
-Thread: 3
-40
-Thread: 4
-
-File Table:
-
-Heap Table:
-1 -> 20
-2 -> 30
-3 -> 40
-
-Latch Table:
-1 -> 0
-
-Id=1
-ExeStack:
-print(100)
-countDown(cnt)
-print(100)
-
-SymTable:
-cnt = 1
-v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
-
-Output:
-20
-Thread: 2
-30
-Thread: 3
-40
-Thread: 4
-
-File Table:
-
-Heap Table:
-1 -> 20
-2 -> 30
-3 -> 40
-
-Latch Table:
-1 -> 0
-
-Id=1
-ExeStack:
-countDown(cnt)
-print(100)
-
-SymTable:
-cnt = 1
-v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
-
-Output:
-20
-Thread: 2
-30
-Thread: 3
-40
-Thread: 4
-100
-
-File Table:
-
-Heap Table:
-1 -> 20
-2 -> 30
-3 -> 40
-
-Latch Table:
-1 -> 0
-
-Id=1
-ExeStack:
-countDown(cnt)
-print(100)
-
-SymTable:
-cnt = 1
-v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
-
-Output:
-20
-Thread: 2
-30
-Thread: 3
-40
-Thread: 4
-100
-
-File Table:
-
-Heap Table:
-1 -> 20
-2 -> 30
-3 -> 40
-
-Latch Table:
-1 -> 0
-
-Id=1
-ExeStack:
-print(100)
-
-SymTable:
-cnt = 1
-v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
-
-Output:
-20
-Thread: 2
-30
-Thread: 3
-40
-Thread: 4
-100
-Thread: 1
-
-File Table:
-
-Heap Table:
-1 -> 20
-2 -> 30
-3 -> 40
-
-Latch Table:
-1 -> 0
-
-Id=1
-ExeStack:
-
-SymTable:
-cnt = 1
-v1 = (1, int)
-v2 = (2, int)
-v3 = (3, int)
-
-Output:
-20
-Thread: 2
-30
-Thread: 3
-40
-Thread: 4
-100
-Thread: 1
-100
-
-File Table:
-
-Heap Table:
-1 -> 20
-2 -> 30
-3 -> 40
-
-Latch Table:
-1 -> 0
+Semaphore Table:
+1 -> (1, [])
 

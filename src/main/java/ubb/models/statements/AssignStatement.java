@@ -9,6 +9,7 @@ import ubb.models.types.Type;
 import ubb.models.values.IValue;
 
 public class AssignStatement implements IStatement {
+    //USAGE: variable = value translates into -> new AssignStatement(variable, value);
     private final String variableId;
     private final IExpression expressionToAssign;
 

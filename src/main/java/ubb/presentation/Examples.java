@@ -2,15 +2,13 @@ package ubb.presentation;
 
 import ubb.models.expressions.*;
 import ubb.models.statements.*;
-import ubb.models.types.BoolType;
-import ubb.models.types.IntType;
-import ubb.models.types.ReferenceType;
-import ubb.models.types.StringType;
+import ubb.models.types.*;
 import ubb.models.values.BoolValue;
 import ubb.models.values.IntValue;
 import ubb.models.values.StringValue;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Examples {
@@ -250,8 +248,55 @@ public class Examples {
         );
     }
 
+    public static IStatement createSleepStatementExample()
+    {
+        //v=10;
+        //(fork(v=v-1;v=v-1;print(v)); sleep(10);print(v*10)
+        // will return above statement
 
-    public static IStatement createForkExample() {
+        return new CompoundStatement(
+                new VariableDeclarationStatement("v", new IntType()),
+                new CompoundStatement(
+                        new AssignStatement("v", new ValueExpression(new IntValue(10))),
+                        new CompoundStatement(
+                                new ForkStatement(
+                                        new CompoundStatement(
+                                                new AssignStatement("v",
+                                                    new ArithmeticExpression(
+                                                        '-',
+                                                        new VariableExpression("v"),
+                                                        new ValueExpression(new IntValue(1))
+                                                    )
+                                                ),
+                                                new CompoundStatement(
+                                                        new AssignStatement("v",
+                                                                new ArithmeticExpression(
+                                                                '-',
+                                                                new VariableExpression("v"),
+                                                                new ValueExpression(new IntValue(1))
+                                                            )
+                                                        ),
+                                                        new PrintStatement(new VariableExpression("v"))
+                                                )
+                                        )
+                                ),
+                                new CompoundStatement(
+                                        new SleepStatement(10),
+                                        new PrintStatement(
+                                                new ArithmeticExpression(
+                                                '*',
+                                                new VariableExpression("v"),
+                                                new ValueExpression(new IntValue(10))
+                                                )
+                                        )
+                                )
+                        )
+                )
+        );
+    }
+
+    public static IStatement createForkExample()
+    {
         IStatement innerStatement = new CompoundStatement(
             new ForkStatement(
                 new ForkStatement(
@@ -305,6 +350,138 @@ public class Examples {
         );
     }
 
+    public static IStatement createConditionalAssignmentExample() {
+        IStatement variablesDeclarationStatement = new CompoundStatement(
+            new VariableDeclarationStatement("a", new ReferenceType(new IntType())),
+            new CompoundStatement(
+                new VariableDeclarationStatement("b", new ReferenceType(new IntType())),
+                new CompoundStatement(
+                    new VariableDeclarationStatement("v", new IntType()),
+                    new CompoundStatement(
+                        new AllocateStatement("a", new ValueExpression(new IntValue(0))),
+                        new CompoundStatement(
+                            new AllocateStatement("b", new ValueExpression(new IntValue(0))),
+                            new CompoundStatement(
+                                new WriteHeapStatement("a", new ValueExpression(new IntValue(1))),
+                                new WriteHeapStatement("b", new ValueExpression(new IntValue(2)))
+                            )
+                        )
+                    )
+                )
+            )
+        );
+
+        return new CompoundStatement(
+            variablesDeclarationStatement,
+            new CompoundStatement(
+                new ConditionalAssignmentStatement(
+                    "v",
+                    new RelationalExpression(
+                        new ReadHeapExpression(new VariableExpression("a")),
+                        new ReadHeapExpression(new VariableExpression("b")),
+                        "<"
+                    ),
+                    new ValueExpression(new IntValue(100)),
+                    new ValueExpression(new IntValue(200))
+                ),
+                new CompoundStatement(
+                    new PrintStatement(new VariableExpression("v")),
+                    new CompoundStatement(
+                        new ConditionalAssignmentStatement(
+                            "v",
+                            new RelationalExpression(
+                                new ArithmeticExpression(
+                                    '-',
+                                    new ReadHeapExpression(new VariableExpression("b")),
+                                    new ValueExpression(new IntValue(2))
+                                ),
+                                new ReadHeapExpression(new VariableExpression("a")),
+                                ">"
+                            ),
+                            new ValueExpression(new IntValue(100)),
+                            new ValueExpression(new IntValue(200))
+                        ),
+                        new PrintStatement(new VariableExpression("v"))
+                    )
+                )
+            )
+        );
+    }
+    // For statement example
+    public static IStatement createForStatementExample()
+    {
+        IStatement innerStatement = new ForkStatement(
+                new CompoundStatement(
+                        new PrintStatement(new VariableExpression("v")),
+                        new AssignStatement("v",
+                                new ArithmeticExpression(
+                                        '*',
+                                        new VariableExpression("v"),
+                                        new ReadHeapExpression(new VariableExpression("a"))
+                                )
+                        )
+                )
+        );
+
+        return new CompoundStatement(
+            new VariableDeclarationStatement("a", new ReferenceType(new IntType())),
+            new CompoundStatement(
+                new AllocateStatement("a", new ValueExpression(new IntValue(20))),
+                new CompoundStatement(
+                    new VariableDeclarationStatement("v", new IntType()),
+                    new CompoundStatement(
+                        new ForStatement(
+                            "v",
+                            new ValueExpression(new IntValue(0)),
+                            new ValueExpression(new IntValue(3)),
+                            new ArithmeticExpression(
+                                '+',
+                                new VariableExpression("v"),
+                                new ValueExpression(new IntValue(1))
+                            ),
+                            innerStatement
+                        ),
+                        new PrintStatement(new ReadHeapExpression(new VariableExpression("a")))
+                    )
+                )
+            )
+        );
+    }
+
+    public static IStatement createSemaphoreExample() {
+        IStatement declarationStatement = new CompoundStatement(
+            new VariableDeclarationStatement("v1", new ReferenceType(new IntType())),
+            new CompoundStatement(
+                new VariableDeclarationStatement("cnt", new IntType()),
+                new CompoundStatement(
+                    new AllocateStatement("v1", new ValueExpression(new IntValue(1))),
+                    new CreateSemaphoreStatement(
+                        "cnt",
+                        new ReadHeapExpression(new VariableExpression("v1"))
+                    )
+                )
+            )
+        );
+
+        IStatement firstFork = new ForkStatement(
+            new CompoundStatement(
+                new AcquireStatement("cnt"),
+                new CompoundStatement(
+                    new WriteHeapStatement(
+                        "v1",
+                        new ArithmeticExpression(
+                            '*',
+                            new ReadHeapExpression(new VariableExpression("v1")),
+                            new ValueExpression(new IntValue(10))
+                        )
+                    ),
+                    new CompoundStatement(
+                        new PrintStatement(new ReadHeapExpression(new VariableExpression("v1"))),
+                        new ReleaseStatement("cnt")
+                    )
+                )
+            )
+        );
     public static IStatement createLatchTableExample()
     {
         IStatement declarationStatement = new CompoundStatement(
@@ -408,7 +585,270 @@ public class Examples {
     }
 
 
-    public static List<IStatement> getAllExamples() {
+        IStatement secondFork = new ForkStatement(
+            new CompoundStatement(
+                new AcquireStatement("cnt"),
+                new CompoundStatement(
+                    new WriteHeapStatement(
+                        "v1",
+                        new ArithmeticExpression(
+                            '*',
+                            new ReadHeapExpression(new VariableExpression("v1")),
+                            new ValueExpression(new IntValue(10))
+                        )
+                    ),
+                    new CompoundStatement(
+                        new WriteHeapStatement(
+                            "v1",
+                            new ArithmeticExpression(
+                                '*',
+                                new ReadHeapExpression(new VariableExpression("v1")),
+                                new ValueExpression(new IntValue(2))
+                            )
+                        ),
+                        new CompoundStatement(
+                            new PrintStatement(new ReadHeapExpression(new VariableExpression("v1"))),
+                            new ReleaseStatement("cnt")
+                        )
+                    )
+                )
+            )
+        );
+
+        return new CompoundStatement(
+            declarationStatement,
+            new CompoundStatement(
+                firstFork,
+                new CompoundStatement(
+                    secondFork,
+                    new CompoundStatement(
+                        new AcquireStatement("cnt"),
+                        new CompoundStatement(
+                            new PrintStatement(
+                                new ArithmeticExpression(
+                                    '-',
+                                    new ReadHeapExpression(new VariableExpression("v1")),
+                                    new ValueExpression(new IntValue(1))
+                                )
+                            ),
+                            new ReleaseStatement("cnt")
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    public static IStatement createProcedureExample()
+    {
+        List<String> params = new ArrayList<>();
+        params.add("a");
+        params.add("b");
+
+        IStatement createProcedureSum = new CreateProcedureStatement(
+            "sum",
+            params,
+            new CompoundStatement(
+                new VariableDeclarationStatement("v", new IntType()),
+                new CompoundStatement(
+                    new AssignStatement(
+                        "v",
+                        new ArithmeticExpression(
+                            '+',
+                            new VariableExpression("a"),
+                            new VariableExpression("b")
+                        )
+                    ),
+                    new PrintStatement(new VariableExpression("v"))
+                )
+            )
+        );
+
+        IStatement createProcedureProduct = new CreateProcedureStatement(
+            "product",
+            params,
+            new CompoundStatement(
+                new VariableDeclarationStatement("v", new IntType()),
+                new CompoundStatement(
+                    new AssignStatement(
+                        "v",
+                        new ArithmeticExpression(
+                            '*',
+                            new VariableExpression("a"),
+                            new VariableExpression("b")
+                        )
+                    ),
+                    new PrintStatement(new VariableExpression("v"))
+                )
+            )
+        );
+
+        IStatement declarationStatement = new CompoundStatement(
+            new VariableDeclarationStatement("v", new IntType()),
+                new CompoundStatement(
+                    new VariableDeclarationStatement("w", new IntType()),
+                    new CompoundStatement(
+                        new AssignStatement("v", new ValueExpression(new IntValue(2))),
+                        new AssignStatement("w", new ValueExpression(new IntValue(5)))
+                    )
+            )
+        );
+
+        IStatement firstFork = new ForkStatement(
+            new CallFunctionStatement(
+                "product",
+                List.of(
+                    new VariableExpression("v"),
+                    new VariableExpression("w")
+                )
+            )
+        );
+
+        IStatement secondFork = new ForkStatement(
+            new CallFunctionStatement(
+                "sum",
+                List.of(
+                    new VariableExpression("v"),
+                    new VariableExpression("w")
+                )
+            )
+        );
+
+        return new CompoundStatement(
+            createProcedureSum,
+            new CompoundStatement(
+                createProcedureProduct,
+                new CompoundStatement(
+                    declarationStatement,
+                    new CompoundStatement(
+                        new CallFunctionStatement(
+                            "sum",
+                            List.of(
+                                new ArithmeticExpression(
+                                    '*',
+                                    new VariableExpression("v"),
+                                    new ValueExpression(new IntValue(10))
+                                ),
+                                new VariableExpression("w")
+                            )
+                        ),
+                        new CompoundStatement(
+                            new PrintStatement(new VariableExpression("v")),
+                            new CompoundStatement(
+                                firstFork,
+                                secondFork
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    public static IStatement createSwitchExample()
+    {
+        IStatement variablesInitializationStatement =
+                new CompoundStatement(
+                    new VariableDeclarationStatement("a", new IntType()),
+                    new CompoundStatement(
+                        new AssignStatement("a", new ValueExpression(new IntValue(1))),
+                        new CompoundStatement(
+                            new VariableDeclarationStatement("b", new IntType()),
+                            new CompoundStatement(
+                                new AssignStatement("b", new ValueExpression(new IntValue(2))),
+                                new CompoundStatement(
+                                        new VariableDeclarationStatement("c", new IntType()),
+                                        new AssignStatement("c", new ValueExpression(new IntValue(5)))
+                                )
+                            )
+                        )
+                    )
+                );
+
+        IStatement firstCaseStatement = new CompoundStatement(
+                new PrintStatement(new VariableExpression("a")),
+                new PrintStatement(new VariableExpression("b"))
+        );
+
+        IStatement secondCaseStatement = new CompoundStatement(
+                new PrintStatement(new ValueExpression(new IntValue(100))),
+                new PrintStatement(new ValueExpression(new IntValue(200)))
+        );
+
+        IStatement defaultStatement = new PrintStatement(new ValueExpression(new IntValue(300)));
+
+        return new CompoundStatement(
+                variablesInitializationStatement,
+                new CompoundStatement(
+                        new SwitchStatement(
+                                new ArithmeticExpression(
+                                        '*',
+                                        new VariableExpression("a"),
+                                        new ValueExpression(new IntValue(10))
+                                ),
+                                new ArithmeticExpression(
+                                        '*',
+                                        new VariableExpression("b"),
+                                        new VariableExpression("c")
+                                ),
+                                new ValueExpression(new IntValue(10)),
+                                firstCaseStatement,
+                                secondCaseStatement,
+                                defaultStatement
+                        ),
+                        new PrintStatement(new ValueExpression(new IntValue(300)))
+                )
+        );
+    }
+
+    public static IStatement createRepeatUntilExample()
+    {
+        IStatement innerStatement = new CompoundStatement(
+                new ForkStatement(
+                        new CompoundStatement(
+                            new PrintStatement(new VariableExpression("v")),
+                            new AssignStatement("v",
+                                    new ArithmeticExpression('-',
+                                            new VariableExpression("v"),
+                                            new ValueExpression(new IntValue(1))))
+                        )
+                ),
+                new AssignStatement("v",
+                        new ArithmeticExpression('+',
+                                new VariableExpression("v"),
+                                new ValueExpression(new IntValue(1))
+                        )
+                )
+        );
+
+        return new CompoundStatement(
+                new VariableDeclarationStatement("v", new IntType()),
+                new CompoundStatement(
+                        new AssignStatement("v", new ValueExpression(new IntValue(0))),
+                        new CompoundStatement(
+                            new RepeatUntilStatement(
+                                    innerStatement,
+                                    new RelationalExpression(
+                                            new VariableExpression("v"),
+                                            new ValueExpression(new IntValue(3)),
+                                            "=="
+                                    )
+                            ),
+                            new PrintStatement(
+                                    new ArithmeticExpression(
+                                            '*',
+                                            new VariableExpression("v"),
+                                            new ValueExpression(new IntValue(10))
+                                    )
+                            )
+                        )
+                )
+        );
+    }
+
+
+    public static List<IStatement> getAllExamples()
+    {
         ArrayList<IStatement> allStatements = new ArrayList<>();
 
         allStatements.add(createExample1());
@@ -424,6 +864,13 @@ public class Examples {
         allStatements.add(createForkExample());
         allStatements.add(createExample10());
         allStatements.add(createTypeCheckerFailExample());
+        allStatements.add(createConditionalAssignmentExample());
+        allStatements.add(createForStatementExample());
+        allStatements.add(createSleepStatementExample());
+        allStatements.add(createSwitchExample());
+        allStatements.add(createRepeatUntilExample());
+        allStatements.add(createProcedureExample());
+        allStatements.add(createSemaphoreExample());
         allStatements.add(createLatchTableExample());
 
         return allStatements;
