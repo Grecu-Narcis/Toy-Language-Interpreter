@@ -81,7 +81,19 @@ public class ProgramController {
     private TableColumn<ObservableList<Object>, String> semaphoreListColumn;
 
     @FXML
+    private TableView<Pair<Integer, Integer>> latchTableView;
+
+    @FXML
+    private TableColumn<Pair<Integer, Integer>, Integer> latchTableAddressColumn;
+
+    @FXML
+    private TableColumn<Pair<Integer, Integer>, Integer> latchTableValueColumn;
+
+    @FXML
     private Button oneStepButton;
+
+    @FXML
+    private Button allStepsButton;
 
     @FXML
     private void initialize() {
@@ -97,6 +109,11 @@ public class ProgramController {
         semaphoreIndexColumn.setCellValueFactory(data -> new SimpleIntegerProperty((Integer)data.getValue().get(0)).asObject());
         semaphoreValueColumn.setCellValueFactory(data -> new SimpleIntegerProperty((Integer)data.getValue().get(1)).asObject());
         semaphoreListColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().get(2).toString()));
+        symbolVariableColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().first));
+        symbolValueColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().second.toString()));
+
+        latchTableAddressColumn.setCellValueFactory(pair -> new SimpleIntegerProperty(pair.getValue().first).asObject());
+        latchTableValueColumn.setCellValueFactory(pair -> new SimpleIntegerProperty(pair.getValue().second).asObject());
     }
 
     public void setProgramStatement(IStatement programStatement) {
@@ -200,6 +217,23 @@ public class ProgramController {
 
         this.semaphoreTableView.setItems(FXCollections.observableArrayList(semaphoreTableList));
         this.semaphoreTableView.refresh();
+        this.populateLatchTable();
+    }
+
+    private void populateLatchTable()
+    {
+        MyILatchTable currentLatchTable = new MyLatchTable();
+
+        if (!interpreterController.getAllPrograms().isEmpty())
+            currentLatchTable = interpreterController.getAllPrograms().getFirst().getLatchTable();
+
+        List<Pair<Integer, Integer>> latchTablePairs = new ArrayList<>();
+
+        for (Map.Entry<Integer, Integer> entry : currentLatchTable.getContent().entrySet())
+            latchTablePairs.add(new Pair<>(entry.getKey(), entry.getValue()));
+
+        this.latchTableView.setItems(FXCollections.observableArrayList(latchTablePairs));
+        this.latchTableView.refresh();
     }
 
     private void populateHeap() {

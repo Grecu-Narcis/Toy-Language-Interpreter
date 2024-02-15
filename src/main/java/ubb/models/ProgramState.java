@@ -20,6 +20,7 @@ public class ProgramState {
     private final MyIHeap heapTable;
     private final MyIProcedureTable procedureTable;
     private final MyISemaphore semaphoreTable;
+    private final MyILatchTable latchTable;
     private final int id;
     private static int currentID = 0;
 
@@ -32,6 +33,7 @@ public class ProgramState {
         this.heapTable = new MyHeap();
         this.procedureTable = new MyProcedureTable();
         this.semaphoreTable = new MySemaphore();
+        this.latchTable = new MyLatchTable();
         this.exeStack.push(program);
 
         this.id = ProgramState.getAvailableId();
@@ -39,7 +41,8 @@ public class ProgramState {
 
     public ProgramState(MyIStack<IStatement> exeStack, MyIStack<MyIDictionary<String, IValue>> symbolTable,
                         MyIList<IValue> outputList, MyIDictionary<String, BufferedReader> fileTable,
-                        MyIHeap heapTable, MyIProcedureTable procedureTable, MyISemaphore semaphoreTable) {
+                        MyIHeap heapTable, MyIProcedureTable procedureTable,
+                        MyISemaphore semaphoreTable, MyILatchTable latchTable) {
         this.exeStack = exeStack;
         this.symbolTable = symbolTable;
         this.outputList = outputList;
@@ -47,6 +50,7 @@ public class ProgramState {
         this.heapTable = heapTable;
         this.procedureTable = procedureTable;
         this.semaphoreTable = semaphoreTable;
+        this.latchTable = latchTable;
 
         this.id = ProgramState.getAvailableId();
     }
@@ -127,6 +131,11 @@ public class ProgramState {
 
     public MyIHeap getHeapTable() {
         return this.heapTable;
+    }
+
+    public MyILatchTable getLatchTable()
+    {
+        return this.latchTable;
     }
 
     public List<IStatement> getStackStatements() {
