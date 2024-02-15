@@ -6,19 +6,17 @@ import ubb.models.types.Type;
 public class IntValue implements IValue {
     private final int value;
 
-    public IntValue(int value)
-    {
+    public IntValue(int value) {
         this.value = value;
     }
 
-    public int getValue()
-    {
+    public int getValue() {
         return value;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (! (obj instanceof IntValue))
+        if (!(obj instanceof IntValue))
             return false;
 
         IntValue objValue = (IntValue) obj;
@@ -27,8 +25,7 @@ public class IntValue implements IValue {
 
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return Integer.toString(value);
     }
 

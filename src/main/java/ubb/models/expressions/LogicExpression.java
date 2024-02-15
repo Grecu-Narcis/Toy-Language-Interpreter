@@ -2,19 +2,18 @@ package ubb.models.expressions;
 
 
 import ubb.exceptions.InterpreterException;
+import ubb.models.adts.MyIDictionary;
+import ubb.models.adts.MyIHeap;
 import ubb.models.types.BoolType;
 import ubb.models.types.Type;
 import ubb.models.values.BoolValue;
 import ubb.models.values.IValue;
-import ubb.models.adts.MyIDictionary;
-import ubb.models.adts.MyIHeap;
 
 public class LogicExpression implements IExpression {
     private final IExpression firstExpression, secondExpression;
     private final String operation;
 
-    public LogicExpression(IExpression firstExpression, IExpression secondExpression, String operation)
-    {
+    public LogicExpression(IExpression firstExpression, IExpression secondExpression, String operation) {
         this.firstExpression = firstExpression;
         this.secondExpression = secondExpression;
         this.operation = operation;
@@ -38,11 +37,11 @@ public class LogicExpression implements IExpression {
         // check if both operands are of type boolean
         if (!firstValue.getType().equals(new BoolType()))
             throw new InterpreterException(errorThreadIdentifier +
-                    "First operand is not bool!");
+                "First operand is not bool!");
 
         if (!secondValue.getType().equals(new BoolType()))
             throw new InterpreterException(errorThreadIdentifier +
-                    "Second operand is not bool!");
+                "Second operand is not bool!");
 
         BoolValue firstOperand = (BoolValue) firstValue;
         BoolValue secondOperand = (BoolValue) secondValue;
@@ -50,9 +49,9 @@ public class LogicExpression implements IExpression {
         // perform the corresponding logical operation
         return switch (operation) {
             case "&&" -> // LOGIC AND
-                    new BoolValue(firstOperand.getValue() && secondOperand.getValue());
+                new BoolValue(firstOperand.getValue() && secondOperand.getValue());
             case "||" -> // LOGIC OR
-                    new BoolValue(firstOperand.getValue() || secondOperand.getValue());
+                new BoolValue(firstOperand.getValue() || secondOperand.getValue());
             default -> null;
         };
 

@@ -1,21 +1,20 @@
 package ubb.models.expressions;
 
 import ubb.exceptions.InterpreterException;
+import ubb.models.adts.MyIDictionary;
+import ubb.models.adts.MyIHeap;
 import ubb.models.types.BoolType;
+import ubb.models.types.IntType;
 import ubb.models.types.Type;
 import ubb.models.values.BoolValue;
 import ubb.models.values.IValue;
-import ubb.models.types.IntType;
 import ubb.models.values.IntValue;
-import ubb.models.adts.MyIDictionary;
-import ubb.models.adts.MyIHeap;
 
 public class RelationalExpression implements IExpression {
     private final IExpression firstExpression, secondExpression;
     private final String operation;
 
-    public RelationalExpression(IExpression firstExpression, IExpression secondExpression, String operation)
-    {
+    public RelationalExpression(IExpression firstExpression, IExpression secondExpression, String operation) {
         this.firstExpression = firstExpression;
         this.secondExpression = secondExpression;
         this.operation = operation;
@@ -39,11 +38,11 @@ public class RelationalExpression implements IExpression {
         // Check if the types of the operands are integers
         if (!firstValue.getType().equals(new IntType()))
             throw new InterpreterException(errorThreadIdentifier +
-                    "First operand does not evaluate to an IntType!");
+                "First operand does not evaluate to an IntType!");
 
         if (!secondValue.getType().equals(new IntType()))
             throw new InterpreterException(errorThreadIdentifier +
-                    "Second operand does not evaluate to an IntType!");
+                "Second operand does not evaluate to an IntType!");
 
         // Extract the integer values of the operands
         int firstInteger = ((IntValue) firstValue).getValue();
@@ -58,7 +57,7 @@ public class RelationalExpression implements IExpression {
             case ">" -> new BoolValue(firstInteger > secondInteger);
             case ">=" -> new BoolValue(firstInteger >= secondInteger);
             default -> throw new InterpreterException(errorThreadIdentifier +
-                    "Invalid comparison operand!");
+                "Invalid comparison operand!");
         };
     }
 

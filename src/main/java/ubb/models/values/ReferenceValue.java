@@ -7,19 +7,16 @@ public class ReferenceValue implements IValue {
     private final Type referenceType;
     private int heapAddress;
 
-    public ReferenceValue(int heapAddress, Type referenceType)
-    {
+    public ReferenceValue(int heapAddress, Type referenceType) {
         this.heapAddress = heapAddress;
         this.referenceType = referenceType;
     }
 
-    public int getHeapAddress()
-    {
+    public int getHeapAddress() {
         return this.heapAddress;
     }
 
-    public void setHeapAddress(int newAddress)
-    {
+    public void setHeapAddress(int newAddress) {
         this.heapAddress = newAddress;
     }
 

@@ -254,6 +254,52 @@ public class Examples {
         );
     }
 
+    public static IStatement createSleepStatementExample()
+    {
+        //v=10;
+        //(fork(v=v-1;v=v-1;print(v)); sleep(10);print(v*10)
+        // will return above statement
+
+        return new CompoundStatement(
+                new VariableDeclarationStatement("v", new IntType()),
+                new CompoundStatement(
+                        new AssignStatement("v", new ValueExpression(new IntValue(10))),
+                        new CompoundStatement(
+                                new ForkStatement(
+                                        new CompoundStatement(
+                                                new AssignStatement("v",
+                                                    new ArithmeticExpression(
+                                                        '-',
+                                                        new VariableExpression("v"),
+                                                        new ValueExpression(new IntValue(1))
+                                                    )
+                                                ),
+                                                new CompoundStatement(
+                                                        new AssignStatement("v",
+                                                                new ArithmeticExpression(
+                                                                '-',
+                                                                new VariableExpression("v"),
+                                                                new ValueExpression(new IntValue(1))
+                                                            )
+                                                        ),
+                                                        new PrintStatement(new VariableExpression("v"))
+                                                )
+                                        )
+                                ),
+                                new CompoundStatement(
+                                        new SleepStatement(10),
+                                        new PrintStatement(
+                                                new ArithmeticExpression(
+                                                '*',
+                                                new VariableExpression("v"),
+                                                new ValueExpression(new IntValue(10))
+                                                )
+                                        )
+                                )
+                        )
+                )
+        );
+    }
 
     public static IStatement createForkExample()
     {
@@ -312,6 +358,103 @@ public class Examples {
         );
     }
 
+    public static IStatement createConditionalAssignmentExample() {
+        IStatement variablesDeclarationStatement = new CompoundStatement(
+            new VariableDeclarationStatement("a", new ReferenceType(new IntType())),
+            new CompoundStatement(
+                new VariableDeclarationStatement("b", new ReferenceType(new IntType())),
+                new CompoundStatement(
+                    new VariableDeclarationStatement("v", new IntType()),
+                    new CompoundStatement(
+                        new AllocateStatement("a", new ValueExpression(new IntValue(0))),
+                        new CompoundStatement(
+                            new AllocateStatement("b", new ValueExpression(new IntValue(0))),
+                            new CompoundStatement(
+                                new WriteHeapStatement("a", new ValueExpression(new IntValue(1))),
+                                new WriteHeapStatement("b", new ValueExpression(new IntValue(2)))
+                            )
+                        )
+                    )
+                )
+            )
+        );
+
+        return new CompoundStatement(
+            variablesDeclarationStatement,
+            new CompoundStatement(
+                new ConditionalAssignmentStatement(
+                    "v",
+                    new RelationalExpression(
+                        new ReadHeapExpression(new VariableExpression("a")),
+                        new ReadHeapExpression(new VariableExpression("b")),
+                        "<"
+                    ),
+                    new ValueExpression(new IntValue(100)),
+                    new ValueExpression(new IntValue(200))
+                ),
+                new CompoundStatement(
+                    new PrintStatement(new VariableExpression("v")),
+                    new CompoundStatement(
+                        new ConditionalAssignmentStatement(
+                            "v",
+                            new RelationalExpression(
+                                new ArithmeticExpression(
+                                    '-',
+                                    new ReadHeapExpression(new VariableExpression("b")),
+                                    new ValueExpression(new IntValue(2))
+                                ),
+                                new ReadHeapExpression(new VariableExpression("a")),
+                                ">"
+                            ),
+                            new ValueExpression(new IntValue(100)),
+                            new ValueExpression(new IntValue(200))
+                        ),
+                        new PrintStatement(new VariableExpression("v"))
+                    )
+                )
+            )
+        );
+    }
+    // For statement example
+    public static IStatement createForStatementExample()
+    {
+        IStatement innerStatement = new ForkStatement(
+                new CompoundStatement(
+                        new PrintStatement(new VariableExpression("v")),
+                        new AssignStatement("v",
+                                new ArithmeticExpression(
+                                        '*',
+                                        new VariableExpression("v"),
+                                        new ReadHeapExpression(new VariableExpression("a"))
+                                )
+                        )
+                )
+        );
+
+        return new CompoundStatement(
+                new VariableDeclarationStatement("a", new ReferenceType(new IntType())),
+                new CompoundStatement(
+                        new AllocateStatement("a", new ValueExpression(new IntValue(20))),
+                        new CompoundStatement(
+                                new VariableDeclarationStatement("v", new IntType()),
+                                new CompoundStatement(
+                                        new ForStatement(
+                                                "v",
+                                                new ValueExpression(new IntValue(0)),
+                                                new ValueExpression(new IntValue(3)),
+                                                new ArithmeticExpression(
+                                                        '+',
+                                                        new VariableExpression("v"),
+                                                        new ValueExpression(new IntValue(1))
+                                                ),
+                                                innerStatement
+                                        ),
+                                        new PrintStatement(new ReadHeapExpression(new VariableExpression("a")))
+                                )
+                        )
+                )
+        );
+    }
     public static IStatement createSwitchExample()
     {
         IStatement variablesInitializationStatement =
@@ -386,6 +529,9 @@ public class Examples {
         allStatements.add(createForkExample());
         allStatements.add(createExample10());
         allStatements.add(createTypeCheckerFailExample());
+        allStatements.add(createConditionalAssignmentExample());
+        allStatements.add(createForStatementExample());
+        allStatements.add(createSleepStatementExample());
         allStatements.add(createSwitchExample());
 
         return allStatements;
