@@ -93,6 +93,10 @@ public class ProgramController {
 
         procedureNameColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().getFirst()));
         parametersBodyColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().getSecond()));
+
+        semaphoreIndexColumn.setCellValueFactory(data -> new SimpleIntegerProperty((Integer)data.getValue().get(0)).asObject());
+        semaphoreValueColumn.setCellValueFactory(data -> new SimpleIntegerProperty((Integer)data.getValue().get(1)).asObject());
+        semaphoreListColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().get(2).toString()));
     }
 
     public void setProgramStatement(IStatement programStatement) {
@@ -156,6 +160,7 @@ public class ProgramController {
         this.populateSymbolTableView();
         this.populateExecutionStack();
         this.populateProcedureTable();
+        this.populateSemaphoreTable();
     }
 
     private void populateProcedureTable()
@@ -188,8 +193,8 @@ public class ProgramController {
         {
             ObservableList<Object> row = FXCollections.observableArrayList();
             row.add(entry.getKey());
-            row.add(entry.getValue().first);
-            row.add(entry.getValue().second.toString());
+            row.add(entry.getValue().getFirst());
+            row.add(entry.getValue().getSecond().toString());
             semaphoreTableList.add(row);
         }
 
