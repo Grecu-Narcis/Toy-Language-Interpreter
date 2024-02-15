@@ -1,19 +1,19 @@
 package ubb.models.statements;
 
 import ubb.exceptions.InterpreterException;
+import ubb.models.ProgramState;
+import ubb.models.adts.MyIDictionary;
+import ubb.models.adts.MyIHeap;
+import ubb.models.expressions.IExpression;
 import ubb.models.types.Type;
 import ubb.models.values.IValue;
-import ubb.models.adts.MyIDictionary;
-import ubb.models.ProgramState;
-import ubb.models.expressions.IExpression;
-import ubb.models.adts.MyIHeap;
 
 public class AssignStatement implements IStatement {
+    //USAGE: variable = value translates into -> new AssignStatement(variable, value);
     private final String variableId;
     private final IExpression expressionToAssign;
 
-    public AssignStatement(String variableId, IExpression expressionToAssign)
-    {
+    public AssignStatement(String variableId, IExpression expressionToAssign) {
         this.variableId = variableId;
         this.expressionToAssign = expressionToAssign;
     }
@@ -24,7 +24,7 @@ public class AssignStatement implements IStatement {
      * @param currentState The current program state.
      * @return The updated program state after executing the assignment statement.
      * @throws InterpreterException If the variable is not defined, or if the type of the assigned value
-     *                                       does not match the type of the variable.
+     *                              does not match the type of the variable.
      */
     @Override
     public ProgramState execute(ProgramState currentState) throws InterpreterException {
