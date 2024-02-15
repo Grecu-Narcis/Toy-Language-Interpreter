@@ -1,7 +1,6 @@
 package ubb.business.view_controllers;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -73,14 +72,14 @@ public class ProgramController {
 
     @FXML
     private void initialize() {
-        heapAddressColumn.setCellValueFactory(pair -> new SimpleIntegerProperty(pair.getValue().first).asObject());
-        heapValueColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().second.toString()));
+        heapAddressColumn.setCellValueFactory(pair -> new SimpleIntegerProperty(pair.getValue().getFirst()).asObject());
+        heapValueColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().getSecond().toString()));
 
-        symbolVariableColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().first));
-        symbolValueColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().second.toString()));
+        symbolVariableColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().getFirst()));
+        symbolValueColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().getSecond().toString()));
 
-        procedureNameColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().first));
-        parametersBodyColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().second));
+        procedureNameColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().getFirst()));
+        parametersBodyColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().getSecond()));
     }
 
     public void setProgramStatement(IStatement programStatement) {

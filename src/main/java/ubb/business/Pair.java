@@ -1,4 +1,4 @@
-package ubb.business.view_controllers;
+package ubb.business;
 
 public class Pair<T1, T2> {
     T1 first;
