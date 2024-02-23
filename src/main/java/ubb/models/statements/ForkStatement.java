@@ -20,7 +20,8 @@ public class ForkStatement implements IStatement {
         newThreadStack.push(innerStatement);
 
         return new ProgramState(newThreadStack, currentState.getSymbolTableStack().copy(), currentState.getOutputList(),
-            currentState.getFileTable(), currentState.getHeapTable(), currentState.getProcedureTable(), currentState.getSemaphoreTable());
+            currentState.getFileTable(), currentState.getHeapTable(), currentState.getProcedureTable(),
+            currentState.getSemaphoreTable(), currentState.getLatchTable());
     }
 
     @Override

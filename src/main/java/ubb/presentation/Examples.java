@@ -482,6 +482,61 @@ public class Examples {
                 )
             )
         );
+
+        IStatement secondFork = new ForkStatement(
+            new CompoundStatement(
+                new AcquireStatement("cnt"),
+                new CompoundStatement(
+                    new WriteHeapStatement(
+                        "v1",
+                        new ArithmeticExpression(
+                            '*',
+                            new ReadHeapExpression(new VariableExpression("v1")),
+                            new ValueExpression(new IntValue(10))
+                        )
+                    ),
+                    new CompoundStatement(
+                        new WriteHeapStatement(
+                            "v1",
+                            new ArithmeticExpression(
+                                '*',
+                                new ReadHeapExpression(new VariableExpression("v1")),
+                                new ValueExpression(new IntValue(2))
+                            )
+                        ),
+                        new CompoundStatement(
+                            new PrintStatement(new ReadHeapExpression(new VariableExpression("v1"))),
+                            new ReleaseStatement("cnt")
+                        )
+                    )
+                )
+            )
+        );
+
+        return new CompoundStatement(
+            declarationStatement,
+            new CompoundStatement(
+                firstFork,
+                new CompoundStatement(
+                    secondFork,
+                    new CompoundStatement(
+                        new AcquireStatement("cnt"),
+                        new CompoundStatement(
+                            new PrintStatement(
+                                new ArithmeticExpression(
+                                    '-',
+                                    new ReadHeapExpression(new VariableExpression("v1")),
+                                    new ValueExpression(new IntValue(1))
+                                )
+                            ),
+                            new ReleaseStatement("cnt")
+                        )
+                    )
+                )
+            )
+        );
+    }
+
     public static IStatement createLatchTableExample()
     {
         IStatement declarationStatement = new CompoundStatement(
@@ -577,61 +632,6 @@ public class Examples {
                                     new PrintStatement(new ValueExpression(new IntValue(100)))
                                 )
                             )
-                        )
-                    )
-                )
-            )
-        );
-    }
-
-
-        IStatement secondFork = new ForkStatement(
-            new CompoundStatement(
-                new AcquireStatement("cnt"),
-                new CompoundStatement(
-                    new WriteHeapStatement(
-                        "v1",
-                        new ArithmeticExpression(
-                            '*',
-                            new ReadHeapExpression(new VariableExpression("v1")),
-                            new ValueExpression(new IntValue(10))
-                        )
-                    ),
-                    new CompoundStatement(
-                        new WriteHeapStatement(
-                            "v1",
-                            new ArithmeticExpression(
-                                '*',
-                                new ReadHeapExpression(new VariableExpression("v1")),
-                                new ValueExpression(new IntValue(2))
-                            )
-                        ),
-                        new CompoundStatement(
-                            new PrintStatement(new ReadHeapExpression(new VariableExpression("v1"))),
-                            new ReleaseStatement("cnt")
-                        )
-                    )
-                )
-            )
-        );
-
-        return new CompoundStatement(
-            declarationStatement,
-            new CompoundStatement(
-                firstFork,
-                new CompoundStatement(
-                    secondFork,
-                    new CompoundStatement(
-                        new AcquireStatement("cnt"),
-                        new CompoundStatement(
-                            new PrintStatement(
-                                new ArithmeticExpression(
-                                    '-',
-                                    new ReadHeapExpression(new VariableExpression("v1")),
-                                    new ValueExpression(new IntValue(1))
-                                )
-                            ),
-                            new ReleaseStatement("cnt")
                         )
                     )
                 )

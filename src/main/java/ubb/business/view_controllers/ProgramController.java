@@ -27,7 +27,7 @@ public class ProgramController {
     private InterpreterController interpreterController;
 
     @FXML
-    private TextField numberOfProgramStatesAsTextView;
+    private TextField numberOfProgramStates;
 
     @FXML
     private TableView<Pair<Integer, IValue>> heapTableView;
@@ -109,16 +109,16 @@ public class ProgramController {
         semaphoreIndexColumn.setCellValueFactory(data -> new SimpleIntegerProperty((Integer)data.getValue().get(0)).asObject());
         semaphoreValueColumn.setCellValueFactory(data -> new SimpleIntegerProperty((Integer)data.getValue().get(1)).asObject());
         semaphoreListColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().get(2).toString()));
-        symbolVariableColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().first));
-        symbolValueColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().second.toString()));
+        symbolVariableColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().getFirst()));
+        symbolValueColumn.setCellValueFactory(pair -> new SimpleStringProperty(pair.getValue().getSecond().toString()));
 
-        latchTableAddressColumn.setCellValueFactory(pair -> new SimpleIntegerProperty(pair.getValue().first).asObject());
-        latchTableValueColumn.setCellValueFactory(pair -> new SimpleIntegerProperty(pair.getValue().second).asObject());
+        latchTableAddressColumn.setCellValueFactory(pair -> new SimpleIntegerProperty(pair.getValue().getFirst()).asObject());
+        latchTableValueColumn.setCellValueFactory(pair -> new SimpleIntegerProperty(pair.getValue().getSecond()).asObject());
     }
 
     public void setProgramStatement(IStatement programStatement) {
         this.programStatement = programStatement;
-        this.numberOfProgramStatesAsTextView.setText(programStatement.toString());
+        this.numberOfProgramStates.setText(programStatement.toString());
 
         ProgramState currentProgram = new ProgramState(programStatement);
         IRepository programRepository = new ProgramsRepository("log.txt");
@@ -178,6 +178,12 @@ public class ProgramController {
         this.populateExecutionStack();
         this.populateProcedureTable();
         this.populateSemaphoreTable();
+
+        if (interpreterController.getAllPrograms().isEmpty())
+        {
+            this.oneStepButton.setDisable(true);
+            this.allStepsButton.setDisable(true);
+        }
     }
 
     private void populateProcedureTable()
@@ -287,9 +293,9 @@ public class ProgramController {
         this.programStatesIdentifiersView.refresh();
 
         if (programStates.size() > 1)
-            this.numberOfProgramStatesAsTextView.setText("There are: " + programStates.size() + " programs!");
+            this.numberOfProgramStates.setText("There are: " + programStates.size() + " programs!");
         else
-            this.numberOfProgramStatesAsTextView.setText("There is one program!");
+            this.numberOfProgramStates.setText("There is one program!");
     }
 
     private ProgramState getCurrentProgram() {
